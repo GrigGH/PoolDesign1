@@ -25,12 +25,7 @@ amblight.position.set(0, 2, -15);
 scene.add(amblight);
 
 
-const plane = new THREE.Mesh(
-    new THREE.PlaneGeometry(10, 10),
-    new THREE.MeshStandardMaterial({ color: 0x222222 })
-);
-plane.rotation.x = -Math.PI / 2;
-scene.add(plane);
+
 
 
 const controls = new OrbitControls(camera, renderer.domElement);
@@ -46,7 +41,7 @@ let model;
 
 loader.load('model/Pooldesigned.glb', (gltf) => {
   model = gltf.scene;
-  model.scale.set(1, 2, 1);
+  model.scale.set(1, 1, 1);
   model.position.y = 2.1;
 
   model.traverse((child) => {
