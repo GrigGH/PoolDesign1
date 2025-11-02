@@ -51,7 +51,7 @@ loader.load('model/Pooldesigned.glb', (gltf) => {
 
   model.traverse((child) => {
     if (child.isMesh) {
-      const mat = child.material;g
+      const mat = child.material;
       
       if (mat && mat.isMeshStandardMaterial) {
         mat.metalness = 0;  
