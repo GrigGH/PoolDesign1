@@ -44,12 +44,24 @@ controls.dampingFactor = 0.05;
 const loader = new GLTFLoader();
 let model;
 
-loader.load('model/test.glb', (gltf) => {
-      model = gltf.scene;
-      model.scale.set(1, 1, 1);
-      model.rotation.x = Math.PI / 2
-      model.position.y = 2.1;
-      scene.add(model);
+loader.load('model/Pooldesigned.glb', (gltf) => {
+  model = gltf.scene;
+  model.scale.set(1, 2, 1);
+  model.position.y = 2.1;
+
+  model.traverse((child) => {
+    if (child.isMesh) {
+      const mat = child.material;g
+      
+      if (mat && mat.isMeshStandardMaterial) {
+        mat.metalness = 0;  
+        mat.roughness = 1;  
+        mat.color = new THREE.Color(); 
+      }
+    }
+  });
+
+  scene.add(model);
 });
 
 const widthSlider = document.getElementById('widthSlider');
@@ -69,13 +81,13 @@ widthSlider.addEventListener('input', ()=> {
 lengthSlider.addEventListener('input', ()=> {
     lengthVal.textContent = lengthSlider.value;
     if(model){
-        model.scale.y = parseFloat(lengthSlider.value);
+        model.scale.z = parseFloat(lengthSlider.value);
     }
 });
 depthSlider.addEventListener('input', ()=> {
     depthVal.textContent = depthSlider.value;
     if(model){
-        model.scale.z = parseFloat(depthSlider.value);
+        model.scale.y = parseFloat(depthSlider.value);
     }
 });
 
