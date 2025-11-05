@@ -9,10 +9,10 @@
     position: fixed;
     display: flex;
     top: 0;
-    right: 0; 
+    right:12%;
     width: 20%;
     height: 100vh;
-    background: rgba(0, 0, 0, 0.5);
+    background: rgba(172, 172, 172, 0.5);
     padding: 10px;
     border-radius: 8px;
     font-family: sans-serif;
@@ -21,8 +21,7 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    gap: 50px;
-    
+    gap: 50px;   
 }
 
 #widthSlider{
@@ -33,6 +32,11 @@
 }
 #depthSlider{
     width: 70%;
+}
+
+#ui > div > label {
+    color: black;
+    font-weight: 600;
 }
 #values{
     background-color: rgba(255, 255, 255, 0.678);
@@ -50,4 +54,63 @@
 .aligner{
     display: flex;
     padding-top: 20px;
+}
+
+#other-options{
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 12%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 12px;
+    background: rgba(220, 220, 220, 0.6);
+    border-radius: 8px 0 0 8px; 
+    box-sizing: border-box;
+    align-items: center;
+    justify-content: flex-start;
+    color: black;
+}
+#other-options .option{
+    width: 100%;
+    padding: 8px 10px;
+    border-radius: 6px;
+    background: transparent;
+    text-align: center;
+    transition: background 150ms ease, transform 120ms ease, color 120ms ease;
+    user-select: none;
+}
+
+#other-options .option:hover,
+#other-options .option:focus{
+    background: rgba(0,0,0,0.08);
+    transform: translateX(-6px);
+    cursor: pointer;
+    color: #000;
+    outline: none;
+}
+
+#other-options .option:active{
+    transform: translateX(-2px) scale(0.995);
+}
+
+
+#other-options .pool-icon svg{
+    width: 18px;
+    height: 18px;
+    display: block;
+    margin: 6px auto 4px auto;
+}
+
+#other-options .pool-icon{
+    font-size: 0.75em;
+    line-height: 1;
+    display: block;
+    margin-top: 2px;
+}
+.poolImg{
+    width: 100px;
+    height: 100px;
 }
