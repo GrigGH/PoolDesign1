@@ -6,7 +6,7 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js'
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js'
 import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js'
-import { color, metalness, roughness } from 'three/tsl'
+
 
 const scene = new THREE.Scene()
 const camera = new THREE.PerspectiveCamera(60, window.innerWidth/window.innerHeight, 0.1, 100);
@@ -64,7 +64,7 @@ const lengthSlider = document.getElementById('lengthSlider');
 const widthVal = document.getElementById('widthVal');
 const lengthVal = document.getElementById('lengthVal');
 const depthSlider = document.getElementById('depthSlider');
-const depthVal = document.getElementById('depthVal')
+const depthVal = document.getElementById('depthVal');
 
 widthSlider.addEventListener('input', ()=> {
     widthVal.textContent = widthSlider.value;
@@ -86,6 +86,131 @@ depthSlider.addEventListener('input', ()=> {
     }
 });
 
+const ui = document.getElementById('ui');
+
+const swimming_pool = document.getElementById('swimming-pool-section');
+const swimming_pool_section = document.getElementById('swimming-pool');
+
+const measurement_section = document.getElementById('measurement-for-xyz');
+const measurement = document.getElementById('measurement-section');
+
+const steps = document.getElementById('step-section');
+const steps_section = document.getElementById('steps');
+
+const lighting_section = document.getElementById('pool-lighting');
+const lighting = document.getElementById('lighting-section');
+
+const color_section = document.getElementById('pool-color');
+const color = document.getElementById('color-picker');
+
+const shutter_section = document.getElementById('pool-shutter');
+const shutter = document.getElementById('shutter-section');
+
+const display_section = document.getElementById('display');
+const display = document.getElementById('display-section');
+
+const save_section = document.getElementById('save-pool');
+const save = document.getElementById('save-section');
+
+steps.addEventListener('click', () => {
+  lighting_section.style.display = 'none';   
+    measurement_section.style.display = 'none';
+    swimming_pool_section.style.display = 'none';
+    color_section.style.display = 'none';
+    shutter_section.style.display = 'none';
+    display_section.style.display = 'none';
+    save_section.style.display = 'none';
+    
+    steps_section.style.display = 'flex';
+});
+
+measurement.addEventListener('click', () => {
+  lighting_section.style.display = 'none';   
+  steps_section.style.display = 'none';
+  swimming_pool_section.style.display = 'none';
+  color_section.style.display = 'none';
+  shutter_section.style.display = 'none';
+  display_section.style.display = 'none';
+  save_section.style.display = 'none';
+
+  ui.style.display = 'flex';
+  measurement_section.style.display = 'flex';
+  measurement_section.style.flexDirection = 'column';
+});
+swimming_pool.addEventListener('click', () => {
+  lighting_section.style.display = 'none';   
+  measurement_section.style.display = 'none';
+  steps_section.style.display = 'none';
+  color_section.style.display = 'none';
+  shutter_section.style.display = 'none';
+  display_section.style.display = 'none';
+  save_section.style.display = 'none';
+
+  swimming_pool_section.style.display = 'flex';
+});
+lighting.addEventListener('click', () => {
+  measurement_section.style.display = 'none';
+  steps_section.style.display = 'none';
+  swimming_pool_section.style.display = 'none';
+  color_section.style.display = 'none';
+  shutter_section.style.display = 'none';
+  display_section.style.display = 'none';
+  save_section.style.display = 'none';
+  ui.style.display = 'block';
+
+
+  lighting_section.style.display = 'flex';
+  lighting_section.style.alignItems = 'start';
+});
+color.addEventListener('click', () => {
+  measurement_section.style.display = 'none';
+  steps_section.style.display = 'none';
+  swimming_pool_section.style.display = 'none';
+  lighting_section.style.display = 'none';
+  shutter_section.style.display = 'none';
+  display_section.style.display = 'none';
+  save_section.style.display = 'none';
+  ui.style.display = 'block';
+
+  color_section.style.display = 'flex';
+});
+shutter.addEventListener('click', () => {
+  measurement_section.style.display = 'none';
+  steps_section.style.display = 'none';
+  swimming_pool_section.style.display = 'none';
+  lighting_section.style.display = 'none';
+  color_section.style.display = 'none';
+  display_section.style.display = 'none';
+  save_section.style.display = 'none';
+  ui.style.display = 'block';
+
+  shutter_section.style.display = 'flex';
+});
+display.addEventListener('click', () => {
+  measurement_section.style.display = 'none';
+  steps_section.style.display = 'none';
+  swimming_pool_section.style.display = 'none';
+  lighting_section.style.display = 'none';
+  color_section.style.display = 'none';
+  shutter_section.style.display = 'none';
+  save_section.style.display = 'none';
+  ui.style.display = 'block';
+
+  display_section.style.display = 'flex';
+  display_section.style.flexDirection = 'column';
+});
+save.addEventListener('click', () => {
+  measurement_section.style.display = 'none';
+  steps_section.style.display = 'none'; 
+  swimming_pool_section.style.display = 'none';
+  lighting_section.style.display = 'none';
+  color_section.style.display = 'none';
+  shutter_section.style.display = 'none';
+  display_section.style.display = 'none';
+
+  ui.style.display = 'flex';
+  save_section.style.display = 'flex';
+});
 
 function animate() {
     requestAnimationFrame(animate);

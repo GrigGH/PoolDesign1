@@ -10,54 +10,197 @@
 
 <body>
     <div id="ui" class="layout">
+        <div class="measurement" id="measurement-for-xyz">
+            <div id="values">
+                <div id="width-value">
+                    Width
+                    <div class="aligner">
+                        <div id="widthVal">1</div>
+                        <span>m</span>
+                    </div>
+                </div>
+                <div id="length-value">
+                    Length
+                    <div class="aligner">
+                        <div id="lengthVal">1</div>
+                        <span>m</span>
+                    </div>
+                </div>
 
-        <div id="values">
-            <div id="width-value">
-                Width
-                <div class="aligner">
-                    <div id="widthVal">1</div>
-                    <span>m</span>
+                <div id="depth-value">
+                    Depth
+                    <div class="aligner">
+                        <div id="depthVal">1</div>
+                        <span>m</span>
+                    </div>
                 </div>
             </div>
-            <div id="length-value">
-                Length
-                <div class="aligner">
-                    <div id="lengthVal">1</div>
-                    <span>m</span>
+
+            <div class="measurements">
+                <div style="color: black;">
+                    <label>Width: </label>
+                    <input id="widthSlider" type="range" min="0.1" max="5" step="0.1" value="1">
+                </div>
+                <div style="color: black;">
+                    <label>Length: </label>
+                    <input id="lengthSlider" type="range" min="0.1" max="5" step="0.1" value="1">
+                </div>
+                <div style="color: black;">
+                    <label>Depth: </label>
+                    <input id="depthSlider" type="range" min="0.1" max="5" step="0.1" value="1">
+                </div>
+            </div>
+        </div>
+        <div id="steps">
+            <div class="step-positioning">
+                <div class="steps-label" style="color: black;">Positioning</div>
+                <div class="steps-buttons">
+                    <button class="step-button" type="button">Left</button>
+                    <button class="step-button" type="button">Right</button>
+                    <button class="step-button" type="button">Both</button>
+                </div>
+            </div>
+            <div class="step-sides">
+                <div class="steps-label">SIDE OF THE STEPS</div>
+                <div class="steps-buttons">
+                    <button class="step-button" type="button">Front</button>
+                    <button class="step-button" type="button">Back</button>
                 </div>
             </div>
 
-            <div id="depth-value">
-                Depth
-                <div class="aligner">
-                    <div id="depthVal">1</div>
-                    <span>m</span>
-                </div>
+            <div class="steps-note">
+                If it is not possible to choose a particular staircase, this may be due to the chosen shutter
+                installation. Some combinations are not possible.
+            </div>
+            <div class="imgs">
+                <img class="poolImg" src="Images/blankimg.webp" alt="Pool image">
+                Complete
+                <img class="poolImg" src="Images/blankimg.webp" alt="Pool image">
+                Enduro
+                <img class="poolImg" src="Images/blankimg.webp" alt="Pool image">
+                Structa Lounge
+                <img class="poolImg" src="Images/blankimg.webp" alt="Pool image">
+                Structa
+            </div>
+
+
+        </div>
+        <div id="swimming-pool">
+            <img class="poolImg" src="Images/blankimg.webp" alt="Pool image">
+            <div class="pool-style-txt">SKIMMER</div>
+            <img class="poolImg" src="Images/blankimg.webp" alt="Pool image">
+            <div class="pool-style-txt">OVERFLOW</div>
+            <img class="poolImg" src="Images/blankimg.webp" alt="Pool image">
+            <div class="pool-style-txt">INFINITY</div>
+        </div>
+
+        <div id="pool-color">
+            <div class="pool-color-txt">COLOR POOL</div>
+            <br>
+            <div class="color-options" style="display: flex; gap: 20px;">
+                <input type="checkbox" id="colorPickerToggle">
+                <span class="color-txt">White</span>
+            </div>
+            <div class="color-options" style="display: flex; gap: 20px;">
+                <input type="checkbox" id="colorPickerToggle">
+                <span class="color-txt">Light grey</span>
+            </div>
+            <div class="color-options" style="display: flex; gap: 20px;">
+                <input type="checkbox" id="colorPickerToggle">
+                <span class="color-txt">Dark grey</span>
+            </div>
+            <div class="color-options" style="display: flex; gap: 20px;">
+                <input type="checkbox" id="colorPickerToggle">
+                <span class="color-txt">Black</span>
+            </div>
+        </div>
+        <div id="pool-shutter">
+            <div class="pool-shutter-txt">ROLLER SHUTTER BUILT-IN</div>
+            <br>
+            <div class="shutter-options" style="display: flex; gap: 20px;">
+                <input type="checkbox" id="colorPickerToggle">
+                <span class="shutter-txt">No shutter</span>
+            </div>
+            <div class="shutter-options" style="display: flex; gap: 20px;">
+                <input type="checkbox" id="colorPickerToggle">
+                <span class="shutter-txt">Internal shutter under plage</span>
+            </div>
+            <div class="shutter-options" style="display: flex; gap: 20px;">
+                <input type="checkbox" id="colorPickerToggle">
+                <span class="shutter-txt">Internal shutter under the steps</span>
+            </div>
+            <div class="shutter-options" style="display: flex; gap: 20px;">
+                <input type="checkbox" id="colorPickerToggle">
+                <span class="shutter-txt">External shutter in niche</span>
             </div>
         </div>
 
+        <div id="pool-lighting">
+            <div class="pool-lighting-txt">POSITIONING</div>
+            <br>
+            <div class="lighting-options" style="display: flex; gap: 20px;">
+                <input type="checkbox" id="colorPickerToggle">
+                <span class="lighting-txt">Shows spots</span>
+            </div>
+            <div class="lighting-options" style="display: flex; gap: 20px;">
+                <input type="checkbox" id="colorPickerToggle">
+                <span class="lighting-txt">Spots right</span>
+            </div>
+            <div class="lighting-options" style="display: flex; gap: 20px;">
+                <input type="checkbox" id="colorPickerToggle">
+                <span class="lighting-txt">Mirror spots</span>
+            </div>
+            <div class="lighting-options" style="display: flex; gap: 20px;">
+                <input type="checkbox" id="colorPickerToggle">
+                <span class="lighting-txt">Alternating spots</span>
+            </div>
 
-        <div style="color: black;">
-            <label>Width: </label>
-            <input id="widthSlider" type="range" min="0.1" max="5" step="0.1" value="1">
+            <div id="lighting-slider-count">
+                <div class="lighting-txt"> NUMBER OF SPOTS </div>
+                <input type="range" name="countlight" id="light-count" min="1" max="6" step="1" value="3">
+                <div class="range-nums">
+                    <div class="minimal-num">1</div>
+                    <div class="maximal-num">6</div>
+                </div>
+
+            </div>
         </div>
-        <div style="color: black;">
-            <label>Length: </label>
-            <input id="lengthSlider" type="range" min="0.1" max="5" step="0.1" value="1">
+
+        <div id="display">
+            <div class="display-txt">
+                DISPLAY
+            </div>
+            <div class="display-txt-small">
+                Would you like to see your swimming pool of your dreams in a lifelike environment? Then load the virtual
+                environment and the water now.
+            </div>
+            <div id="display-button-id">
+                <button class="display-button" type="button"><svg width="30px" height="30px" viewBox="0 0 24 24"
+                        fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M4.44893 17.009C-0.246384 7.83762 7.34051 0.686125 19.5546 3.61245C20.416 3.81881 21.0081 4.60984 20.965 5.49452C20.5862 13.288 17.0341 17.7048 6.13252 17.9857C5.43022 18.0038 4.76908 17.6344 4.44893 17.009Z"
+                            stroke="#323232" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        <path d="M3.99999 21C5.50005 15.5 6 12.5 12 9.99997" stroke="#323232" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                    <div class="environment-txt">SHOW ENVIRONMENT AND WATER</div>
+                </button>
+            </div>
         </div>
-        <div style="color: black;">
-            <label>Depth: </label>
-            <input id="depthSlider" type="range" min="0.1" max="5" step="0.1" value="1">
+
+        <div id="save-pool">
+            <div id="save-button-id">
+                <button class="save-button" type="button">
+                    <div class="environment-txt">SEND POOL DESIGN VIA EMAIL</div>
+                </button>
+            </div>
         </div>
-
-
-
 
     </div>
     <div id="other-sections">
         <div>
 
-            <label class="option" role="button" tabindex="0">
+            <label class="option" id="swimming-pool-section" role="button" tabindex="0">
 
                 <div><svg width="30px" height="30px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path
@@ -69,21 +212,26 @@
             </label>
         </div>
         <div>
-            <label class="option" role="button" tabindex="0">
-                <div><svg fill="#000000" height="30px" width="30px" version="1.1" id="XMLID_190_"
-                        xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-                        viewBox="0 0 24 24" xml:space="preserve">
-                        <g id="steps">
-                            <g>
-                                <path d="M24,24H0v-9h5v-5h5V5h5V0h9V24z M2,22h20V2h-5v5h-5v5H7v5H2V22z" />
-                            </g>
+            <label class="option" id="step-section" role="button" tabindex="0">
+                <div><svg height="30px" width="30px" version="1.1" id="_x32_" xmlns="http://www.w3.org/2000/svg"
+                        xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" xml:space="preserve">
+                        <style type="text/css">
+                            .st0 {
+                                fill: #000000;
+                            }
+                        </style>
+                        <g>
+                            <polygon class="st0" points="354.38,53.422 354.38,168.726 226.378,168.726 226.378,284.03 98.38,284.03 98.38,399.334 0,399.334 
+		0,458.578 157.62,458.578 157.62,343.274 285.622,343.274 285.622,227.97 413.625,227.97 413.625,112.666 512,112.666 512,53.422 	
+		" />
                         </g>
-                    </svg></div>
+                    </svg>
+                </div>
                 Steps
             </label>
         </div>
         <div>
-            <label class="option" role="button" tabindex="0">
+            <label class="option" id="measurement-section" role="button" tabindex="0">
                 <div>
                     <svg width="50px" height="40px" viewBox="0 0 20 20" version="1.1"
                         xmlns="http://www.w3.org/2000/svg">
@@ -99,7 +247,7 @@
         </div>
         <div>
 
-            <label class="option" role="button" tabindex="0">
+            <label class="option" id="lighting-section" role="button" tabindex="0">
                 <div>
                     <svg width="30px" height="30px" viewBox="-0.5 0 25 25" fill="none"
                         xmlns="http://www.w3.org/2000/svg">
@@ -114,7 +262,7 @@
             </label>
         </div>
         <div>
-            <label class="option" role="button" tabindex="0">
+            <label class="option" id="color-picker" role="button" tabindex="0">
                 <div><svg fill="#000000" width="30px" height="30px" viewBox="0 0 16 16"
                         xmlns="http://www.w3.org/2000/svg">
                         <path
@@ -126,7 +274,7 @@
             </label>
         </div>
         <div>
-            <label class="option" role="button" tabindex="0">
+            <label class="option" id="shutter-section" role="button" tabindex="0">
                 <div>
                     <svg version="1.0" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
                         xmlns:xlink="http://www.w3.org/1999/xlink" width="30px" height="30px" viewBox="0 0 64 64"
@@ -150,7 +298,7 @@
             </label>
         </div>
         <div>
-            <label class="option" role="button" tabindex="0">
+            <label class="option" id="display-section" role="button" tabindex="0">
                 <div>
                     <svg width="30px" height="30px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path
@@ -164,10 +312,9 @@
             </label>
         </div>
         <div>
-            <label class="option" role="button" tabindex="0">
+            <label class="option" id="save-section" role="button" tabindex="0">
                 <div>
-                    <svg width="30px" height="30px" viewBox="0 0 24 24" fill="none"
-                        xmlns="http://www.w3.org/2000/svg">
+                    <svg width="30px" height="30px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path
                             d="M14 2.26953V6.40007C14 6.96012 14 7.24015 14.109 7.45406C14.2049 7.64222 14.3578 7.7952 14.546 7.89108C14.7599 8.00007 15.0399 8.00007 15.6 8.00007H19.7305M9 15L12 18M12 18L15 15M12 18L12 12M14 2H8.8C7.11984 2 6.27976 2 5.63803 2.32698C5.07354 2.6146 4.6146 3.07354 4.32698 3.63803C4 4.27976 4 5.11984 4 6.8V17.2C4 18.8802 4 19.7202 4.32698 20.362C4.6146 20.9265 5.07354 21.3854 5.63803 21.673C6.27976 22 7.11984 22 8.8 22H15.2C16.8802 22 17.7202 22 18.362 21.673C18.9265 21.3854 19.3854 20.9265 19.673 20.362C20 19.7202 20 18.8802 20 17.2V8L14 2Z"
                             stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
