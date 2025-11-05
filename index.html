@@ -5,26 +5,52 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Three JS</title>
-    <href link="style.css"></href>
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-    <div id="ui">
+    <div id="ui" class="layout">
+
+        <div id="values">
+            <div id="width-value">
+                Width
+                <div class="aligner">
+                    <div id="widthVal">1</div>
+                    <span>m</span>
+                </div>
+            </div>
+
+            <div id="length-value">
+                Length
+                <div class="aligner">
+                    <div id="lengthVal">1</div>
+                    <span>m</span>
+                </div>
+            </div>
+
+            <div id="depth-value">
+                Depth
+                <div class="aligner">
+                    <div id="depthVal">1</div>
+                    <span>m</span>
+                </div>
+            </div>
+        </div>
+
+
         <div>
             <labeL>Width: </labeL>
             <input id="widthSlider" type="range" min="0.1" max="5" step="0.1" value="1">
-            <span id="widthVal">1</span>
         </div>
         <div>
             <label>Length: </label>
             <input id="lengthSlider" type="range" min="0.1" max="5" step="0.1" value="1">
-            <span id="lengthVal">1</span>
         </div>
         <div>
             <label>Depth: </label>
             <input id="depthSlider" type="range" min="0.1" max="5" step="0.1" value="1">
-            <span id="depthVal">1</span>
         </div>
+
     </div>
 
 

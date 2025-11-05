@@ -5,12 +5,49 @@
     overflow-x: hidden;
     overflow-y: hidden;
 }
-#ui{
-    position: absolute;
-      top: 10px;
-      left: 10px;
-      background: rgba(0,0,0,0.5);
-      padding: 10px;
-      border-radius: 8px;
-      font-family: sans-serif;
+#ui {
+    position: fixed;
+    display: flex;
+    top: 0;
+    right: 0; 
+    width: 20%;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    padding: 10px;
+    border-radius: 8px;
+    font-family: sans-serif;
+    text-align: center;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 50px;
+    
+}
+
+#widthSlider{
+    width: 70%;
+}
+#lengthSlider{
+    width: 70%;
+}
+#depthSlider{
+    width: 70%;
+}
+#values{
+    background-color: rgba(255, 255, 255, 0.678);
+    width: 100%;
+    height: 10vh;
+}
+#values{
+    display: flex;
+    gap: 25%;
+    justify-content: center;
+
+    color: black;
+    font-size: large;
+}
+.aligner{
+    display: flex;
+    padding-top: 20px;
 }
