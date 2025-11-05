@@ -9,7 +9,7 @@
     position: fixed;
     display: flex;
     top: 0;
-    right:12%;
+    right:5%;
     width: 20%;
     height: 100vh;
     background: rgba(172, 172, 172, 0.5);
@@ -47,7 +47,6 @@
     display: flex;
     gap: 25%;
     justify-content: center;
-
     color: black;
     font-size: large;
 }
@@ -60,7 +59,7 @@
     position: fixed;
     top: 0;
     right: 0;
-    width: 12%;
+    width: 5%;
     height: 100vh;
     display: flex;
     flex-direction: column;
@@ -75,7 +74,7 @@
 }
 #other-sections .option{
     width: 100%;
-    padding: 8px 10px;
+    padding: 40px 0;
     border-radius: 6px;
     background: transparent;
     text-align: center;
@@ -97,19 +96,8 @@
 }
 
 
-#other-sections .pool-icon svg{
-    width: 18px;
-    height: 18px;
-    display: block;
-    margin: 6px auto 4px auto;
-}
 
-#other-sections .pool-icon{
-    font-size: 0.75em;
-    line-height: 1;
-    display: block;
-    margin-top: 2px;
-}
+
 /* .poolImg{
     width: 100px;
     height: 100px;
