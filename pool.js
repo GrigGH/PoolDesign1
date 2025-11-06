@@ -45,7 +45,7 @@ let model;
 const poolGroup = new THREE.Group();
 scene.add(poolGroup);
 
-loader.load('model/Pooldesigned.glb', (gltf) => {
+loader.load('model/pooldesignnew.glb', (gltf) => {
   model = gltf.scene;
   model.scale.set(1, 1, 1);
   model.position.y = 2.1;
