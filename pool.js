@@ -6,6 +6,9 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js'
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js'
 import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js'
+import { Water } from 'three/examples/jsm/objects/Water.js';
+
+
 
 
 const scene = new THREE.Scene()
@@ -39,6 +42,9 @@ controls.dampingFactor = 0.05;
 const loader = new GLTFLoader();
 let model;
 
+const poolGroup = new THREE.Group();
+scene.add(poolGroup);
+
 loader.load('model/Pooldesigned.glb', (gltf) => {
   model = gltf.scene;
   model.scale.set(1, 1, 1);
@@ -47,17 +53,55 @@ loader.load('model/Pooldesigned.glb', (gltf) => {
   model.traverse((child) => {
     if (child.isMesh) {
       const mat = child.material;
-      
       if (mat && mat.isMeshStandardMaterial) {
-        mat.metalness = 0;  
-        mat.roughness = 1;  
-        mat.color = new THREE.Color(); 
+        mat.metalness = 0;
+        mat.roughness = 1;
+        mat.color = new THREE.Color();
       }
     }
   });
 
-  scene.add(model);
+  poolGroup.add(model);
+  poolGroup.add(water);
+
+
+  water.position.y = 3.3; 
+  water.rotation.x = -Math.PI / 2;
+  water.position.x = -1.2;
+  water.position.z = -0.4;
 });
+
+
+
+const texLoader = new THREE.TextureLoader();
+const waterNormals = texLoader.load(
+  'https://threejs.org/examples/textures/waternormals.jpg',
+  texture => {
+    texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+  }
+);
+
+const waterGeo = new THREE.PlaneGeometry(10, 7.6, 1, 1); 
+const waterMat = new THREE.MeshPhysicalMaterial({
+  color: 0x3399ff,
+  metalness: 0.1,
+  roughness: 0.05,
+  transmission: 0.9,
+  thickness: 0.5,
+  ior: 1.33, 
+  transparent: true,
+  envMapIntensity: 1.0,
+  normalMap: waterNormals,
+  normalScale: new THREE.Vector2(0.2, 0.2)
+});
+
+const water = new THREE.Mesh(waterGeo, waterMat);
+water.rotation.x = -Math.PI / 2;
+water.position.y = 3.3;
+water.position.x = -1.2;
+water.position.z = -0.4;
+
+scene.add(water);
 
 const widthSlider = document.getElementById('widthSlider');
 const lengthSlider = document.getElementById('lengthSlider');
@@ -67,24 +111,26 @@ const depthSlider = document.getElementById('depthSlider');
 const depthVal = document.getElementById('depthVal');
 
 widthSlider.addEventListener('input', ()=> {
-    widthVal.textContent = widthSlider.value;
-    if(model){
-        model.scale.x = parseFloat(widthSlider.value);
-    }
+  widthVal.textContent = widthSlider.value;
+  if (poolGroup) {
+    poolGroup.scale.x = parseFloat(widthSlider.value);
+  }
 });
 
 lengthSlider.addEventListener('input', ()=> {
-    lengthVal.textContent = lengthSlider.value;
-    if(model){
-        model.scale.z = parseFloat(lengthSlider.value);
-    }
+  lengthVal.textContent = lengthSlider.value;
+  if (poolGroup) {
+    poolGroup.scale.z = parseFloat(lengthSlider.value);
+  }
 });
+
 depthSlider.addEventListener('input', ()=> {
-    depthVal.textContent = depthSlider.value;
-    if(model){
-        model.scale.y = parseFloat(depthSlider.value);
-    }
+  depthVal.textContent = depthSlider.value;
+  if (poolGroup) {
+    poolGroup.scale.y = parseFloat(depthSlider.value);
+  }
 });
+
 
 const ui = document.getElementById('ui');
 
@@ -212,11 +258,13 @@ save.addEventListener('click', () => {
   save_section.style.display = 'flex';
 });
 
-function animate() {
+function animate(time) {
     requestAnimationFrame(animate);
     renderer.setClearColor('white')
     controls.update();
 
+ waterNormals.offset.x =  time * 0.0001; 
+  waterNormals.offset.y = time * 0.00015;
     // if (model) model.rotation.y += 0.005;
     renderer.render(scene, camera);
 
