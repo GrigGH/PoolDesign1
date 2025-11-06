@@ -41,14 +41,60 @@ controls.dampingFactor = 0.05;
 
 const loader = new GLTFLoader();
 let model;
+let tree;
+
+
+loader.load('model/pooltree.glb', (gltf) => {
+  tree = gltf.scene;
+  tree.scale.set(0.5, 0.5, 0.5);
+  tree.position.y = 2.1;
+
+  tree.traverse((child) => {
+    if (child.isMesh) {
+      const mat = child.material;
+      if (mat && mat.isMeshStandardMaterial) {
+        mat.metalness = 0;
+        mat.roughness = 1;
+        mat.color = new THREE.Color(0x228B22);
+      }
+    }
+  });
+
+  tree.position.set(5, 0.1, -6);
+  scene.add(tree);
+  for(let i=0; i<5; i++){
+    const treeClone = tree.clone();
+    treeClone.position.x = 5;
+    treeClone.position.z = -6 + i*3;
+    scene.add(treeClone);
+  }
+  for(let i=0; i<5; i++){
+    const treeClone = tree.clone();
+    treeClone.position.x = -7.5;
+    treeClone.position.z = -6 + i*3;
+    scene.add(treeClone);
+  }
+  for(let i=0; i<5; i++){
+    const treeClone = tree.clone();
+    treeClone.position.x = 1 - i*2;
+    treeClone.position.z = 5.2;
+    scene.add(treeClone);
+  }
+  for(let i=0; i<5; i++){
+    const treeClone = tree.clone();
+    treeClone.position.x = 1 - i*2;
+    treeClone.position.z = -6.4;
+    scene.add(treeClone);
+  }
+});
 
 const poolGroup = new THREE.Group();
 scene.add(poolGroup);
 
-loader.load('model/pooldesignnew.glb', (gltf) => {
+loader.load('model/Pooldesigned.glb', (gltf) => {
   model = gltf.scene;
   model.scale.set(1, 1, 1);
-  model.position.y = 2.1;
+  model.position.y = 0;
 
   model.traverse((child) => {
     if (child.isMesh) {
@@ -65,7 +111,7 @@ loader.load('model/pooldesignnew.glb', (gltf) => {
   poolGroup.add(water);
 
 
-  water.position.y = 3.3; 
+  water.position.y = 1.2; 
   water.rotation.x = -Math.PI / 2;
   water.position.x = -1.2;
   water.position.z = -0.4;
@@ -101,7 +147,60 @@ water.position.y = 3.3;
 water.position.x = -1.2;
 water.position.z = -0.4;
 
-scene.add(water);
+// scene.add(water);
+
+const grassTexture = texLoader.load('https://threejs.org/examples/textures/terrain/grasslight-big.jpg');
+grassTexture.wrapS = grassTexture.wrapT = THREE.RepeatWrapping;
+grassTexture.repeat.set(10, 10);
+
+const grassGeo = new THREE.PlaneGeometry(3, 14.2);
+const grassMat = new THREE.MeshStandardMaterial({ 
+  map: grassTexture,
+  side: THREE.DoubleSide,
+  transparent: false
+});
+
+const grass = new THREE.Mesh(grassGeo, grassMat);
+grass.rotation.x = -Math.PI / 2; 
+grass.position.x = -1.1;
+grass.position.y = 1.2;
+grass.position.z = -6;
+grass.rotation.z = -Math.PI / 2;
+scene.add(grass);
+
+const grassCopy = grass.clone();
+grassCopy.position.x = -1.1;
+grassCopy.position.z = 5.2;
+grassCopy.rotation.z = -Math.PI / 2;
+scene.add(grassCopy);
+
+const grassCopy1 = grass.clone();
+grassCopy1.position.x = -7.5;
+grassCopy1.position.z = -0.4;
+grassCopy1.rotation.z = -Math.PI;
+scene.add(grassCopy1);
+
+
+const grassCopy2 = grass.clone();
+grassCopy2.position.x = 5;
+grassCopy2.position.z = -0.4;
+grassCopy2.rotation.z = -Math.PI;
+scene.add(grassCopy2);
+
+// function grassLocation() {
+//   if (model && poolGroup) {
+//     const poolHeight = model.position.y * poolGroup.scale.y;  
+//     const bottomOffset = -0.5 * poolGroup.scale.y;         
+//     const poolBottom = poolGroup.position.y + poolHeight + bottomOffset;
+
+//     const gap = 0.5;  
+//     grass.position.y = poolBottom - gap;
+//   }
+// }
+
+
+
+
 
 const widthSlider = document.getElementById('widthSlider');
 const lengthSlider = document.getElementById('lengthSlider');
@@ -114,6 +213,7 @@ widthSlider.addEventListener('input', ()=> {
   widthVal.textContent = widthSlider.value;
   if (poolGroup) {
     poolGroup.scale.x = parseFloat(widthSlider.value);
+    grassLocation();
   }
 });
 
@@ -121,6 +221,7 @@ lengthSlider.addEventListener('input', ()=> {
   lengthVal.textContent = lengthSlider.value;
   if (poolGroup) {
     poolGroup.scale.z = parseFloat(lengthSlider.value);
+    grassLocation();
   }
 });
 
@@ -128,6 +229,7 @@ depthSlider.addEventListener('input', ()=> {
   depthVal.textContent = depthSlider.value;
   if (poolGroup) {
     poolGroup.scale.y = parseFloat(depthSlider.value);
+    grassLocation();
   }
 });
 
