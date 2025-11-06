@@ -43,8 +43,7 @@ const loader = new GLTFLoader();
 let model;
 let tree;
 
-
-loader.load('model/pooltree.glb', (gltf) => {
+loader.load('model/poolgrass.glb', (gltf) => {
   tree = gltf.scene;
   tree.scale.set(0.5, 0.5, 0.5);
   tree.position.y = 2.1;
