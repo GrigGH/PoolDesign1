@@ -162,9 +162,9 @@ loader.load('model/Lightmodel.glb', (gltf) => {
 
     if (!lightchecked.checked) return;
 
-    const count = parseInt(lightcount.value) || 1;
-    const poolLength = parseFloat(lengthVal.textContent) || 1;
-    const poolWidth = parseFloat(widthVal.textContent) || 1;
+    const count = parseInt(lightcount.value) ;
+    const poolLength = parseFloat(lengthVal.textContent) ;
+    const poolWidth = parseFloat(widthVal.textContent) ;
 
 
     const widthOffset = poolWidth * 3;
@@ -177,7 +177,7 @@ loader.load('model/Lightmodel.glb', (gltf) => {
 
       for (let i = 0; i < count; i++) {
         const bulbCopy = lightbulbModel.clone(true);
-        const xPos = startX + (i / (count - 1 || 1)) * (endX - startX);
+        const xPos = startX + (i / (count - 1 )) * (endX - startX);
         bulbCopy.rotation.y =  Math.PI / 2;
         bulbCopy.position.set(xPos - 0.8, 0.3,  3.4 + (lengthOffset - 2.5) * 1.385);
         scene.add(bulbCopy);
@@ -192,7 +192,7 @@ loader.load('model/Lightmodel.glb', (gltf) => {
 
       for (let i = 0; i < count; i++) {
         const bulbCopy = lightbulbModel.clone(true);
-        const xPos = startX + (i / (count - 1 || 1)) * (endX - startX);
+        const xPos = startX + (i / (count - 1 )) * (endX - startX);
         bulbCopy.rotation.y =  Math.PI / 2;
         bulbCopy.position.set(xPos - 0.8, 0.3,  3.4 + (lengthOffset - 2.5) * 1.385);
         scene.add(bulbCopy);
@@ -205,7 +205,7 @@ loader.load('model/Lightmodel.glb', (gltf) => {
 
       for (let i = 0; i < count; i++) {
         const bulbCopy = lightbulbModel.clone(true);
-        const zPos = startZ + (i / (count - 1 || 1)) * (endZ - startZ);
+        const zPos = startZ + (i / (count - 1)) * (endZ - startZ);
         bulbCopy.position.set(-5.8 - (widthOffset - 3)* 1.935, 0.3,zPos);
         scene.add(bulbCopy);
         lightbulbs.push(bulbCopy);
