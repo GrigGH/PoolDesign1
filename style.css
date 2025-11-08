@@ -245,6 +245,18 @@
     width: 25px;
     height: 25px;
 }
+#lightPickerToggle{
+    width: 25px;
+    height: 25px;
+}
+#lightFrontToggle{
+    width: 25px;
+    height: 25px;
+}
+#lightAltToggle{
+    width: 25px;
+    height: 25px;
+}
 .pool-color-txt{
     font-size: 18px;
     font-weight: 300;
