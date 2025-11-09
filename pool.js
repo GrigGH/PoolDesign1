@@ -44,7 +44,7 @@ const waterNormals = texLoader.load(
     }
 );
 
-const waterGeo = new THREE.PlaneGeometry(9.3, 6.9, 1, 1);
+const waterGeo = new THREE.PlaneGeometry(9.3, 7, 1, 1);
 const waterMat = new THREE.MeshPhysicalMaterial({
     color: 0x3399ff,
     metalness: 0.1,
