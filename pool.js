@@ -44,7 +44,7 @@ const waterNormals = texLoader.load(
     }
 );
 
-const waterGeo = new THREE.PlaneGeometry(10, 7.6, 1, 1);
+const waterGeo = new THREE.PlaneGeometry(9.3, 6.9, 1, 1);
 const waterMat = new THREE.MeshPhysicalMaterial({
     color: 0x3399ff,
     metalness: 0.1,
@@ -60,7 +60,7 @@ const waterMat = new THREE.MeshPhysicalMaterial({
 
 const water = new THREE.Mesh(waterGeo, waterMat);
 water.rotation.x = -Math.PI / 2;
-water.position.set(-1.2, 3.3, -0.4);
+
 
 
 
@@ -68,10 +68,11 @@ let model;
 
 
 
-loader.load('model/Pooldesigned.glb', (gltf) => {
+loader.load('model/newpooldesign.glb', (gltf) => {
     model = gltf.scene;
-    model.scale.set(1, 1, 1);
-    model.position.y = 0;
+    model.scale.set(0.06, 0.1, 0.1);
+    model.position.y = -0.2;
+    model.position.x=-1.2
 
     model.traverse((child) => {
         if (child.isMesh && child.material.isMeshStandardMaterial) {
@@ -87,7 +88,7 @@ loader.load('model/Pooldesigned.glb', (gltf) => {
     water.position.y = 1.2;
     water.rotation.x = -Math.PI / 2;
     water.position.x = -1.2;
-    water.position.z = -0.4;
+    water.position.z = 0;
 });
 
 const grassTexture = texLoader.load('https://threejs.org/examples/textures/terrain/grasslight-big.jpg');
