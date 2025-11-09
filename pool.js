@@ -71,7 +71,7 @@ let model;
 loader.load('model/newpooldesign.glb', (gltf) => {
     model = gltf.scene;
     model.scale.set(0.06, 0.1, 0.1);
-    model.position.y = -0.2;
+    model.position.y = -0.15;
     model.position.x=-1.2
 
     model.traverse((child) => {
@@ -144,10 +144,37 @@ function updateLoungers() {
 }
 
 
+const colorwhite = document.getElementById("colorPickerToggle1");
+const colorlightgrey = document.getElementById("colorPickerToggle2");
+const colordarkgrey = document.getElementById("colorPickerToggle3");
+const colorblack = document.getElementById("colorPickerToggle4");
+
+
+function updateColor(){
+     model.traverse((child) => {
+    if (child.isMesh && child.material) {
+      if (colorwhite.checked) {
+        child.material.color.set(0xffffff);
+      } else if (colorlightgrey.checked) {
+        child.material.color.set(0xbfbfbf);
+      } else if (colordarkgrey.checked) {
+        child.material.color.set(0x4d4d4d);
+      } else if (colorblack.checked) {
+        child.material.color.set(0x1f1f1f);
+      }
+    }
+  });
+}
+
+colorwhite.addEventListener('change', updateColor);
+colorlightgrey.addEventListener('change', updateColor);
+colordarkgrey.addEventListener('change', updateColor);
+colorblack.addEventListener('change', updateColor);
+
 const lightcount = document.getElementById("light-count");
 const lightchecked = document.getElementById("lightPickerToggle");
 const lightFrontChecked = document.getElementById("lightFrontToggle");
-const lightAltChecked = document.getElementById("lightAltToggle")
+const lightAltChecked = document.getElementById("lightAltToggle");
 
 let lightbulbModel;
 let lightbulbs = [];
@@ -283,6 +310,7 @@ lengthSlider.addEventListener('input', () => {
 
 depthSlider.addEventListener('input', () => {
     depthVal.textContent = depthSlider.value;
+    depthVal.textContent =  Math.round(depthVal.textContent * 1000) / 1000;
     poolGroup.scale.y = parseFloat(depthSlider.value);
     poolGroup.position.y = 0 - (depthSlider.value - 1) * 1.33;
     grassLocationx();
