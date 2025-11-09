@@ -171,85 +171,133 @@ colorlightgrey.addEventListener('change', updateColor);
 colordarkgrey.addEventListener('change', updateColor);
 colorblack.addEventListener('change', updateColor);
 
-const lightcount = document.getElementById("light-count");
-const lightchecked = document.getElementById("lightPickerToggle");
-const lightFrontChecked = document.getElementById("lightFrontToggle");
-const lightAltChecked = document.getElementById("lightAltToggle");
 
-let lightbulbModel;
-let lightbulbs = [];
+const lightswitchOff = document.getElementById('lightUnToggle');
+const lightswitchOn = document.getElementById('lightToggle');
 
-loader.load('model/Lightmodel.glb', (gltf) => {
-  lightbulbModel = gltf.scene;
-  lightbulbModel.scale.set(1, 1, 1);
+let bulbLights = [];
 
-  function updateBulbs() {
+function updateLights() {
 
-    lightbulbs.forEach(bulb => scene.remove(bulb));
-    lightbulbs = [];
+    bulbLights.forEach(light=>scene.remove(light));
+    bulbLights = [];
 
-    if (!lightchecked.checked) return;
+    if(lightswitchOn.checked){
+        const positions = [
+            new THREE.Vector3(-3.5, 0.2, 3),
+            new THREE.Vector3(1, 0.2, 3),
+            new THREE.Vector3(3, 0.6, 0),
+            new THREE.Vector3(3, 0.6, 1.9),
+            new THREE.Vector3(3, 0.6, -1.9),
+            new THREE.Vector3(-0.35, 0.6, -3),
+            new THREE.Vector3(-1.2, -0.15, -3),
+            new THREE.Vector3(-2, -0.85, -3),
+        ];
+        positions.forEach(pos=>{
+            const light = new THREE.PointLight(0xadd8ff, 2, 10, 0.8);
+        light.position.copy(pos);
+        scene.add(light);
+        bulbLights.push(light);
+        })
+    }
 
-    const count = parseInt(lightcount.value) ;
-    const poolLength = parseFloat(lengthVal.textContent) ;
-    const poolWidth = parseFloat(widthVal.textContent) ;
+//   if (bulbLight) {
+//     scene.remove(bulbLight);
+//     bulbLight = null;
+//   }
+
+//   if (lightswitchOn.checked) {
+//     bulbLight = new THREE.PointLight(0xadd8ff, 2, 10, 1);
+//     bulbLight.position.set(-3.5, 0.2, 3);
+//     scene.add(bulbLight);
+//   }
+// }
+}
+updateLights();
+
+lightswitchOn.addEventListener('change', updateLights);
+lightswitchOff.addEventListener('change', updateLights);
 
 
-    const widthOffset = poolWidth * 3;
-    const lengthOffset = poolLength * 2.5;
+// const lightcount = document.getElementById("light-count");
+// const lightchecked = document.getElementById("lightPickerToggle");
+// const lightFrontChecked = document.getElementById("lightFrontToggle");
+// const lightAltChecked = document.getElementById("lightAltToggle");
+
+// let lightbulbModel;
+// let lightbulbs = [];
+
+// loader.load('model/Lightmodel.glb', (gltf) => {
+//   lightbulbModel = gltf.scene;
+//   lightbulbModel.scale.set(1, 1, 1);
+
+//   function updateBulbs() {
+
+//     lightbulbs.forEach(bulb => scene.remove(bulb));
+//     lightbulbs = [];
+
+//     if (!lightchecked.checked) return;
+
+//     const count = parseInt(lightcount.value) ;
+//     const poolLength = parseFloat(lengthVal.textContent) ;
+//     const poolWidth = parseFloat(widthVal.textContent) ;
+
+
+//     const widthOffset = poolWidth * 3;
+//     const lengthOffset = poolLength * 2.5;
 
     
-    if(lightAltChecked.checked){
-         const startX = -widthOffset;
-      const endX = widthOffset;
+//     if(lightAltChecked.checked){
+//          const startX = -widthOffset;
+//       const endX = widthOffset;
 
-      for (let i = 0; i < count; i++) {
-        const bulbCopy = lightbulbModel.clone(true);
-        const xPos = startX + (i / (count - 1 )) * (endX - startX);
-        bulbCopy.rotation.y =  Math.PI / 2;
-        bulbCopy.position.set(xPos - 0.8, 0.3,  3.4 + (lengthOffset - 2.5) * 1.385);
-        scene.add(bulbCopy);
-        lightbulbs.push(bulbCopy);
-      }
-    }
+//       for (let i = 0; i < count; i++) {
+//         const bulbCopy = lightbulbModel.clone(true);
+//         const xPos = startX + (i / (count - 1 )) * (endX - startX);
+//         bulbCopy.rotation.y =  Math.PI / 2;
+//         bulbCopy.position.set(xPos - 0.8, 0.3,  3.4 + (lengthOffset - 2.5) * 1.385);
+//         scene.add(bulbCopy);
+//         lightbulbs.push(bulbCopy);
+//       }
+//     }
 
-    if (lightFrontChecked.checked) {
+//     if (lightFrontChecked.checked) {
 
-      const startX = -widthOffset;
-      const endX = widthOffset;
+//       const startX = -widthOffset;
+//       const endX = widthOffset;
 
-      for (let i = 0; i < count; i++) {
-        const bulbCopy = lightbulbModel.clone(true);
-        const xPos = startX + (i / (count - 1 )) * (endX - startX);
-        bulbCopy.rotation.y =  Math.PI / 2;
-        bulbCopy.position.set(xPos - 0.8, 0.3,  3.4 + (lengthOffset - 2.5) * 1.385);
-        scene.add(bulbCopy);
-        lightbulbs.push(bulbCopy);
-      }
-    } else {
+//       for (let i = 0; i < count; i++) {
+//         const bulbCopy = lightbulbModel.clone(true);
+//         const xPos = startX + (i / (count - 1 )) * (endX - startX);
+//         bulbCopy.rotation.y =  Math.PI / 2;
+//         bulbCopy.position.set(xPos - 0.8, 0.3,  3.4 + (lengthOffset - 2.5) * 1.385);
+//         scene.add(bulbCopy);
+//         lightbulbs.push(bulbCopy);
+//       }
+//     } else {
       
-      const startZ = -lengthOffset;
-      const endZ = lengthOffset;
+//       const startZ = -lengthOffset;
+//       const endZ = lengthOffset;
 
-      for (let i = 0; i < count; i++) {
-        const bulbCopy = lightbulbModel.clone(true);
-        const zPos = startZ + (i / (count - 1)) * (endZ - startZ);
-        bulbCopy.position.set(-5.8 - (widthOffset - 3)* 1.935, 0.3,zPos);
-        scene.add(bulbCopy);
-        lightbulbs.push(bulbCopy);
-      }
-    }
-  }
+//       for (let i = 0; i < count; i++) {
+//         const bulbCopy = lightbulbModel.clone(true);
+//         const zPos = startZ + (i / (count - 1)) * (endZ - startZ);
+//         bulbCopy.position.set(-5.8 - (widthOffset - 3)* 1.935, 0.3,zPos);
+//         scene.add(bulbCopy);
+//         lightbulbs.push(bulbCopy);
+//       }
+//     }
+//   }
 
-  updateBulbs();
+//   updateBulbs();
 
-  lightcount.addEventListener('input', updateBulbs);
-  lightchecked.addEventListener('change', updateBulbs);
-  lightFrontChecked.addEventListener('change', updateBulbs);
-  lightAltChecked.addEventListener('change', updateBulbs);
-  lengthSlider.addEventListener('input', updateBulbs);
-  widthSlider.addEventListener('input', updateBulbs);
-});
+//   lightcount.addEventListener('input', updateBulbs);
+//   lightchecked.addEventListener('change', updateBulbs);
+//   lightFrontChecked.addEventListener('change', updateBulbs);
+//   lightAltChecked.addEventListener('change', updateBulbs);
+//   lengthSlider.addEventListener('input', updateBulbs);
+//   widthSlider.addEventListener('input', updateBulbs);
+// });
 
 
 

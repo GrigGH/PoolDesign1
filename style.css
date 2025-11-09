@@ -273,6 +273,14 @@
     width: 25px;
     height: 25px;
 }
+#lightUnToggle{
+width: 25px;
+    height: 25px;
+}
+#lightToggle{
+width: 25px;
+    height: 25px;
+}
 .pool-color-txt{
     font-size: 18px;
     font-weight: 300;
