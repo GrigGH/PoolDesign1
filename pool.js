@@ -92,7 +92,7 @@ loader.load('model/newpooldesign.glb', (gltf) => {
 });
 
 
-let grassModelCopies = [];
+// let grassModelCopies = [];
 
 
 
@@ -293,7 +293,7 @@ function updateGrassGroup() {
     grassGroup.scale.x = parseFloat(widthSlider.value);
     grassGroup.scale.z = parseFloat(lengthSlider.value);
 
-    updateLoungers(-6 * grassGroup.scale.z / 1);
+    updateLoungers(-6 * grassGroup.scale.z );
 }
 
 widthSlider.addEventListener('input', () => {
