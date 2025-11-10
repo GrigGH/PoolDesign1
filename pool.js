@@ -72,7 +72,7 @@ loader.load('model/newpooldesign.glb', (gltf) => {
     model = gltf.scene;
     model.scale.set(0.06, 0.1, 0.1);
     model.position.y = -0.15;
-    model.position.x=-1.2
+    model.position.x = -1.2
 
     model.traverse((child) => {
         if (child.isMesh && child.material.isMeshStandardMaterial) {
@@ -91,57 +91,116 @@ loader.load('model/newpooldesign.glb', (gltf) => {
     water.position.z = 0;
 });
 
+
+let grassModelCopies = [];
+
+
+
+
+const grassGroup = new THREE.Group();
+scene.add(grassGroup);
+
+
+let grassmodel;
+loader.load('model/grass-block.glb', (gltf) => {
+    grassmodel = gltf.scene;
+    grassmodel.scale.set(0.06, 0.1, 0.1);
+    grassmodel.traverse((child) => {
+        if (child.isMesh && child.material.isMeshStandardMaterial) {
+            child.material.metalness = 0;
+            child.material.roughness = 1;
+            child.material.color = new THREE.Color('green');
+        }
+    });
+
+
+    const positions = [
+        { x: -7.8, z: -5.3 },
+        { x: -7.8, z: -3 }, 
+        { x: -7.8, z: -2 }, 
+        { x: -7.8, z: -1 },
+        { x: -7.8, z: 0 }, 
+        { x: -7.8, z: 1 }, 
+        { x: -7.8, z: 2 }, 
+        { x: -7.8, z: 3 },
+        { x: 5.3, z: -5.4 },
+        { x: 5.3, z: -3 }, 
+        { x: 5.3, z: -2 }, 
+        { x: 5.3, z: -1 },
+        { x: 5.3, z: 0 }, 
+        { x: 5.3, z: 1 }, 
+        { x: 5.3, z: 2 }, 
+        { x: 5.3, z: 3 },
+        { x: 3, z: -6 }, 
+        { x: -6.3, z: -6.2 }, 
+        { x: -7.7, z: -6.2 }, 
+        { x: 5, z: -6.2 },
+        { x: -8, z: 5.5 }, 
+        { x: -7.3, z: 5.5 }, 
+        { x: -6.3, z: 5.5 }, 
+        { x: -5.3, z: 5.5 },
+        { x: -4.3, z: 5.5 }, 
+        { x: -3.3, z: 5.5 }, 
+        { x: -2.3, z: 5.5 }, 
+        { x: -1.3, z: 5.5 },
+        { x: 0.3, z: 5.5 }, 
+        { x: 2.3, z: 5.5 }, 
+        { x: 3.3, z: 5.5 }, 
+        { x: 4.3, z: 5.5 },
+        { x: 5.3, z: 5.5 },
+    ];
+
+    positions.forEach(pos => {
+        const copy = grassmodel.clone();
+        copy.position.set(pos.x, 1.5, pos.z);
+        grassGroup.add(copy);
+    });
+
+
+    const grassTexture = texLoader.load('https://threejs.org/examples/textures/terrain/grasslight-big.jpg');
+    grassTexture.wrapS = grassTexture.wrapT = THREE.RepeatWrapping;
+    grassTexture.repeat.set(10, 10);
+
+    const grassGeo = new THREE.PlaneGeometry(3, 14.2);
+    const grassMat = new THREE.MeshStandardMaterial({ map: grassTexture, side: THREE.DoubleSide });
+
+    const planePositions = [
+        { x: -1.1, z: -6, rotZ: -Math.PI / 2 },
+        { x: -1.1, z: 5.2, rotZ: -Math.PI / 2 },
+        { x: -7.5, z: -0.4, rotZ: -Math.PI },
+        { x: 5, z: -0.4, rotZ: -Math.PI }
+    ];
+
+    planePositions.forEach(pos => {
+        const plane = new THREE.Mesh(grassGeo, grassMat);
+        plane.rotation.set(-Math.PI / 2, 0, pos.rotZ);
+        plane.position.set(pos.x, 1.2, pos.z);
+        grassGroup.add(plane);
+    });
+});
+
 const grassTexture = texLoader.load('https://threejs.org/examples/textures/terrain/grasslight-big.jpg');
 grassTexture.wrapS = grassTexture.wrapT = THREE.RepeatWrapping;
 grassTexture.repeat.set(10, 10);
 
-const grassGeo = new THREE.PlaneGeometry(3, 14.2);
-const grassMat = new THREE.MeshStandardMaterial({
-    map: grassTexture,
-    side: THREE.DoubleSide
-});
-
-const grass = new THREE.Mesh(grassGeo, grassMat);
-grass.rotation.x = -Math.PI / 2;
-grass.position.set(-1.1, 1.2, -6);
-grass.rotation.z = -Math.PI / 2;
-scene.add(grass);
-
-const grassCopy = grass.clone();
-grassCopy.position.set(-1.1, 1.2, 5.2);
-scene.add(grassCopy);
-
-const grassCopy1 = grass.clone();
-grassCopy1.position.set(-7.5, 1.2, -0.4);
-grassCopy1.rotation.z = -Math.PI;
-scene.add(grassCopy1);
-
-const grassCopy2 = grass.clone();
-grassCopy2.position.set(5, 1.2, -0.4);
-grassCopy2.rotation.z = -Math.PI;
-scene.add(grassCopy2);
-
 let loungerModel;
 let loungers = [];
-
 loader.load('model/sun_lounger_3d.glb', (gltf) => {
     loungerModel = gltf.scene;
     loungerModel.scale.set(0.01, 0.01, 0.01);
 
     for (let i = 0; i < 5; i++) {
         const loungerCopy = loungerModel.clone();
-        loungerCopy.position.set(-5 + i * 1.5, 1.25, grass.position.z);
+        loungerCopy.position.set(-5 + i * 1.5, 1.25, -6);
         scene.add(loungerCopy);
         loungers.push(loungerCopy);
     }
 });
 
-
-function updateLoungers() {
-    for (let i = 0; i < loungers.length; i++) {
-        loungers[i].position.z = grass.position.z;
-    }
+function updateLoungers(zPos = -6) {
+    loungers.forEach(l => l.position.z = zPos);
 }
+
 
 
 const colorwhite = document.getElementById("colorPickerToggle1");
@@ -150,20 +209,20 @@ const colordarkgrey = document.getElementById("colorPickerToggle3");
 const colorblack = document.getElementById("colorPickerToggle4");
 
 
-function updateColor(){
-     model.traverse((child) => {
-    if (child.isMesh && child.material) {
-      if (colorwhite.checked) {
-        child.material.color.set(0xffffff);
-      } else if (colorlightgrey.checked) {
-        child.material.color.set(0xbfbfbf);
-      } else if (colordarkgrey.checked) {
-        child.material.color.set(0x4d4d4d);
-      } else if (colorblack.checked) {
-        child.material.color.set(0x1f1f1f);
-      }
-    }
-  });
+function updateColor() {
+    model.traverse((child) => {
+        if (child.isMesh && child.material) {
+            if (colorwhite.checked) {
+                child.material.color.set(0xffffff);
+            } else if (colorlightgrey.checked) {
+                child.material.color.set(0xbfbfbf);
+            } else if (colordarkgrey.checked) {
+                child.material.color.set(0x4d4d4d);
+            } else if (colorblack.checked) {
+                child.material.color.set(0x1f1f1f);
+            }
+        }
+    });
 }
 
 colorwhite.addEventListener('change', updateColor);
@@ -179,10 +238,10 @@ let bulbLights = [];
 
 function updateLights() {
 
-    bulbLights.forEach(light=>scene.remove(light));
+    bulbLights.forEach(light => poolGroup.remove(light));
     bulbLights = [];
-    
-    if(lightswitchOn.checked){
+
+    if (lightswitchOn.checked) {
         const positions = [
             new THREE.Vector3(-3.5, 0.2, 3),
             new THREE.Vector3(1, 0.2, 3),
@@ -193,25 +252,25 @@ function updateLights() {
             new THREE.Vector3(-1.2, -0.15, -3),
             new THREE.Vector3(-2, -0.85, -3),
         ];
-        positions.forEach(pos=>{
+        positions.forEach(pos => {
             const light = new THREE.PointLight(0xadd8ff, 2, 10, 0.8);
-        light.position.copy(pos);
-        poolGroup.add(light);
-        bulbLights.push(light);
+            light.position.copy(pos);
+            poolGroup.add(light);
+            bulbLights.push(light);
         })
     }
 
-//   if (bulbLight) {
-//     scene.remove(bulbLight);
-//     bulbLight = null;
-//   }
+    //   if (bulbLight) {
+    //     scene.remove(bulbLight);
+    //     bulbLight = null;
+    //   }
 
-//   if (lightswitchOn.checked) {
-//     bulbLight = new THREE.PointLight(0xadd8ff, 2, 10, 1);
-//     bulbLight.position.set(-3.5, 0.2, 3);
-//     scene.add(bulbLight);
-//   }
-// }
+    //   if (lightswitchOn.checked) {
+    //     bulbLight = new THREE.PointLight(0xadd8ff, 2, 10, 1);
+    //     bulbLight.position.set(-3.5, 0.2, 3);
+    //     scene.add(bulbLight);
+    //   }
+    // }
 }
 updateLights();
 
@@ -228,61 +287,62 @@ const widthVal = document.getElementById('widthVal');
 const lengthVal = document.getElementById('lengthVal');
 const depthVal = document.getElementById('depthVal');
 
-function grassLocationx() {
-    const scaleX = Math.max(poolGroup.scale.x, 1.8);
-    const scaleY = Math.max(poolGroup.scale.y, 3.7);
+function updateGrassGroup() {
+    if (!grassGroup) return;
 
-    grass.scale.y = widthSlider.value == 1 ? 0.9 : scaleX - 0.45;
-    if (widthSlider.value == 5) grass.scale.y = scaleY;
-    grass.position.x = -(scaleX + 0.2);
+    grassGroup.scale.x = parseFloat(widthSlider.value);
+    grassGroup.scale.z = parseFloat(lengthSlider.value);
 
-    grassCopy.scale.y = grass.scale.y;
-    grassCopy.position.x = -(scaleX + 0.2);
-
-    grassCopy1.position.x = -7.5 - (widthSlider.value - 1) * 6.3;
-    grassCopy2.position.x = 5 + (widthSlider.value - 1) * 3.9;
-}
-
-function grassLocationz() {
-    const scaleZ = Math.max(poolGroup.scale.z, 1.2);
-
-    grassCopy1.scale.y = scaleZ * 0.65;
-    grassCopy1.position.z = (scaleZ - 12);
-    grassCopy2.scale.y = scaleZ * 0.65;
-    grassCopy2.position.z = (scaleZ - 10);
-
-    grass.position.z = -6 - (lengthSlider.value - 1) * 4.7;
-    if (lengthSlider.value == 1) grass.position.z = -6;
-    if (lengthSlider.value <= 5) {
-        grassCopy1.position.z = -1.05;
-        grassCopy2.position.z = -1.05;
-    }
-    grassCopy.position.z = 5.2 + (lengthSlider.value - 1) * 3.85;
-
-    updateLoungers();
+    updateLoungers(-6 * grassGroup.scale.z / 1);
 }
 
 widthSlider.addEventListener('input', () => {
     widthVal.textContent = widthSlider.value;
     poolGroup.scale.x = parseFloat(widthSlider.value);
-    grassLocationx();
+    updateGrassGroup();
 });
 
 lengthSlider.addEventListener('input', () => {
     lengthVal.textContent = lengthSlider.value;
     poolGroup.scale.z = parseFloat(lengthSlider.value);
-    grassLocationz();
-    updateLengthBulb();
+    updateGrassGroup();
 });
 
+let prevDepth = parseFloat(depthSlider.value);
+
 depthSlider.addEventListener('input', () => {
-    depthVal.textContent = depthSlider.value;
-    depthVal.textContent =  Math.round(depthVal.textContent * 1000) / 1000;
-    poolGroup.scale.y = parseFloat(depthSlider.value);
-    poolGroup.position.y = 0 - (depthSlider.value - 1) * 1.33;
-    grassLocationx();
-    grassLocationz();
+    const currentDepth = parseFloat(depthSlider.value);
+    depthVal.textContent = currentDepth;
+
+    poolGroup.scale.y = currentDepth;
+
+    if (currentDepth > prevDepth) {
+        poolGroup.position.y -= 0.1; 
+    } else if (currentDepth < prevDepth) {
+        poolGroup.position.y += 0.1; 
+    }
+
+    prevDepth = currentDepth; 
+    updateGrassGroup();
 });
+
+
+
+
+
+function animate(time) {
+    requestAnimationFrame(animate);
+    renderer.setClearColor('white');
+    controls.update();
+
+    waterNormals.offset.x = time * 0.0001;
+    waterNormals.offset.y = time * 0.00015;
+
+    renderer.render(scene, camera);
+}
+
+animate();
+
 
 
 
@@ -394,16 +454,3 @@ save.addEventListener('click', () => {
     ui.style.display = 'flex';
     save_section.style.display = 'flex';
 });
-
-function animate(time) {
-    requestAnimationFrame(animate);
-    renderer.setClearColor('white');
-    controls.update();
-
-    waterNormals.offset.x = time * 0.0001;
-    waterNormals.offset.y = time * 0.00015;
-
-    renderer.render(scene, camera);
-}
-
-animate();
