@@ -198,7 +198,7 @@ loader.load('model/sun_lounger_3d.glb', (gltf) => {
 });
 
 function updateLoungers(zPos = -6) {
-    loungers.forEach(l => l.position.z = zPos);
+    loungers.forEach(z => z.position.z = zPos);
 }
 
 
