@@ -36,7 +36,6 @@ scene.add(poolGroup);
 
 
 
-
 const waterNormals = texLoader.load(
     'https://threejs.org/examples/textures/waternormals.jpg',
     texture => {
@@ -62,18 +61,203 @@ const water = new THREE.Mesh(waterGeo, waterMat);
 water.rotation.x = -Math.PI / 2;
 
 
+// let cube
+// loader.load('model/cube.glb', (gltf) => {
+//     cube = gltf.scene;
 
+//     cube.position.set(0,0,0)
+//      cube.traverse((child) => {
+//         if (child.isMesh && child.material.isMeshStandardMaterial) {
+//             child.material.metalness = 0;
+//             child.material.roughness = 1;
+//             child.material.color = new THREE.Color();
+//         }
+//     });
+//     scene.add(cube)
+// });
+
+
+// let rightmid
+
+// loader.load('model/PoolRightMid.glb', (gltf) => {
+//     rightmid = gltf.scene;
+//     rightmid.scale.set(0.1, 0.1,0.1)
+//     rightmid.position.set(0,0,0)
+//      rightmid.traverse((child) => {
+//         if (child.isMesh && child.material.isMeshStandardMaterial) {
+//             child.material.metalness = 0;
+//             child.material.roughness = 1;
+//             child.material.color = new THREE.Color();
+//         }
+//     });
+//     scene.add(rightmid)
+// widthSlider.addEventListener('input', () => {
+//     widthVal.textContent = widthSlider.value - 1;
+//     const posX = parseFloat(widthVal.textContent);
+//     rightmid.position.x= posX;
+// });
+// lengthSlider.addEventListener('input', ()=>{
+//     lengthVal.textContent = lengthSlider.value - 1;
+//     // const posZ = parseFloat(lengthVal.textContent);
+//     const scaleZ = parseFloat(lengthVal.textContent)
+//     rightmid.scale.z = scaleZ * 0.1 + 0.8
+//     depthVal.textContent =  rightmid.scale.z
+// })
+// });
+
+
+// let rightbot
+
+// loader.load('model/PoolRightLeftnew.glb', (gltf) => {
+//     rightbot = gltf.scene;
+//     rightbot.scale.set(0.1, 0.1,0.1)
+//     rightbot.position.set(0,0,0)
+//      rightbot.traverse((child) => {
+//         if (child.isMesh && child.material.isMeshStandardMaterial) {
+//             child.material.metalness = 0;
+//             child.material.roughness = 1;
+//             child.material.color = new THREE.Color();
+//         }
+//     });
+//     scene.add(rightbot)
+// widthSlider.addEventListener('input', () => {
+//     widthVal.textContent = widthSlider.value - 1;
+//     const posX = parseFloat(widthVal.textContent);
+//     rightbot.position.x= posX;
+// });
+// lengthSlider.addEventListener('input', ()=>{
+//     lengthVal.textContent = lengthSlider.value - 1;
+//     const posZ = parseFloat(lengthVal.textContent);
+//     rightbot.position.z = - posZ 
+// });
+// // lengthSlider.addEventListener('input', ()=>{
+// //     lengthVal.textContent = lengthSlider.value - 1;
+// //     // const posZ = parseFloat(lengthVal.textContent);
+// //     const scaleZ = parseFloat(lengthVal.textContent)
+// //     rightleft.scale.z = scaleZ
+// // })
+// });
+
+let right
+
+loader.load('model/PoolRight.glb', (gltf) => {
+    right = gltf.scene;
+    right.scale.set(0.1, 0.1,0.1)
+    right.position.set(0,0,0)
+     right.traverse((child) => {
+        if (child.isMesh && child.material.isMeshStandardMaterial) {
+            child.material.metalness = 0;
+            child.material.roughness = 1;
+            child.material.color = new THREE.Color();
+        }
+    });
+    scene.add(right)
+widthSlider.addEventListener('input', () => {
+    widthVal.textContent = widthSlider.value - 1;
+    const posX = parseFloat(widthVal.textContent);
+
+    right.position.x= posX;
+});
+lengthSlider.addEventListener('input', ()=>{
+    lengthVal.textContent = lengthSlider.value - 1;
+    const scaleZ = parseFloat(lengthVal.textContent) ;
+
+    right.scale.z = scaleZ * 0.05 +0.1
+})
+depthSlider.addEventListener('input', ()=>{
+   depthVal.textContent = depthSlider.value;
+    const scaleY = parseFloat(depthVal.textContent) ;
+
+    right.scale.y = scaleY * 0.1
+    
+})
+});
+
+let left
+
+loader.load('model/PoolLeft.glb', (gltf) => {
+    left = gltf.scene;
+    left.scale.set(0.1, 0.1,0.1)
+    left.position.set(0,0,0)
+     left.traverse((child) => {
+        if (child.isMesh && child.material.isMeshStandardMaterial) {
+            child.material.metalness = 0;
+            child.material.roughness = 1;
+            child.material.color = new THREE.Color();
+        }
+    });
+    scene.add(left)
+widthSlider.addEventListener('input', () => {
+    widthVal.textContent = widthSlider.value - 1;
+    const posX = parseFloat(widthVal.textContent);
+
+    left.position.x= - posX;
+});
+lengthSlider.addEventListener('input', ()=>{
+    lengthVal.textContent = lengthSlider.value - 1;
+    const scaleZ = parseFloat(lengthVal.textContent) ;
+
+    left.scale.z = scaleZ * 0.05 +0.1
+    depthVal.textContent = left.scale.z 
+})
+depthSlider.addEventListener('input', ()=>{
+   depthVal.textContent = depthSlider.value;
+    const scaleY = parseFloat(depthVal.textContent) ;
+
+    left.scale.y = scaleY * 0.1
+    
+})
+});
+
+let mid
+
+loader.load('model/PoolMid.glb', (gltf) => {
+    mid = gltf.scene;
+    mid.scale.set(0.1, 0.1,0.1)
+    mid.position.set(0,0,0)
+     mid.traverse((child) => {
+        if (child.isMesh && child.material.isMeshStandardMaterial) {
+            child.material.metalness = 0;
+            child.material.roughness = 1;
+            child.material.color = new THREE.Color();
+        }
+    });
+    scene.add(mid)
+widthSlider.addEventListener('input', () => {
+    widthVal.textContent = widthSlider.value;
+    const ScaleX = parseFloat(widthVal.textContent);
+
+    mid.scale.x= ScaleX * 0.1;
+});
+lengthSlider.addEventListener('input', ()=>{
+    lengthVal.textContent = lengthSlider.value - 1;
+    const scaleZ = parseFloat(lengthVal.textContent) ;
+
+    mid.scale.z = scaleZ * 0.05 +0.1
+
+})
+depthSlider.addEventListener('input', ()=>{
+   depthVal.textContent = depthSlider.value;
+    const scaleY = parseFloat(depthVal.textContent) ;
+
+    mid.scale.y = scaleY * 0.1
+    
+})
+});
 
 let model;
 
 
 
-loader.load('model/newpooldesign.glb', (gltf) => {
-    model = gltf.scene;
-    model.scale.set(0.06, 0.1, 0.1);
-    model.position.y = -0.15;
-    model.position.x = -1.2
 
+loader.load('model/NewpoolSeparated.glb', (gltf) => {
+    model = gltf.scene;
+
+
+   const right = model.getObjectByName('PoolRight');
+   const mid = model.getObjectByName('PoolMid');
+   const left = model.getObjectByName('PoolLef');
+ 
     model.traverse((child) => {
         if (child.isMesh && child.material.isMeshStandardMaterial) {
             child.material.metalness = 0;
@@ -82,14 +266,110 @@ loader.load('model/newpooldesign.glb', (gltf) => {
         }
     });
 
-    poolGroup.add(model);
-    poolGroup.add(water);
+
+
+
+
+    left.position.set(0,0,0)
+    // poolGroup.add(left);
+    
+    poolGroup.scale.set(0.06, 0.1, 0.1);
+    poolGroup.position.x = -1.2;
 
     water.position.y = 1.2;
     water.rotation.x = -Math.PI / 2;
-    water.position.x = -1.2;
+    water.scale.set(1.66,1)
+    water.position.x = 0;
     water.position.z = 0;
+
+    scene.add(water);
+
+    widthSlider.addEventListener('input', () => {
+    widthVal.textContent = widthSlider.value;
+    const ScaleX = parseFloat(widthVal.textContent);
+
+    water.scale.x= 1.66 + ScaleX*0.2;
 });
+   lengthSlider.addEventListener('input', () => {
+    lengthVal.textContent = lengthSlider.value - 1;
+    const ScaleY = parseFloat(lengthVal.textContent);
+
+    water.scale.y= ScaleY * 0.7 + 1;
+
+});
+
+  depthSlider.addEventListener('input', () => {
+    depthVal.textContent = depthSlider.value - 1;
+    const positionY = parseFloat(depthVal.textContent);
+
+    water.position.y= positionY + 1.2;
+
+});
+    // scene.add(right);
+
+
+// widthSlider.addEventListener('input', () => {
+//     widthVal.textContent = widthSlider.value;
+//     const scaleX = parseFloat(widthVal.textContent);
+
+//     const leftWidth = 1;   
+//     const midWidth = 1;   
+//     const rightWidth = 1;  
+//     const lposcopy = left.position.x;
+//     const rposcopy = right.position.x
+//     mid.scale.x = scaleX / 2.5;
+
+//     const halfTotalWidth = (leftWidth + midWidth * (mid.scale.x + 0.2) + rightWidth) / 2;
+//     left.position.x =  halfTotalWidth * halfTotalWidth * halfTotalWidth * halfTotalWidth * halfTotalWidth * halfTotalWidth * 1.1  + leftWidth ;
+//     right.position.x = - halfTotalWidth * halfTotalWidth * halfTotalWidth * halfTotalWidth * halfTotalWidth * halfTotalWidth * halfTotalWidth * halfTotalWidth * 1.1- rightWidth ;
+
+
+    
+//     mid.position.x = - (lposcopy *  halfTotalWidth /1.1 *1.3 + rposcopy) * (lposcopy *  halfTotalWidth + rposcopy) / 150;
+
+    
+//     if(scaleX == 1){
+//         poolGroup.position.x = -1.5;
+//          mid.position.x = (left.position.x*  halfTotalWidth + right.position.x)
+//     }
+//     updateGrassGroup();
+//     water.scale.x = scaleX / 2.5;
+//     water.position.x = (left.position.x*  halfTotalWidth + right.position.x);
+//     poolGroup.position.x = -1.2 + scaleX
+// });
+
+
+
+lengthSlider.addEventListener('input', () => {
+    lengthVal.textContent = lengthSlider.value;
+    poolGroup.scale.z = parseFloat(lengthSlider.value) /10;
+    updateGrassGroup();
+});
+
+let prevDepth = parseFloat(depthSlider.value);
+
+depthSlider.addEventListener('input', () => {
+    const currentDepth = parseFloat(depthSlider.value);
+    depthVal.textContent = currentDepth;
+
+    poolGroup.scale.y = currentDepth / 10;
+
+    if (currentDepth > prevDepth) {
+        poolGroup.position.y -= 0.1; 
+    } else if (currentDepth < prevDepth) {
+        poolGroup.position.y += 0.1; 
+    }
+
+    prevDepth = currentDepth; 
+    updateGrassGroup();
+});
+
+updateColor();
+
+
+
+});
+
 
 
 // let grassModelCopies = [];
@@ -153,7 +433,7 @@ loader.load('model/grass-block.glb', (gltf) => {
     positions.forEach(pos => {
         const copy = grassmodel.clone();
         copy.position.set(pos.x, 1.5, pos.z);
-        grassGroup.add(copy);
+        // grassGroup.add(copy);
     });
 
 
@@ -174,8 +454,8 @@ loader.load('model/grass-block.glb', (gltf) => {
     planePositions.forEach(pos => {
         const plane = new THREE.Mesh(grassGeo, grassMat);
         plane.rotation.set(-Math.PI / 2, 0, pos.rotZ);
-        plane.position.set(pos.x, 1.2, pos.z);
-        grassGroup.add(plane);
+        plane.position.set(pos.x + 0.5, 1.2, pos.z + 0.5);
+        // grassGroup.add(plane);
     });
 });
 
@@ -192,7 +472,7 @@ loader.load('model/sun_lounger_3d.glb', (gltf) => {
     for (let i = 0; i < 5; i++) {
         const loungerCopy = loungerModel.clone();
         loungerCopy.position.set(-5 + i * 1.5, 1.25, -6);
-        scene.add(loungerCopy);
+        // scene.add(loungerCopy);
         loungers.push(loungerCopy);
     }
 });
@@ -210,10 +490,11 @@ const colorblack = document.getElementById("colorPickerToggle4");
 
 
 function updateColor() {
-    model.traverse((child) => {
+    poolGroup.traverse((child) => {
         if (child.isMesh && child.material) {
             if (colorwhite.checked) {
                 child.material.color.set(0xffffff);
+                
             } else if (colorlightgrey.checked) {
                 child.material.color.set(0xbfbfbf);
             } else if (colordarkgrey.checked) {
@@ -221,6 +502,7 @@ function updateColor() {
             } else if (colorblack.checked) {
                 child.material.color.set(0x1f1f1f);
             }
+            water.material.color.set(0x3399ff);
         }
     });
 }
@@ -288,45 +570,11 @@ const lengthVal = document.getElementById('lengthVal');
 const depthVal = document.getElementById('depthVal');
 
 function updateGrassGroup() {
-    if (!grassGroup) return;
-
     grassGroup.scale.x = parseFloat(widthSlider.value);
     grassGroup.scale.z = parseFloat(lengthSlider.value);
 
     updateLoungers(-6 * grassGroup.scale.z );
 }
-
-widthSlider.addEventListener('input', () => {
-    widthVal.textContent = widthSlider.value;
-    poolGroup.scale.x = parseFloat(widthSlider.value);
-    updateGrassGroup();
-});
-
-lengthSlider.addEventListener('input', () => {
-    lengthVal.textContent = lengthSlider.value;
-    poolGroup.scale.z = parseFloat(lengthSlider.value);
-    updateGrassGroup();
-});
-
-let prevDepth = parseFloat(depthSlider.value);
-
-depthSlider.addEventListener('input', () => {
-    const currentDepth = parseFloat(depthSlider.value);
-    depthVal.textContent = currentDepth;
-
-    poolGroup.scale.y = currentDepth;
-
-    if (currentDepth > prevDepth) {
-        poolGroup.position.y -= 0.1; 
-    } else if (currentDepth < prevDepth) {
-        poolGroup.position.y += 0.1; 
-    }
-
-    prevDepth = currentDepth; 
-    updateGrassGroup();
-});
-
-
 
 
 
