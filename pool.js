@@ -428,45 +428,78 @@ loader.load('model/NewpoolSeparated.glb', (gltf) => {
 
 
 
-    const lightswitchOff = document.getElementById('lightUnToggle');
-    const lightswitchOn = document.getElementById('lightToggle');
+const lightcolorred = document.getElementById('color-red');
+const lightcolorblue = document.getElementById('color-blue');
+const lightcolorgreen = document.getElementById('color-green');
+const lightswitchToggle = document.getElementById('lightToggle');
 
-    let bulbLights = [];
+let bulbLights = [];
+let currentColor = 0xadd8ff;
 
-    function updateLights() {
+function updateLights() {
+    bulbLights.forEach(light => scene.remove(light));
+    bulbLights = [];
 
-        bulbLights.forEach(light => mid.remove(light));
-        bulbLights = [];
-        const count = 0
-        if (lightswitchOn.checked) {
-            const positions = [
-                new THREE.Vector3(-3.5, 0.2, 3),
-                new THREE.Vector3(1, 0.2, 3),
-                new THREE.Vector3(3, 0.6, 0),
-                new THREE.Vector3(3, 0.6, 1.9),
-                new THREE.Vector3(3, 0.6, -1.9),
-                new THREE.Vector3(-0.35, 0.6, -3),
-                new THREE.Vector3(-1.2, -0.15, -3),
-                new THREE.Vector3(-2, -0.85, -3),
-            ];
-            positions.forEach(pos => {
+    if (lightswitchToggle.checked) {
+        const positions = [
+            new THREE.Vector3(-3.5, 0.2, 3),
+            new THREE.Vector3(1, 0.2, 3),
+            new THREE.Vector3(3, 0.6, 0),
+            new THREE.Vector3(3, 0.6, 1.9),
+            new THREE.Vector3(3, 0.6, -1.9),
+            new THREE.Vector3(-0.35, 0.6, -3),
+            new THREE.Vector3(-1.2, -0.15, -3),
+            new THREE.Vector3(-2, -0.85, -3),
+        ];
 
-                const light = new THREE.PointLight(0xadd8ff, 2, 10, 0.1);
-                if (count % 2 == 0) {
-                    light.position.copy(pos);
-                    mid.add(light);
-                    bulbLights.push(light);
-                }
-            })
-        }
-
-
+        positions.forEach(pos => {
+            const light = new THREE.PointLight(currentColor, 2, 10, 0.1);
+            light.position.copy(pos);
+            scene.add(light);
+            bulbLights.push(light);
+        });
     }
-    updateLights();
+}
 
-    lightswitchOn.addEventListener('change', updateLights);
-    lightswitchOff.addEventListener('change', updateLights);
+function setLightColor(lightColor, waterColor) {
+    currentColor = lightColor;
+    bulbLights.forEach(light => light.color.set(lightColor));
+    water.material.color.set(waterColor);
+}
 
+lightswitchToggle.addEventListener('change', updateLights);
+
+lightcolorblue.addEventListener('change', () => {
+    if (lightcolorblue.checked) {
+        lightcolorred.checked = false;
+        lightcolorgreen.checked = false;
+        setLightColor(0xadd8ff, 0x3399ff);
+    } else {
+        updateLights();
+    }
+});
+
+lightcolorred.addEventListener('change', () => {
+    if (lightcolorred.checked) {
+        lightcolorblue.checked = false;
+        lightcolorgreen.checked = false;
+        setLightColor(0xff0000, 'red'); 
+    } else {
+        updateLights();
+    }
+});
+
+lightcolorgreen.addEventListener('change', () => {
+    if (lightcolorgreen.checked) {
+        lightcolorred.checked = false;
+        lightcolorblue.checked = false;
+        setLightColor(0x00ff00, 'lightgreen');
+    } else {
+        updateLights();
+    }
+});
+
+updateLights();
 
 });
 

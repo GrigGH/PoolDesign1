@@ -473,3 +473,32 @@ button.display-button:hover{
 #depth-value{
     padding-top: 35px;
 }
+
+.pool-lighting-color{
+    display: flex;
+    flex-direction: column;
+}
+.light-color-picker{
+    padding-top: 50px;
+    font-size: 18px;
+    font-weight: 300;
+    color: black;
+    font-family:  Verdana, Geneva, Tahoma, sans-serif;
+}
+.lighting-color-option{
+    display: flex;
+    align-items: center;
+    padding-top: 20px;
+    align-self: start;
+}
+.color-checkbox{
+    width: 25px;
+    height: 25px;
+}
+.color-name{
+    padding-left: 20px;
+    font-size: 18px;
+    font-weight: 300;
+    color: black;
+    font-family:  Verdana, Geneva, Tahoma, sans-serif;
+}
