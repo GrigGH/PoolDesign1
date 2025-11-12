@@ -470,7 +470,7 @@ function setLightColor(lightColor, waterColor) {
 lightswitchToggle.addEventListener('change', updateLights);
 
 lightcolorblue.addEventListener('change', () => {
-    if (lightcolorblue.checked) {
+    if (lightcolorblue.checked && lightswitchToggle.checked) {
         lightcolorred.checked = false;
         lightcolorgreen.checked = false;
         setLightColor(0xadd8ff, 0x3399ff);
@@ -480,17 +480,17 @@ lightcolorblue.addEventListener('change', () => {
 });
 
 lightcolorred.addEventListener('change', () => {
-    if (lightcolorred.checked) {
+    if (lightcolorred.checked && lightswitchToggle.checked) {
         lightcolorblue.checked = false;
         lightcolorgreen.checked = false;
-        setLightColor(0xff0000, 'red'); 
+        setLightColor(0xC2185B, 0xC2185B); 
     } else {
         updateLights();
     }
 });
 
 lightcolorgreen.addEventListener('change', () => {
-    if (lightcolorgreen.checked) {
+    if (lightcolorgreen.checked && lightswitchToggle.checked) {
         lightcolorred.checked = false;
         lightcolorblue.checked = false;
         setLightColor(0x00ff00, 'lightgreen');
