@@ -5,6 +5,17 @@ import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
 import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js';
 import { Water } from 'three/examples/jsm/objects/Water.js';
+import { Sky } from 'three/addons/objects/Sky.js';
+import { plane } from 'three/examples/jsm/Addons.js';
+
+
+const widthSlider = document.getElementById('widthSlider');
+const lengthSlider = document.getElementById('lengthSlider');
+const depthSlider = document.getElementById('depthSlider');
+const widthVal = document.getElementById('widthVal');
+const lengthVal = document.getElementById('lengthVal');
+const depthVal = document.getElementById('depthVal');
+
 
 
 const scene = new THREE.Scene();
@@ -31,8 +42,6 @@ controls.dampingFactor = 0.05;
 const loader = new GLTFLoader();
 const texLoader = new THREE.TextureLoader();
 
-const poolGroup = new THREE.Group();
-scene.add(poolGroup);
 
 
 
@@ -60,83 +69,16 @@ const waterMat = new THREE.MeshPhysicalMaterial({
 const water = new THREE.Mesh(waterGeo, waterMat);
 water.rotation.x = -Math.PI / 2;
 
+water.position.y = 1.2;
+water.rotation.x = -Math.PI / 2;
+water.scale.set(1.66, 1)
+water.position.x = 0;
+water.position.z = 0;
 
-// let cube
-// loader.load('model/cube.glb', (gltf) => {
-//     cube = gltf.scene;
+scene.add(water);
 
-//     cube.position.set(0,0,0)
-//      cube.traverse((child) => {
-//         if (child.isMesh && child.material.isMeshStandardMaterial) {
-//             child.material.metalness = 0;
-//             child.material.roughness = 1;
-//             child.material.color = new THREE.Color();
-//         }
-//     });
-//     scene.add(cube)
-// });
-
-
-// let rightmid
-
-// loader.load('model/PoolRightMid.glb', (gltf) => {
-//     rightmid = gltf.scene;
-//     rightmid.scale.set(0.1, 0.1,0.1)
-//     rightmid.position.set(0,0,0)
-//      rightmid.traverse((child) => {
-//         if (child.isMesh && child.material.isMeshStandardMaterial) {
-//             child.material.metalness = 0;
-//             child.material.roughness = 1;
-//             child.material.color = new THREE.Color();
-//         }
-//     });
-//     scene.add(rightmid)
-// widthSlider.addEventListener('input', () => {
-//     widthVal.textContent = widthSlider.value - 1;
-//     const posX = parseFloat(widthVal.textContent);
-//     rightmid.position.x= posX;
-// });
-// lengthSlider.addEventListener('input', ()=>{
-//     lengthVal.textContent = lengthSlider.value - 1;
-//     // const posZ = parseFloat(lengthVal.textContent);
-//     const scaleZ = parseFloat(lengthVal.textContent)
-//     rightmid.scale.z = scaleZ * 0.1 + 0.8
-//     depthVal.textContent =  rightmid.scale.z
-// })
-// });
-
-
-// let rightbot
-
-// loader.load('model/PoolRightLeftnew.glb', (gltf) => {
-//     rightbot = gltf.scene;
-//     rightbot.scale.set(0.1, 0.1,0.1)
-//     rightbot.position.set(0,0,0)
-//      rightbot.traverse((child) => {
-//         if (child.isMesh && child.material.isMeshStandardMaterial) {
-//             child.material.metalness = 0;
-//             child.material.roughness = 1;
-//             child.material.color = new THREE.Color();
-//         }
-//     });
-//     scene.add(rightbot)
-// widthSlider.addEventListener('input', () => {
-//     widthVal.textContent = widthSlider.value - 1;
-//     const posX = parseFloat(widthVal.textContent);
-//     rightbot.position.x= posX;
-// });
-// lengthSlider.addEventListener('input', ()=>{
-//     lengthVal.textContent = lengthSlider.value - 1;
-//     const posZ = parseFloat(lengthVal.textContent);
-//     rightbot.position.z = - posZ 
-// });
-// // lengthSlider.addEventListener('input', ()=>{
-// //     lengthVal.textContent = lengthSlider.value - 1;
-// //     // const posZ = parseFloat(lengthVal.textContent);
-// //     const scaleZ = parseFloat(lengthVal.textContent)
-// //     rightleft.scale.z = scaleZ
-// // })
-// });
+const initialWidth = water.geometry.parameters.width;
+const initialHeight = water.geometry.parameters.height;
 
 let right
 
@@ -152,27 +94,9 @@ loader.load('model/PoolRight.glb', (gltf) => {
         }
     });
     scene.add(right)
-    widthSlider.addEventListener('input', () => {
-        widthVal.textContent = widthSlider.value - 1;
-        const posX = parseFloat(widthVal.textContent);
-
-        right.position.x = posX;
-    });
-    lengthSlider.addEventListener('input', () => {
-        lengthVal.textContent = lengthSlider.value - 1;
-        const scaleZ = parseFloat(lengthVal.textContent);
-
-        right.scale.z = scaleZ * 0.05 + 0.1
-    })
-    depthSlider.addEventListener('input', () => {
-        depthVal.textContent = depthSlider.value;
-        const scaleY = parseFloat(depthVal.textContent);
-
-        right.scale.y = scaleY * 0.1
-
-    })
-
 });
+
+
 
 let left
 
@@ -188,25 +112,6 @@ loader.load('model/PoolLeft.glb', (gltf) => {
         }
     });
     scene.add(left)
-    widthSlider.addEventListener('input', () => {
-        widthVal.textContent = widthSlider.value - 1;
-        const posX = parseFloat(widthVal.textContent);
-
-        left.position.x = - posX;
-    });
-    lengthSlider.addEventListener('input', () => {
-        lengthVal.textContent = lengthSlider.value - 1;
-        const scaleZ = parseFloat(lengthVal.textContent);
-
-        left.scale.z = scaleZ * 0.05 + 0.1
-    })
-    depthSlider.addEventListener('input', () => {
-        depthVal.textContent = depthSlider.value;
-        const scaleY = parseFloat(depthVal.textContent);
-
-        left.scale.y = scaleY * 0.1
-
-    })
 });
 
 let mid
@@ -223,27 +128,6 @@ loader.load('model/PoolMid.glb', (gltf) => {
         }
     });
     scene.add(mid)
-    widthSlider.addEventListener('input', () => {
-        widthVal.textContent = widthSlider.value;
-        const ScaleX = parseFloat(widthVal.textContent);
-
-        mid.scale.x = ScaleX * 0.1;
-    });
-    lengthSlider.addEventListener('input', () => {
-        lengthVal.textContent = lengthSlider.value - 1;
-        const scaleZ = parseFloat(lengthVal.textContent);
-
-        mid.scale.z = scaleZ * 0.05 + 0.1
-
-    })
-    depthSlider.addEventListener('input', () => {
-        depthVal.textContent = depthSlider.value;
-        const scaleY = parseFloat(depthVal.textContent);
-
-        mid.scale.y = scaleY * 0.1
-
-    })
-
 });
 
 let model;
@@ -272,159 +156,56 @@ let model;
 
 
 
-loader.load('model/NewpoolSeparated.glb', (gltf) => {
-    water.position.y = 1.2;
-    water.rotation.x = -Math.PI / 2;
-    water.scale.set(1.66, 1)
-    water.position.x = 0;
-    water.position.z = 0;
-
-    scene.add(water);
-
-    widthSlider.addEventListener('input', () => {
-        widthVal.textContent = widthSlider.value;
-        const ScaleX = parseFloat(widthVal.textContent);
-
-        water.scale.x = 1.66 + ScaleX * 0.1735;
-    });
-    lengthSlider.addEventListener('input', () => {
-        lengthVal.textContent = lengthSlider.value - 1;
-        const ScaleY = parseFloat(lengthVal.textContent);
-
-        water.scale.y = ScaleY * 0.5 + 1;
-
-    });
-
-    depthSlider.addEventListener('input', () => {
-        depthVal.textContent = depthSlider.value - 1;
-        const positionY = parseFloat(depthVal.textContent);
-
-        water.position.y = positionY + 1.5;
-
-    });
 
 
-    const grassTexture = texLoader.load('https://threejs.org/examples/textures/terrain/grasslight-big.jpg');
-    grassTexture.wrapS = grassTexture.wrapT = THREE.RepeatWrapping;
-    grassTexture.repeat.set(10, 10);
-
-    const grassGeo = new THREE.PlaneGeometry(3, 14.2);
-    const grassMat = new THREE.MeshStandardMaterial({ map: grassTexture, side: THREE.DoubleSide });
-    const grassright = new THREE.Mesh(grassGeo, grassMat);
-
-    const grassGeo2 = new THREE.PlaneGeometry(3, 23);
-    const grassMat2 = new THREE.MeshStandardMaterial({ map: grassTexture, side: THREE.DoubleSide });
-
-    grassright.rotation.x = Math.PI / 2
-    grassright.position.x = -10
-    grassright.position.y = 1.4
-    scene.add(grassright);
-    widthSlider.addEventListener('input', () => {
-        widthVal.textContent = widthSlider.value;
-        const posx = parseFloat(widthVal.textContent);
-
-        grassright.position.x = -10 + -posx + 1;
-
-    });
-    lengthSlider.addEventListener('input', () => {
-        lengthVal.textContent = lengthSlider.value;
-        const scaley = parseFloat(lengthVal.textContent);
-
-        grassright.scale.y = scaley * 0.4 + 0.6;
-
-    });
-    depthSlider.addEventListener('input', () => {
-        depthVal.textContent = depthSlider.value;
-        const posy = parseFloat(depthVal.textContent);
-
-        grassright.position.y = posy + 0.4;
-    });
-
-    const grassleft = new THREE.Mesh(grassGeo, grassMat);
-    grassleft.rotation.x = Math.PI / 2
-    grassleft.position.x = 10
-    grassleft.position.y = 1.4
-    scene.add(grassleft);
-
-    widthSlider.addEventListener('input', () => {
-        widthVal.textContent = widthSlider.value;
-        const posx = parseFloat(widthVal.textContent);
-
-        grassleft.position.x = 10 + posx - 1;
-
-    });
-    lengthSlider.addEventListener('input', () => {
-        lengthVal.textContent = lengthSlider.value;
-        const scaley = parseFloat(lengthVal.textContent);
-
-        grassleft.scale.y = scaley * 0.4 + 0.6;
-
-    });
-    depthSlider.addEventListener('input', () => {
-        depthVal.textContent = depthSlider.value;
-        const posy = parseFloat(depthVal.textContent);
-
-        grassleft.position.y = posy + 0.4;
 
 
-    });
 
 
-    const grasstop = new THREE.Mesh(grassGeo2, grassMat);
-    grasstop.rotation.x = Math.PI / 2
-    grasstop.position.x = 0
-    grasstop.position.z = 6
-    grasstop.rotation.z = Math.PI / 2
-    grasstop.position.y = 1.4
-    scene.add(grasstop);
+const grassTexture = texLoader.load('https://threejs.org/examples/textures/terrain/grasslight-big.jpg');
+grassTexture.wrapS = grassTexture.wrapT = THREE.RepeatWrapping;
+grassTexture.repeat.set(10, 10);
 
-    widthSlider.addEventListener('input', () => {
-        widthVal.textContent = widthSlider.value;
-        const scalex = parseFloat(widthVal.textContent);
+const grassGeo = new THREE.PlaneGeometry(3, 14.2);
+const grassMat = new THREE.MeshStandardMaterial({ map: grassTexture, side: THREE.DoubleSide });
+const grassright = new THREE.Mesh(grassGeo, grassMat);
 
-        grasstop.scale.y = scalex * 0.1 + 0.9;
+const grassGeo2 = new THREE.PlaneGeometry(3, 23);
+const grassMat2 = new THREE.MeshStandardMaterial({ map: grassTexture, side: THREE.DoubleSide });
 
-    });
-    lengthSlider.addEventListener('input', () => {
-        lengthVal.textContent = lengthSlider.value - 1;
-        const posz = parseFloat(lengthVal.textContent);
+grassright.rotation.x = Math.PI / 2
+grassright.position.x = -10
+grassright.position.y = 1.4
+scene.add(grassright);
 
-        grasstop.position.z = posz * 2.4 + 6;
-    });
-    depthSlider.addEventListener('input', () => {
-        depthVal.textContent = depthSlider.value;
-        const posy = parseFloat(depthVal.textContent);
 
-        grasstop.position.y = posy + 0.4;
-    });
+const grassleft = new THREE.Mesh(grassGeo, grassMat);
+grassleft.rotation.x = Math.PI / 2
+grassleft.position.x = 10
+grassleft.position.y = 1.4
+scene.add(grassleft);
 
-    const grassbot = new THREE.Mesh(grassGeo2, grassMat);
-    grassbot.rotation.x = Math.PI / 2
-    grassbot.position.x = 0
-    grassbot.position.z = -6
-    grassbot.rotation.z = Math.PI / 2
-    grassbot.position.y = 1.4
-    scene.add(grassbot);
 
-    widthSlider.addEventListener('input', () => {
-        widthVal.textContent = widthSlider.value;
-        const scalex = parseFloat(widthVal.textContent);
 
-        grassbot.scale.y = scalex * 0.1 + 0.9;
 
-    });
-    lengthSlider.addEventListener('input', () => {
-        lengthVal.textContent = lengthSlider.value - 1;
-        const posz = parseFloat(lengthVal.textContent);
+const grasstop = new THREE.Mesh(grassGeo2, grassMat);
+grasstop.rotation.x = Math.PI / 2
+grasstop.position.x = 0
+grasstop.position.z = 6
+grasstop.rotation.z = Math.PI / 2
+grasstop.position.y = 1.4
+scene.add(grasstop);
 
-        grassbot.position.z = -posz * 2.4 - 6;
-    });
-    depthSlider.addEventListener('input', () => {
-        depthVal.textContent = depthSlider.value;
-        const posy = parseFloat(depthVal.textContent);
 
-        grassbot.position.y = posy + 0.4;
-    });
+const grassbot = new THREE.Mesh(grassGeo2, grassMat);
+grassbot.rotation.x = Math.PI / 2
+grassbot.position.x = 0
+grassbot.position.z = -6
+grassbot.rotation.z = Math.PI / 2
+grassbot.position.y = 1.4
+scene.add(grassbot);
+
+
 
 
 
@@ -483,7 +264,7 @@ lightcolorred.addEventListener('change', () => {
     if (lightcolorred.checked && lightswitchToggle.checked) {
         lightcolorblue.checked = false;
         lightcolorgreen.checked = false;
-        setLightColor(0xC2185B, 0xC2185B); 
+        setLightColor(0xC2185B, 0xC2185B);
     } else {
         updateLights();
     }
@@ -501,7 +282,75 @@ lightcolorgreen.addEventListener('change', () => {
 
 updateLights();
 
+
+// const geometry = new THREE.BoxGeometry(8.3, 0.1, 7 );
+
+// const material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
+
+// const Closing1 = new THREE.Mesh( geometry, material );
+// Closing1.position.x = 3.58
+// Closing1.position.y = 1.4
+// scene.add(Closing1);
+
+
+
+const closingImg1 = document.getElementById("ClosingImg1");
+const closingImg2 = document.getElementById("ClosingImg2");
+const closingImg3 = document.getElementById("ClosingImg3");
+
+let count = 0;
+let plate;
+
+function createClosingPlate() {
+    if (!plate) {
+        const geometry = new THREE.BoxGeometry(8.1, 0.1, 7);
+        const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+        plate = new THREE.Mesh(geometry, material);
+        plate.position.set(3.58, 1.4, 0);
+    }
+
+    if (count % 2 === 0) {
+        scene.add(plate);
+    } else {
+        scene.remove(plate);
+    }
+
+    count++;
+}
+widthSlider.addEventListener('input', () => {
+    widthVal.textContent = widthSlider.value;
+    const posx = parseFloat(widthVal.textContent) + 2.7;
+
+    plate.scale.x = water.scale.x / 2;
+    plate.position.x = 3.58;
 });
+//     lengthSlider.addEventListener('input', () => {
+//         lengthVal.textContent = lengthSlider.value;
+//         const scaley = parseFloat(lengthVal.textContent);
+
+//         grassright.scale.y = scaley * 0.4 + 0.6;
+
+//     });
+//     depthSlider.addEventListener('input', () => {
+//         depthVal.textContent = depthSlider.value;
+//         const posy = parseFloat(depthVal.textContent);
+
+//         grassright.position.y = posy + 0.4;
+//     });
+
+
+
+closingImg1.addEventListener('click', createClosingPlate);
+
+
+closingImg2.addEventListener('click', () => {
+
+});
+
+closingImg3.addEventListener('click', () => {
+    createClosingPlate();
+});
+
 
 const colorwhite = document.getElementById("colorPickerToggle1");
 const colorlightgrey = document.getElementById("colorPickerToggle2");
@@ -730,10 +579,10 @@ for (let i = 0; i < 8; i++) {
             }
         });
         scene.add(loungerModel);
-    loungerModelBot.push(loungerModel);
+        loungerModelBot.push(loungerModel);
 
 
-         lengthSlider.addEventListener('input', () => {
+        lengthSlider.addEventListener('input', () => {
             const posz = parseFloat(lengthSlider.value);
             lengthVal.textContent = posz;
 
@@ -752,24 +601,36 @@ for (let i = 0; i < 8; i++) {
         });
 
     });
-    
+
 }
 
 
 
 
+const skyLoader = new THREE.TextureLoader();
+
+skyLoader.load(
+    'Images/skytex.jpg',
+    (texture) => {
+
+        texture.mapping = THREE.EquirectangularReflectionMapping;
+        scene.background = texture;
+
+        scene.environment = texture;
+    },
+    undefined,
+    (error) => {
+        console.error('An error occurred loading the sky texture:', error);
+    }
+);
 
 
 
 
 
 
-const widthSlider = document.getElementById('widthSlider');
-const lengthSlider = document.getElementById('lengthSlider');
-const depthSlider = document.getElementById('depthSlider');
-const widthVal = document.getElementById('widthVal');
-const lengthVal = document.getElementById('lengthVal');
-const depthVal = document.getElementById('depthVal');
+
+
 
 
 function animate(time) {
@@ -896,3 +757,82 @@ save.addEventListener('click', () => {
     ui.style.display = 'flex';
     save_section.style.display = 'flex';
 });
+
+
+
+
+widthSlider.addEventListener('input', () => {
+    widthVal.textContent = widthSlider.value - 1;
+    const posX = parseFloat(widthVal.textContent);
+    const ScaleX = parseFloat(widthVal.textContent);
+
+    right.position.x = posX;
+    left.position.x = - posX;
+
+    mid.scale.x = (ScaleX + 1) * 0.1;
+    water.scale.x = 1.66 + (ScaleX + 1) * 0.1735;
+
+    const waterWidth = water.geometry.parameters.width;
+    grassright.position.x = - (waterWidth * water.scale.x + 3.3) / 2;
+    grassleft.position.x = (waterWidth * water.scale.x + 3.3) / 2;
+
+    grasstop.scale.y = (waterWidth * water.scale.x) * 0.055; // ScaleX * 0.1 + 1.05;
+    grassbot.scale.y = (waterWidth * water.scale.x) * 0.055;;
+});
+
+lengthSlider.addEventListener('input', () => {
+    lengthVal.textContent = lengthSlider.value - 1;
+    const ScaleY = parseFloat(lengthVal.textContent);
+    const scaleZ = parseFloat(lengthVal.textContent);
+    const posz = parseFloat(lengthVal.textContent);
+
+    right.scale.z = scaleZ * 0.05 + 0.1
+    left.scale.z = scaleZ * 0.05 + 0.1
+
+    mid.scale.z = scaleZ * 0.05 + 0.1
+    water.scale.y = ScaleY * 0.5 + 1;
+
+    const waterLength = water.geometry.parameters.height;
+
+    grassright.scale.y = (waterLength * water.scale.y) * 0.1;
+    depthVal.textContent = grassright.scale.y
+
+    grassleft.scale.y = (waterLength * water.scale.y) * 0.1;
+
+    grasstop.position.z = posz * 2.4 + 6;
+    grassbot.position.z = -posz * 2.4 - 6;
+})
+
+depthSlider.addEventListener('input', () => {
+    depthVal.textContent = depthSlider.value;
+    const scaleY = parseFloat(depthVal.textContent);
+    const positionY = parseFloat(depthVal.textContent);
+
+    right.scale.y =  scaleY * 0.1 
+    left.scale.y =  scaleY * 0.1
+    mid.scale.y =  scaleY * 0.1
+
+    widthVal.textContent = scaleY
+
+    let postop = -scaleY * 0.2;
+    if(postop > -0.3){
+        postop = 0;
+    }
+    right.position.y = postop;
+    left.position.y = postop;
+    mid.position.y = postop; 
+
+    water.position.y = positionY + 0.5;
+    grassright.position.y = positionY + 0.4;
+    grassleft.position.y = positionY + 0.4;
+
+    grasstop.position.y = positionY + 0.4;
+     grassbot.position.y = positionY + 0.4;
+})
+
+
+
+
+
+
+

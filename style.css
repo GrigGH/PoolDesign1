@@ -502,3 +502,27 @@ button.display-button:hover{
     color: black;
     font-family:  Verdana, Geneva, Tahoma, sans-serif;
 }
+#closing-btn{
+ width: 25px;
+ 
+    height: 25px;
+}
+.closing-txt{
+    width: 25px;
+    height: 25px;
+    align-self: center;
+    font-size: 18px;
+    font-weight: 300;
+    color: black;
+    font-family:  Verdana, Geneva, Tahoma, sans-serif;
+
+}
+/* #enable-pool-closings{
+    align-items: center;
+    justify-content: center;
+} */
+.enable-pool-closings{
+    align-items: middle;
+    align-self: flex-start;
+    padding-left: 32px;
+}
