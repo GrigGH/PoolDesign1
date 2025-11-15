@@ -42,6 +42,34 @@ controls.dampingFactor = 0.05;
 const loader = new GLTFLoader();
 const texLoader = new THREE.TextureLoader();
 
+let sky;
+
+sky = new Sky();
+sky.scale.setScalar(450000); 
+scene.add(sky);
+
+const sun = new THREE.Vector3();
+
+const parameters = {
+    elevation: 10,
+    azimuth: 180
+};
+
+function updateSun() {
+    const uniforms = sky.material.uniforms;
+ 
+    uniforms[ 'turbidity' ].value = 1; 
+    uniforms[ 'rayleigh' ].value = 0.5; 
+    uniforms[ 'mieCoefficient' ].value = 0.01;
+    uniforms[ 'mieDirectionalG' ].value = 0.8;
+ 
+    const phi = THREE.MathUtils.degToRad( 90 - parameters.elevation );
+    const theta = THREE.MathUtils.degToRad( parameters.azimuth );
+    sun.setFromSphericalCoords( 1, phi / 5, theta );
+    uniforms[ 'sunPosition' ].value.copy( sun );
+}
+
+updateSun();
 
 
 
@@ -162,11 +190,15 @@ let model;
 
 
 
-const grassTexture = texLoader.load('https://threejs.org/examples/textures/terrain/grasslight-big.jpg');
+const grassTexture = texLoader.load('Images/woodenplank.avif');
+const dirtTexture = texLoader.load('Images/dirttex.webp');
 grassTexture.wrapS = grassTexture.wrapT = THREE.RepeatWrapping;
 grassTexture.repeat.set(10, 10);
 
-const grassGeo = new THREE.PlaneGeometry(3, 14.2);
+const dirtGeo = new THREE.PlaneGeometry(3, 23);
+const dirtMat = new THREE.MeshStandardMaterial({ map: dirtTexture, side: THREE.DoubleSide });
+
+const grassGeo = new THREE.PlaneGeometry(3, 9);
 const grassMat = new THREE.MeshStandardMaterial({ map: grassTexture, side: THREE.DoubleSide });
 const grassright = new THREE.Mesh(grassGeo, grassMat);
 
@@ -188,13 +220,13 @@ scene.add(grassleft);
 
 
 
-const grasstop = new THREE.Mesh(grassGeo2, grassMat);
-grasstop.rotation.x = Math.PI / 2
-grasstop.position.x = 0
-grasstop.position.z = 6
-grasstop.rotation.z = Math.PI / 2
-grasstop.position.y = 1.4
-scene.add(grasstop);
+const dirtTop = new THREE.Mesh(dirtGeo, dirtMat);
+dirtTop.rotation.x = Math.PI / 2
+dirtTop.position.x = 0
+dirtTop.position.z = 6
+dirtTop.rotation.z = Math.PI / 2
+dirtTop.position.y = 1.38
+scene.add(dirtTop);
 
 
 const grassbot = new THREE.Mesh(grassGeo2, grassMat);
@@ -298,57 +330,94 @@ const closingImg1 = document.getElementById("ClosingImg1");
 const closingImg2 = document.getElementById("ClosingImg2");
 const closingImg3 = document.getElementById("ClosingImg3");
 
+let plate = null;
 let count = 0;
-let plate;
+let positX = 3.68;
+let positY = 1.4;
+let positZ = 0;
 
-function createClosingPlate() {
-    if (!plate) {
-        const geometry = new THREE.BoxGeometry(8.1, 0.1, 7);
-        const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
-        plate = new THREE.Mesh(geometry, material);
-        plate.position.set(3.58, 1.4, 0);
-    }
+
+
+function createClosingPlate(ScX, ScY, ScZ, PsX, PsY, PsZ) {
+    if (plate) scene.remove(plate);
+
+    const geometry = new THREE.BoxGeometry(ScX, ScY, ScZ);
+    const material = new THREE.MeshBasicMaterial({ color: 0xf5faff });
+    plate = new THREE.Mesh(geometry, material);
+
+    plate.position.set(PsX, PsY, PsZ);
 
     if (count % 2 === 0) {
         scene.add(plate);
-    } else {
-        scene.remove(plate);
     }
 
     count++;
+
+
+    if (ScX < 9) {
+        widthSlider.addEventListener('input', () => {
+            widthVal.textContent = widthSlider.value;
+            const scalingX = parseFloat(widthVal.textContent);
+
+            plate.scale.x = 1 + (scalingX / 10)
+            plate.position.x = PsX + scalingX / 2.5
+
+
+        });
+    }
+    if (ScX == 11.1) {
+        widthSlider.addEventListener('input', () => {
+            widthVal.textContent = widthSlider.value;
+            const scalingX = parseFloat(widthVal.textContent);
+
+            plate.scale.x = 1 + scalingX / 10;
+            plate.position.x = PsX + scalingX / 4;
+
+
+        });
+    }
+    if (ScX == 15.5) {
+        widthSlider.addEventListener('input', () => {
+            widthVal.textContent = widthSlider.value;
+            const scalingX = parseFloat(widthVal.textContent);
+
+            plate.scale.x = 1 + scalingX / 9;
+            plate.position.x = - PsX;
+
+
+        });
+    }
+    lengthSlider.addEventListener('input', () => {
+        lengthVal.textContent = lengthSlider.value;
+        const scalingZ = parseFloat(lengthVal.textContent);
+
+        plate.scale.z = 0.5 + (scalingZ / 2);
+
+    });
+    depthSlider.addEventListener('input', () => {
+        depthVal.textContent = depthSlider.value;
+        const PosY = parseFloat(depthVal.textContent);
+
+        plate.position.y = 0.5 + PosY;
+    });
+
 }
-widthSlider.addEventListener('input', () => {
-    widthVal.textContent = widthSlider.value;
-    const posx = parseFloat(widthVal.textContent) + 2.7;
 
-    plate.scale.x = water.scale.x / 2;
-    plate.position.x = 3.58;
+
+
+
+closingImg1.addEventListener('click', () => {
+    createClosingPlate(8.1, 0.1, 7, 3.72, 1.4, 0);
 });
-//     lengthSlider.addEventListener('input', () => {
-//         lengthVal.textContent = lengthSlider.value;
-//         const scaley = parseFloat(lengthVal.textContent);
 
-//         grassright.scale.y = scaley * 0.4 + 0.6;
-
-//     });
-//     depthSlider.addEventListener('input', () => {
-//         depthVal.textContent = depthSlider.value;
-//         const posy = parseFloat(depthVal.textContent);
-
-//         grassright.position.y = posy + 0.4;
-//     });
-
-
-
-closingImg1.addEventListener('click', createClosingPlate);
 
 
 closingImg2.addEventListener('click', () => {
-
+    createClosingPlate(11.1, 0.1, 7, 2.22, 1.4, 0);
 });
 
 closingImg3.addEventListener('click', () => {
-    createClosingPlate();
+    createClosingPlate(15.5, 0.1, 7, 0, 1.4, 0);
 });
 
 
@@ -417,100 +486,100 @@ const grassBlocksRight = [];
 const grassBlocksTop = [];
 
 let grassmod;
-for (let i = 0; i < 7; i++) {
-    loader.load('model/grass-block.glb', (gltf) => {
-        grassmod = gltf.scene;
-        grassmod.scale.set(0.06, 0.1, 0.1);
-        grassmod.position.set(10, 1.7, -6 + 2 * i)
-        grassmod.traverse((child) => {
-            if (child.isMesh && child.material.isMeshStandardMaterial) {
-                child.material.metalness = 0;
-                child.material.roughness = 1;
-                child.material.color = new THREE.Color('green');
-            }
-        });
-        scene.add(grassmod);
-        grassBlocksLeft.push(grassmod);
+// for (let i = 0; i < 7; i++) {
+//     loader.load('model/grass-block.glb', (gltf) => {
+//         grassmod = gltf.scene;
+//         grassmod.scale.set(0.06, 0.1, 0.1);
+//         grassmod.position.set(10, 1.7, -6 + 2 * i)
+//         grassmod.traverse((child) => {
+//             if (child.isMesh && child.material.isMeshStandardMaterial) {
+//                 child.material.metalness = 0;
+//                 child.material.roughness = 1;
+//                 child.material.color = new THREE.Color('green');
+//             }
+//         });
+//         scene.add(grassmod);
+//         grassBlocksLeft.push(grassmod);
 
 
-        widthSlider.addEventListener('input', () => {
-            const posx = parseFloat(widthSlider.value);
-            widthVal.textContent = posx;
+//         widthSlider.addEventListener('input', () => {
+//             const posx = parseFloat(widthSlider.value);
+//             widthVal.textContent = posx;
 
-            grassBlocksLeft.forEach((block) => {
-                block.position.x = posx + 9;
-            });
-        });
+//             grassBlocksLeft.forEach((block) => {
+//                 block.position.x = posx + 9;
+//             });
+//         });
 
-        lengthSlider.addEventListener('input', () => {
-            const scalez = parseFloat(lengthSlider.value);
-            lengthVal.textContent = scalez;
+//         lengthSlider.addEventListener('input', () => {
+//             const scalez = parseFloat(lengthSlider.value);
+//             lengthVal.textContent = scalez;
 
-            grassBlocksLeft.forEach((block) => {
-                block.scale.z = scalez * 0.2 - 0.1;
-                block.scale.y = scalez * 0.05 + 0.05;
-            });
-        });
-        depthSlider.addEventListener('input', () => {
-            const posy = parseFloat(depthSlider.value);
-            depthVal.textContent = posy;
+//             grassBlocksLeft.forEach((block) => {
+//                 block.scale.z = scalez * 0.2 - 0.1;
+//                 block.scale.y = scalez * 0.05 + 0.05;
+//             });
+//         });
+//         depthSlider.addEventListener('input', () => {
+//             const posy = parseFloat(depthSlider.value);
+//             depthVal.textContent = posy;
 
-            grassBlocksLeft.forEach((block) => {
-                block.position.y = posy + 0.7;
-                widthVal.textContent = block.position.y
-            });
-        });
-    })
+//             grassBlocksLeft.forEach((block) => {
+//                 block.position.y = posy + 0.7;
+//                 widthVal.textContent = block.position.y
+//             });
+//         });
+//     })
 
-}
-
-
-for (let i = 0; i < 7; i++) {
-    loader.load('model/grass-block.glb', (gltf) => {
-        grassmod = gltf.scene;
-        grassmod.scale.set(0.06, 0.1, 0.1);
-        grassmod.position.set(-10, 1.7, -6 + 2 * i)
-        grassmod.traverse((child) => {
-            if (child.isMesh && child.material.isMeshStandardMaterial) {
-                child.material.metalness = 0;
-                child.material.roughness = 1;
-                child.material.color = new THREE.Color('green');
-            }
-        });
-        scene.add(grassmod);
-        grassBlocksRight.push(grassmod);
+// }
 
 
-        widthSlider.addEventListener('input', () => {
-            const posx = parseFloat(widthSlider.value);
-            widthVal.textContent = posx;
+// for (let i = 0; i < 7; i++) {
+//     loader.load('model/grass-block.glb', (gltf) => {
+//         grassmod = gltf.scene;
+//         grassmod.scale.set(0.06, 0.1, 0.1);
+//         grassmod.position.set(-10, 1.7, -6 + 2 * i)
+//         grassmod.traverse((child) => {
+//             if (child.isMesh && child.material.isMeshStandardMaterial) {
+//                 child.material.metalness = 0;
+//                 child.material.roughness = 1;
+//                 child.material.color = new THREE.Color('green');
+//             }
+//         });
+//         scene.add(grassmod);
+//         grassBlocksRight.push(grassmod);
 
-            grassBlocksRight.forEach((block) => {
-                block.position.x = -posx - 9;
-            });
-        });
 
-        lengthSlider.addEventListener('input', () => {
-            const scalez = parseFloat(lengthSlider.value);
-            lengthVal.textContent = scalez;
+//         widthSlider.addEventListener('input', () => {
+//             const posx = parseFloat(widthSlider.value);
+//             widthVal.textContent = posx;
 
-            grassBlocksRight.forEach((block) => {
-                block.scale.z = scalez * 0.2 - 0.1;
-                block.scale.y = scalez * 0.05 + 0.05;
-            });
-        });
-        depthSlider.addEventListener('input', () => {
-            const posy = parseFloat(depthSlider.value);
-            depthVal.textContent = posy;
+//             grassBlocksRight.forEach((block) => {
+//                 block.position.x = -posx - 9;
+//             });
+//         });
 
-            grassBlocksRight.forEach((block) => {
-                block.position.y = posy + 0.7;
-                widthVal.textContent = block.position.y
-            });
-        });
-    })
+//         lengthSlider.addEventListener('input', () => {
+//             const scalez = parseFloat(lengthSlider.value);
+//             lengthVal.textContent = scalez;
 
-}
+//             grassBlocksRight.forEach((block) => {
+//                 block.scale.z = scalez * 0.2 - 0.1;
+//                 block.scale.y = scalez * 0.05 + 0.05;
+//             });
+//         });
+//         depthSlider.addEventListener('input', () => {
+//             const posy = parseFloat(depthSlider.value);
+//             depthVal.textContent = posy;
+
+//             grassBlocksRight.forEach((block) => {
+//                 block.position.y = posy + 0.7;
+//                 widthVal.textContent = block.position.y
+//             });
+//         });
+//     })
+
+// }
 
 
 for (let i = 0; i < 10; i++) {
@@ -575,7 +644,7 @@ for (let i = 0; i < 8; i++) {
             if (child.isMesh && child.material.isMeshStandardMaterial) {
                 child.material.metalness = 0;
                 child.material.roughness = 1;
-                child.material.color = new THREE.Color('white');
+                child.material.color = new THREE.Color('grey');
             }
         });
         scene.add(loungerModel);
@@ -605,28 +674,48 @@ for (let i = 0; i < 8; i++) {
 }
 
 
+const fenceModelTop = [];
+for (let i = 0; i < 8; i++) {
+    let FenceModel;
+
+    loader.load('model/Fence-01.glb', (gltf) => {
+        FenceModel = gltf.scene;
+        FenceModel.scale.set(0.5, 1, 0.5);
+
+        FenceModel.position.set(-7 + 2 * i, 1.43, 6)
+
+        FenceModel.traverse((child) => {
+            if (child.isMesh && child.material.isMeshStandardMaterial) {
+                child.material.metalness = 0;
+                child.material.roughness = 1;
+                child.material.color = new THREE.Color(0x8B5E3C);
+            }
+        });
+        scene.add(FenceModel);
+        fenceModelTop.push(FenceModel);
 
 
-const skyLoader = new THREE.TextureLoader();
+        lengthSlider.addEventListener('input', () => {
+            const posz = parseFloat(lengthSlider.value);
+            lengthVal.textContent = posz;
 
-skyLoader.load(
-    'Images/skytex.jpg',
-    (texture) => {
+            fenceModelTop.forEach((block) => {
+                block.position.z = posz * 2.3 + 4;
+            });
+        });
+        depthSlider.addEventListener('input', () => {
+            const posy = parseFloat(depthSlider.value);
+            depthVal.textContent = posy;
 
-        texture.mapping = THREE.EquirectangularReflectionMapping;
-        scene.background = texture;
+            fenceModelTop.forEach((block) => {
+                block.position.y = posy + 0.45;
+                widthVal.textContent = block.position.y
+            });
+        });
 
-        scene.environment = texture;
-    },
-    undefined,
-    (error) => {
-        console.error('An error occurred loading the sky texture:', error);
-    }
-);
+    });
 
-
-
-
+}
 
 
 
@@ -776,7 +865,7 @@ widthSlider.addEventListener('input', () => {
     grassright.position.x = - (waterWidth * water.scale.x + 3.3) / 2;
     grassleft.position.x = (waterWidth * water.scale.x + 3.3) / 2;
 
-    grasstop.scale.y = (waterWidth * water.scale.x) * 0.055; // ScaleX * 0.1 + 1.05;
+    dirtTop.scale.y = (waterWidth * water.scale.x) * 0.055; // ScaleX * 0.1 + 1.05;
     grassbot.scale.y = (waterWidth * water.scale.x) * 0.055;;
 });
 
@@ -794,12 +883,12 @@ lengthSlider.addEventListener('input', () => {
 
     const waterLength = water.geometry.parameters.height;
 
-    grassright.scale.y = (waterLength * water.scale.y) * 0.1;
-    depthVal.textContent = grassright.scale.y
+    grassright.scale.y = (waterLength * water.scale.y) * 0.149;
 
-    grassleft.scale.y = (waterLength * water.scale.y) * 0.1;
 
-    grasstop.position.z = posz * 2.4 + 6;
+    grassleft.scale.y = (waterLength * water.scale.y) * 0.149;
+
+    dirtTop.position.z = posz * 2.4 + 6;
     grassbot.position.z = -posz * 2.4 - 6;
 })
 
@@ -808,26 +897,26 @@ depthSlider.addEventListener('input', () => {
     const scaleY = parseFloat(depthVal.textContent);
     const positionY = parseFloat(depthVal.textContent);
 
-    right.scale.y =  scaleY * 0.1 
-    left.scale.y =  scaleY * 0.1
-    mid.scale.y =  scaleY * 0.1
+    right.scale.y = scaleY * 0.1
+    left.scale.y = scaleY * 0.1
+    mid.scale.y = scaleY * 0.1
 
     widthVal.textContent = scaleY
 
     let postop = -scaleY * 0.2;
-    if(postop > -0.3){
+    if (postop > -0.3) {
         postop = 0;
     }
     right.position.y = postop;
     left.position.y = postop;
-    mid.position.y = postop; 
+    mid.position.y = postop;
 
     water.position.y = positionY + 0.5;
     grassright.position.y = positionY + 0.4;
     grassleft.position.y = positionY + 0.4;
 
-    grasstop.position.y = positionY + 0.4;
-     grassbot.position.y = positionY + 0.4;
+    dirtTop.position.y = positionY + 0.38;
+    grassbot.position.y = positionY + 0.4;
 })
 
 
