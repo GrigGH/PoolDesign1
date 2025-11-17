@@ -48,10 +48,10 @@ scene.add(amblight);
 const controls = new OrbitControls(camera, renderer.domElement);
 controls.enableDamping = true;
 controls.dampingFactor = 0.05;
-controls.minPolarAngle = Math.PI * 0.2; // 20% up
-controls.maxPolarAngle = Math.PI * 0.45; // 45% down
-controls.minDistance = 5; // Set the minimum distance the camera can get to the target
-controls.maxDistance = 175; // Optional: Set a maximum distance as well
+controls.minPolarAngle = Math.PI * 0.2;
+controls.maxPolarAngle = Math.PI * 0.45; 
+controls.minDistance = 5; 
+controls.maxDistance = 175; 
 
 const loader = new GLTFLoader();
 const texLoader = new THREE.TextureLoader();
