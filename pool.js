@@ -101,64 +101,6 @@ const texLoader = new THREE.TextureLoader();
 //   });
 
 
-const pmremGenerator = new THREE.PMREMGenerator(renderer);
-pmremGenerator.compileEquirectangularShader();
-
-new EXRLoader()
-    .setDataType(THREE.FloatType)
-    .load('Images/plac_wolnosci_4k.exr', (texture) => {
-        texture.mapping = THREE.EquirectangularReflectionMapping;
-
-    
-        const envMap = pmremGenerator.fromEquirectangular(texture).texture;
-
-        scene.backgroundBlurriness = 0.05;
-        
-        scene.environment = envMap; 
-        scene.background = envMap;    
-           const dimmer = 1;
-    scene.environment = dimmer;
-
-   
-    renderer.toneMappingExposure = dimmer;
-    });
-
-
-const txloader = new THREE.TextureLoader();
-
-
-
-txloader.load("Images/groundmesh.png", (tex) => {
-
-    const groundGeometry = new THREE.PlaneGeometry(700, 350);
-
-    const groundMaterial = new THREE.MeshStandardMaterial({
-        map: tex,
-        side: THREE.DoubleSide,
-        transparent: true,
-        roughness: 1.0,    
-        metalness: 0.0,    
-        color: 0xffffff,   
-    });
-    const groundMesh = new THREE.Mesh(groundGeometry, groundMaterial);
-
-    groundMesh.rotation.x = -Math.PI / 2;
-    groundMesh.position.y = 9;
-    groundMesh.receiveShadow = true;
-
-    scene.add(groundMesh);
-
-    depthSlider.addEventListener('input', () => {
-    depthVal.textContent = depthSlider.value;
-    const scaleY = parseFloat(depthVal.textContent);
-    const positionY = parseFloat(depthVal.textContent);
-    groundMesh.position.y = positionY * 2.5
-
-
-  
-})
-});
-
 
 
 
@@ -199,7 +141,7 @@ const waterMat = new THREE.MeshPhysicalMaterial({
 const water = new THREE.Mesh(waterGeo, waterMat);
 water.rotation.x = -Math.PI / 2;
 
-water.position.y = 9.6;
+water.position.y = 10.2;
 water.rotation.x = -Math.PI / 2;
 water.scale.set(13.28, 8)
 water.position.x = 0;
@@ -226,6 +168,21 @@ loader.load('model/PoolRight.glb', (gltf) => {
     scene.add(right)
 });
 
+let naturaltree
+
+loader.load('model/housebig.glb', (gltf) => {
+    naturaltree = gltf.scene;
+    naturaltree.scale.set(2, 2, 2)
+    naturaltree.position.set(0, 3, 0)
+    naturaltree.traverse((child) => {
+        if (child.isMesh && child.material.isMeshStandardMaterial) {
+            child.material.metalness = 0;
+            child.material.roughness = 1;
+            child.material.color = new THREE.Color();
+        }
+    });
+    scene.add(naturaltree)
+});
 
 
 let left
@@ -309,14 +266,14 @@ const grassMat2 = new THREE.MeshStandardMaterial({ map: grassTexture, side: THRE
 
 grassright.rotation.x = Math.PI / 2
 grassright.position.x = -80
-grassright.position.y = 11.2
+grassright.position.y =  9.5
 scene.add(grassright);
 
 
 const grassleft = new THREE.Mesh(grassGeo, grassMat);
 grassleft.rotation.x = Math.PI / 2
 grassleft.position.x = 80
-grassleft.position.y = 11.2
+grassleft.position.y =  9.5
 scene.add(grassleft);
 
 
@@ -327,7 +284,7 @@ dirtTop.rotation.x = Math.PI / 2
 dirtTop.position.x = 0
 dirtTop.position.z = 48
 dirtTop.rotation.z = Math.PI / 2
-dirtTop.position.y = 1.38 * 8
+dirtTop.position.y =  9.5
 scene.add(dirtTop);
 
 
@@ -336,7 +293,7 @@ grassbot.rotation.x = Math.PI / 2
 grassbot.position.x = 0
 grassbot.position.z = -48
 grassbot.rotation.z = Math.PI / 2
-grassbot.position.y = 1.4 * 8
+grassbot.position.y = 9.5
 scene.add(grassbot);
 
 
@@ -748,7 +705,7 @@ for (let i = 0; i < 8; i++) {
         loungerModel = gltf.scene;
         loungerModel.scale.set(0.08, 0.08, 0.08);
 
-        loungerModel.position.set(8*(-7 +  2 * i), 1.43 * 8, -6 * 8)
+        loungerModel.position.set(8*(-7 +  2 * i), 1.2 * 8, -6 * 8)
 
         loungerModel.traverse((child) => {
             if (child.isMesh && child.material.isMeshStandardMaterial) {
@@ -774,7 +731,7 @@ for (let i = 0; i < 8; i++) {
             depthVal.textContent = posy;
 
             loungerModelBot.forEach((block) => {
-                block.position.y = posy * 4.5 - 0.2;
+                block.position.y = 1.2 * 2.75 + posy * 5.65 ;
                 widthVal.textContent = block.position.y
             });
         });
@@ -1007,9 +964,9 @@ depthSlider.addEventListener('input', () => {
     const scaleY = parseFloat(depthVal.textContent);
     const positionY = parseFloat(depthVal.textContent);
 
-    right.scale.y = scaleY * 0.3
-    left.scale.y = scaleY * 0.3
-    mid.scale.y = scaleY * 0.3
+    right.scale.y = 0.6 + scaleY  * 0.2
+    left.scale.y = 0.6 + scaleY  * 0.2
+    mid.scale.y = 0.6 + scaleY  * 0.2
 
     widthVal.textContent = scaleY
 
@@ -1021,12 +978,12 @@ depthSlider.addEventListener('input', () => {
     left.position.y = postop;
     mid.position.y = postop;
 
-    water.position.y = positionY*1.7 + 2.5;
-    grassright.position.y = positionY*4 + 0.4;
-    grassleft.position.y = positionY*4 + 0.4;
+    water.position.y = positionY*5.8 + 2.9;
+    grassright.position.y = positionY*5 + 4;
+    grassleft.position.y = positionY*5 + 4;
 
-    dirtTop.position.y = positionY*4 + 0.38;
-    grassbot.position.y = positionY*4 + 0.4;
+    dirtTop.position.y = positionY*5 +4;
+    grassbot.position.y = positionY*5 +4;
   
 })
 
