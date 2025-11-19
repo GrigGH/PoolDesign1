@@ -143,7 +143,7 @@ water.rotation.x = -Math.PI / 2;
 
 water.position.y = 10.2;
 water.rotation.x = -Math.PI / 2;
-water.scale.set(13.28, 8)
+water.scale.set(13.4, 8)
 water.position.x = 0;
 water.position.z = 0;
 
@@ -352,8 +352,8 @@ grassbot.rotation.z = Math.PI / 2
 grassbot.position.y = 9.5
 scene.add(grassbot);
 
-const greenlandscapeTex = texLoader.load('Images/oeecL2_8K_Albedo.jpg');
-const grasslandscapeGeo = new THREE.PlaneGeometry(1000, 1000);
+const greenlandscapeTex = texLoader.load('Images/grassbckground.jpg');
+const grasslandscapeGeo = new THREE.PlaneGeometry(3000, 3000);
 const grasslandscapeMat = new THREE.MeshStandardMaterial({
     map: greenlandscapeTex,
     side: THREE.DoubleSide,
@@ -364,6 +364,20 @@ const grasslandscape = new THREE.Mesh(grasslandscapeGeo, grasslandscapeMat);
 grasslandscape.rotation.x = Math.PI / 2
 grasslandscape.position.y = 9.2
 scene.add(grasslandscape);
+
+const greenlandscapeTex1 = texLoader.load('Images/oeecL2_8K_Albedo.jpg');
+const grasslandscapeGeo1 = new THREE.PlaneGeometry(1000, 1000);
+const grasslandscapeMat1 = new THREE.MeshStandardMaterial({
+    map: greenlandscapeTex1,
+    side: THREE.DoubleSide,
+    transparent: true
+});
+const grasslandscape1 = new THREE.Mesh(grasslandscapeGeo1, grasslandscapeMat1);
+
+grasslandscape1.rotation.x = Math.PI / 2
+grasslandscape1.position.y = 9.4
+scene.add(grasslandscape1);
+
 
 
 // const grasslandcapeGeom = new THREE.PlaneGeometry( 1000, 1000 );
@@ -723,63 +737,63 @@ let grassmod;
 
 // }
 
-
+//GRASS CYCLE 
 loader.load('model/grass-block.glb', (gltf) => {
 
     const prototype = gltf.scene;
 
-    for (let j = 0; j < 38; j++) {
-        for (let i = 0; i < 33; i++) {
-            const block = prototype.clone(true);
-            block.scale.set(1, 0.5, 1);
-            block.position.set(-480 + 30 * i, 10, 487 - j * 10);
-            scene.add(block);
-            grassBlocksTop.push(block);
-        }
-    }
+    // for (let j = 0; j < 38; j++) {
+    //     for (let i = 0; i < 33; i++) {
+    //         const block = prototype.clone(true);
+    //         block.scale.set(1, 0.5, 1);
+    //         block.position.set(-480 + 30 * i, 10, 487 - j * 10);
+    //         scene.add(block);
+    //         grassBlocksTop.push(block);
+    //     }
+    // }
 
  
+    // for (let j = 0; j < 38; j++) {
+    //     for (let i = 0; i < 33; i++) {
+    //         const block = prototype.clone(true);
+    //         block.scale.set(1, 0.5, 1);
+    //         block.position.set(-480 + 30 * i, 10, -118 - j * 10);
+    //         scene.add(block);
+    //         grassBlocksTop.push(block);
+    //     }
+    // }
     for (let j = 0; j < 38; j++) {
-        for (let i = 0; i < 33; i++) {
+        for (let i = 0; i < 6; i++) {
             const block = prototype.clone(true);
             block.scale.set(1, 0.5, 1);
-            block.position.set(-480 + 30 * i, 10, -118 - j * 10);
+            block.position.set(-280 + 30 * i, 10, 100 - j * 10);
             scene.add(block);
             grassBlocksTop.push(block);
         }
     }
-    for (let j = 0; j < 38; j++) {
-        for (let i = 0; i < 12; i++) {
-            const block = prototype.clone(true);
-            block.scale.set(1, 0.5, 1);
-            block.position.set(-480 + 30 * i, 10, 100 - j * 10);
-            scene.add(block);
-            grassBlocksTop.push(block);
-        }
-    }
-    for (let j = 0; j < 38; j++) {
-        for (let i = 0; i < 1; i++) {
-            const block = prototype.clone(true);
-            block.scale.set(1, 0.5, 1);
-            block.position.set(130 + 30 * i, 10, 100 - j * 10);
-            scene.add(block);
-            grassBlocksTop.push(block);
-        }
-    }
-    for (let j = 0; j < 38; j++) {
-        for (let i = 0; i < 1; i++) {
-            const block = prototype.clone(true);
-            block.scale.set(1, 0.5, 1);
-            block.position.set(-130 - 30 * i, 10, 100 - j * 10);
-            scene.add(block);
-            grassBlocksTop.push(block);
-        }
-    }
+    // for (let j = 0; j < 38; j++) {
+    //     for (let i = 0; i < 1; i++) {
+    //         const block = prototype.clone(true);
+    //         block.scale.set(1, 0.5, 1);
+    //         block.position.set(130 + 30 * i, 10, 100 - j * 10);
+    //         scene.add(block);
+    //         grassBlocksTop.push(block);
+    //     }
+    // }
+    // for (let j = 0; j < 38; j++) {
+    //     for (let i = 0; i < 1; i++) {
+    //         const block = prototype.clone(true);
+    //         block.scale.set(1, 0.5, 1);
+    //         block.position.set(-130 - 30 * i, 10, 100 - j * 10);
+    //         scene.add(block);
+    //         grassBlocksTop.push(block);
+    //     }
+    // }
      for (let j = 0; j < 38; j++) {
-        for (let i = 0; i < 12; i++) {
+        for (let i = 0; i < 6; i++) {
             const block = prototype.clone(true);
             block.scale.set(1, 0.5, 1);
-            block.position.set(480 - 30 * i, 10, 100 - j * 10);
+            block.position.set(280 - 30 * i, 10, 100 - j * 10);
             scene.add(block);
             grassBlocksTop.push(block);
         }
@@ -819,15 +833,15 @@ for (let i = 0; i < 8; i++) {
                 block.position.z = - posz * 2.3 - 45;
             });
         });
-        depthSlider.addEventListener('input', () => {
-            const posy = parseFloat(depthSlider.value);
-            depthVal.textContent = posy;
+        // depthSlider.addEventListener('input', () => {
+        //     const posy = parseFloat(depthSlider.value);
+        //     depthVal.textContent = posy;
 
-            loungerModelBot.forEach((block) => {
-                block.position.y = 1.2 * 2.75 + posy * 5.65;
-                widthVal.textContent = block.position.y
-            });
-        });
+        //     loungerModelBot.forEach((block) => {
+        //         block.position.y = 1.2 * 2.75 + posy * 5.65;
+        //         widthVal.textContent = block.position.y
+        //     });
+        // });
 
     });
 
@@ -1071,12 +1085,12 @@ depthSlider.addEventListener('input', () => {
     left.position.y = postop;
     mid.position.y = postop;
 
-    water.position.y = positionY * 5.8 + 2.9;
-    grassright.position.y = positionY * 5 + 4;
-    grassleft.position.y = positionY * 5 + 4;
+    water.position.y = 10.2 + positionY;
+    // grassright.position.y = positionY * 5 + 4;
+    // grassleft.position.y = positionY * 5 + 4;
 
-    dirtTop.position.y = positionY * 5 + 4;
-    grassbot.position.y = positionY * 5 + 4;
+    // dirtTop.position.y = positionY * 5 + 4;
+    // grassbot.position.y = positionY * 5 + 4;
 
 })
 
