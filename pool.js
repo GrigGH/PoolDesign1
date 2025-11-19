@@ -186,6 +186,42 @@ loader.load('model/house.glb', (gltf) => {
     scene.add(bighouse)
 });
 
+let realtree
+
+loader.load('model/realtree.glb', (gltf) => {
+    const prototype = gltf.scene;
+
+    const spacingX = 40; 
+    const spacingZ = 40; 
+
+    for (let j = 0; j < 6; j++) {
+        for (let i = 0; i < 1; i++) {
+            const tree = prototype.clone(true);
+            tree.scale.set(5, 6, 5);
+            tree.position.set(80 + spacingX * (i + 1), 10, 100 - spacingZ * j);
+            scene.add(tree);
+            grassBlocksTop.push(tree);
+        }
+    }
+     for (let j = 0; j < 6; j++) {
+        for (let i = 0; i < 1; i++) {
+            const tree = prototype.clone(true);
+            tree.scale.set(5, 6, 5);
+            tree.position.set(-80 - spacingX * (i + 1), 10, -100 + spacingZ * j);
+            scene.add(tree);
+            grassBlocksTop.push(tree);
+        }
+    }
+});
+
+
+// loader.load('model/grass-block.glb', (gltf) => {
+
+  
+
+// });
+
+
 let realgrass
 
 // loader.load('model/realisticgrass.glb', (gltf) => {
@@ -751,8 +787,6 @@ loader.load('model/grass-block.glb', (gltf) => {
 
 
 });
-
-
 
 
 
