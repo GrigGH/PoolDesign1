@@ -49,41 +49,41 @@ const controls = new OrbitControls(camera, renderer.domElement);
 controls.enableDamping = true;
 controls.dampingFactor = 0.05;
 controls.minPolarAngle = Math.PI * 0.2;
-controls.maxPolarAngle = Math.PI * 0.45; 
-controls.minDistance = 5; 
-controls.maxDistance = 175; 
+controls.maxPolarAngle = Math.PI * 0.45;
+controls.minDistance = 5;
+controls.maxDistance = 175;
 
 const loader = new GLTFLoader();
 const texLoader = new THREE.TextureLoader();
 
-// let sky;
+let sky;
 
-// // sky = new Sky();
-// // sky.scale.setScalar(450000);
-// // scene.add(sky);
+sky = new Sky();
+sky.scale.setScalar(450000);
+scene.add(sky);
 
-// // const sun = new THREE.Vector3();
+const sun = new THREE.Vector3();
 
-// // const parameters = {
-// //     elevation: 10,
-// //     azimuth: 180
-// // };
+const parameters = {
+    elevation: 10,
+    azimuth: 180
+};
 
-// // function updateSun() {
-// //     const uniforms = sky.material.uniforms;
+function updateSun() {
+    const uniforms = sky.material.uniforms;
 
-// //     uniforms['turbidity'].value = 1;
-// //     uniforms['rayleigh'].value = 0.5;
-// //     uniforms['mieCoefficient'].value = 0.01;
-// //     uniforms['mieDirectionalG'].value = 0.8;
+    uniforms['turbidity'].value = 1;
+    uniforms['rayleigh'].value = 0.5;
+    uniforms['mieCoefficient'].value = 0.01;
+    uniforms['mieDirectionalG'].value = 0.8;
 
-// //     const phi = THREE.MathUtils.degToRad(90 - parameters.elevation);
-// //     const theta = THREE.MathUtils.degToRad(parameters.azimuth);
-// //     sun.setFromSphericalCoords(1, phi / 5, theta);
-// //     uniforms['sunPosition'].value.copy(sun);
-// // }
+    const phi = THREE.MathUtils.degToRad(90 - parameters.elevation);
+    const theta = THREE.MathUtils.degToRad(parameters.azimuth);
+    sun.setFromSphericalCoords(1, phi / 5, theta);
+    uniforms['sunPosition'].value.copy(sun);
+}
 
-// // updateSun();
+updateSun();
 
 
 
@@ -168,21 +168,41 @@ loader.load('model/PoolRight.glb', (gltf) => {
     scene.add(right)
 });
 
-let naturaltree
+let bighouse
 
-loader.load('model/housebig.glb', (gltf) => {
-    naturaltree = gltf.scene;
-    naturaltree.scale.set(2, 2, 2)
-    naturaltree.position.set(0, 3, 0)
-    naturaltree.traverse((child) => {
+loader.load('model/house.glb', (gltf) => {
+    bighouse = gltf.scene;
+    bighouse.scale.set(20, 20, 25)
+    bighouse.position.set(0, 7, -300)
+    bighouse.traverse((child) => {
         if (child.isMesh && child.material.isMeshStandardMaterial) {
             child.material.metalness = 0;
             child.material.roughness = 1;
             child.material.color = new THREE.Color();
         }
     });
-    scene.add(naturaltree)
+
+
+    scene.add(bighouse)
 });
+
+let realgrass
+
+// loader.load('model/realisticgrass.glb', (gltf) => {
+//     realgrass = gltf.scene;
+//     realgrass.scale.set(0.1, 0.1, 0.1)
+//     realgrass.position.set(0, 15, -20)
+//     realgrass.traverse((child) => {
+//         if (child.isMesh && child.material.isMeshStandardMaterial) {
+//             child.material.metalness = 0;
+//             child.material.roughness = 1;
+//             child.material.color = new THREE.Color();
+//         }
+//     });
+
+
+//     scene.add(realgrass)
+// });
 
 
 let left
@@ -266,14 +286,14 @@ const grassMat2 = new THREE.MeshStandardMaterial({ map: grassTexture, side: THRE
 
 grassright.rotation.x = Math.PI / 2
 grassright.position.x = -80
-grassright.position.y =  9.5
+grassright.position.y = 9.5
 scene.add(grassright);
 
 
 const grassleft = new THREE.Mesh(grassGeo, grassMat);
 grassleft.rotation.x = Math.PI / 2
 grassleft.position.x = 80
-grassleft.position.y =  9.5
+grassleft.position.y = 9.5
 scene.add(grassleft);
 
 
@@ -284,7 +304,7 @@ dirtTop.rotation.x = Math.PI / 2
 dirtTop.position.x = 0
 dirtTop.position.z = 48
 dirtTop.rotation.z = Math.PI / 2
-dirtTop.position.y =  9.5
+dirtTop.position.y = 9.5
 scene.add(dirtTop);
 
 
@@ -296,7 +316,26 @@ grassbot.rotation.z = Math.PI / 2
 grassbot.position.y = 9.5
 scene.add(grassbot);
 
+const greenlandscapeTex = texLoader.load('Images/oeecL2_8K_Albedo.jpg');
+const grasslandscapeGeo = new THREE.PlaneGeometry(1000, 1000);
+const grasslandscapeMat = new THREE.MeshStandardMaterial({
+    map: greenlandscapeTex,
+    side: THREE.DoubleSide,
+    transparent: true
+});
+const grasslandscape = new THREE.Mesh(grasslandscapeGeo, grasslandscapeMat);
 
+grasslandscape.rotation.x = Math.PI / 2
+grasslandscape.position.y = 9.2
+scene.add(grasslandscape);
+
+
+// const grasslandcapeGeom = new THREE.PlaneGeometry( 1000, 1000 );
+// const grasslandcapeMater = new THREE.MeshBasicMaterial( { color: 0x7CFC00, side: THREE.DoubleSide } );
+// const grasslandscape = new THREE.Mesh( grasslandcapeGeom, grasslandcapeMater );
+// grasslandscape.rotation.x = Math.PI / 2
+// grasslandscape.position.y =  9.2
+// scene.add( grasslandscape );
 
 
 
@@ -427,7 +466,7 @@ function createClosingPlate(ScX, ScY, ScZ, PsX, PsY, PsZ) {
             const scalingX = parseFloat(widthVal.textContent);
 
             plate.scale.x = 1 + (scalingX / 70)
-            plate.position.x = PsX + scalingX 
+            plate.position.x = PsX + scalingX
 
 
         });
@@ -465,7 +504,7 @@ function createClosingPlate(ScX, ScY, ScZ, PsX, PsY, PsZ) {
         depthVal.textContent = depthSlider.value;
         const PosY = parseFloat(depthVal.textContent);
 
-        plate.position.y =  PosY * 4;
+        plate.position.y = PosY * 4;
     });
 
 }
@@ -649,53 +688,73 @@ let grassmod;
 // }
 
 
-for (let i = 0; i < 10; i++) {
-    loader.load('model/grass-block.glb', (gltf) => {
-        grassmod = gltf.scene;
-        grassmod.scale.set(0.06, 0.1, 0.1);
-        grassmod.position.set(-10 + 2 * i, 1.7, 6)
-        grassmod.traverse((child) => {
-            if (child.isMesh && child.material.isMeshStandardMaterial) {
-                child.material.metalness = 0;
-                child.material.roughness = 1;
-                child.material.color = new THREE.Color('green');
-            }
-        });
-        // scene.add(grassmod);
-        grassBlocksTop.push(grassmod);
+loader.load('model/grass-block.glb', (gltf) => {
+
+    const prototype = gltf.scene;
+
+    for (let j = 0; j < 38; j++) {
+        for (let i = 0; i < 33; i++) {
+            const block = prototype.clone(true);
+            block.scale.set(1, 0.5, 1);
+            block.position.set(-480 + 30 * i, 10, 487 - j * 10);
+            scene.add(block);
+            grassBlocksTop.push(block);
+        }
+    }
+
+ 
+    for (let j = 0; j < 38; j++) {
+        for (let i = 0; i < 33; i++) {
+            const block = prototype.clone(true);
+            block.scale.set(1, 0.5, 1);
+            block.position.set(-480 + 30 * i, 10, -118 - j * 10);
+            scene.add(block);
+            grassBlocksTop.push(block);
+        }
+    }
+    for (let j = 0; j < 38; j++) {
+        for (let i = 0; i < 12; i++) {
+            const block = prototype.clone(true);
+            block.scale.set(1, 0.5, 1);
+            block.position.set(-480 + 30 * i, 10, 100 - j * 10);
+            scene.add(block);
+            grassBlocksTop.push(block);
+        }
+    }
+    for (let j = 0; j < 38; j++) {
+        for (let i = 0; i < 1; i++) {
+            const block = prototype.clone(true);
+            block.scale.set(1, 0.5, 1);
+            block.position.set(130 + 30 * i, 10, 100 - j * 10);
+            scene.add(block);
+            grassBlocksTop.push(block);
+        }
+    }
+    for (let j = 0; j < 38; j++) {
+        for (let i = 0; i < 1; i++) {
+            const block = prototype.clone(true);
+            block.scale.set(1, 0.5, 1);
+            block.position.set(-130 - 30 * i, 10, 100 - j * 10);
+            scene.add(block);
+            grassBlocksTop.push(block);
+        }
+    }
+     for (let j = 0; j < 38; j++) {
+        for (let i = 0; i < 12; i++) {
+            const block = prototype.clone(true);
+            block.scale.set(1, 0.5, 1);
+            block.position.set(480 - 30 * i, 10, 100 - j * 10);
+            scene.add(block);
+            grassBlocksTop.push(block);
+        }
+    }
 
 
-        widthSlider.addEventListener('input', () => {
-            const scalex = parseFloat(widthSlider.value);
-            widthVal.textContent = scalex;
+});
 
-            grassBlocksTop.forEach((block) => {
-                block.scale.x = scalex * 0.05 + 0.03;
-                lengthVal.textContent = block.scale.x;
-            });
-        });
 
-        lengthSlider.addEventListener('input', () => {
-            const posz = parseFloat(lengthSlider.value);
-            lengthVal.textContent = posz;
 
-            grassBlocksTop.forEach((block) => {
-                block.position.z = posz * 2 + 4;
-                block.scale.y = posz * 0.05 + 0.05;
-            });
-        });
-        depthSlider.addEventListener('input', () => {
-            const posy = parseFloat(depthSlider.value);
-            depthVal.textContent = posy;
 
-            grassBlocksTop.forEach((block) => {
-                block.position.y = posy + 0.7;
-                widthVal.textContent = block.position.y
-            });
-        });
-    })
-
-}
 
 const loungerModelBot = [];
 for (let i = 0; i < 8; i++) {
@@ -705,7 +764,7 @@ for (let i = 0; i < 8; i++) {
         loungerModel = gltf.scene;
         loungerModel.scale.set(0.08, 0.08, 0.08);
 
-        loungerModel.position.set(8*(-7 +  2 * i), 1.2 * 8, -6 * 8)
+        loungerModel.position.set(8 * (-7 + 2 * i), 1.2 * 8, -6 * 8)
 
         loungerModel.traverse((child) => {
             if (child.isMesh && child.material.isMeshStandardMaterial) {
@@ -731,7 +790,7 @@ for (let i = 0; i < 8; i++) {
             depthVal.textContent = posy;
 
             loungerModelBot.forEach((block) => {
-                block.position.y = 1.2 * 2.75 + posy * 5.65 ;
+                block.position.y = 1.2 * 2.75 + posy * 5.65;
                 widthVal.textContent = block.position.y
             });
         });
@@ -749,7 +808,7 @@ for (let i = 0; i < 11; i++) {
         FenceModel = gltf.scene;
         FenceModel.scale.set(1, 2, 1);
 
-        FenceModel.position.set(2*(-10 + 2 * i),2 * 1.43, 12)
+        FenceModel.position.set(2 * (-10 + 2 * i), 2 * 1.43, 12)
 
         FenceModel.traverse((child) => {
             if (child.isMesh && child.material.isMeshStandardMaterial) {
@@ -926,14 +985,14 @@ widthSlider.addEventListener('input', () => {
     left.position.x = - posX;
 
     mid.scale.x = (ScaleX + 8) * 0.1;
-    water.scale.x = 1.66*8 + (ScaleX + 1) * 0.25;
+    water.scale.x = 1.66 * 8 + (ScaleX + 1) * 0.25;
 
     const waterWidth = water.geometry.parameters.width;
     grassright.position.x = - (waterWidth * water.scale.x + 26.4) / 2;
     grassleft.position.x = (waterWidth * water.scale.x + 26.4) / 2;
 
     dirtTop.scale.y = 0.01 + (waterWidth * water.scale.x) * 0.0075 // ScaleX * 0.1 + 1.05;
-    grassbot.scale.y = .01+(waterWidth * water.scale.x) * 0.0075;
+    grassbot.scale.y = .01 + (waterWidth * water.scale.x) * 0.0075;
 });
 
 lengthSlider.addEventListener('input', () => {
@@ -950,10 +1009,10 @@ lengthSlider.addEventListener('input', () => {
 
     const waterLength = water.geometry.parameters.height;
 
-    grassright.scale.y = (waterLength * water.scale.y) * 0.149 /8;
+    grassright.scale.y = (waterLength * water.scale.y) * 0.149 / 8;
 
 
-    grassleft.scale.y = (waterLength * water.scale.y) * 0.149 /8;
+    grassleft.scale.y = (waterLength * water.scale.y) * 0.149 / 8;
 
     dirtTop.position.z = posz * 2.4 + 48;
     grassbot.position.z = -posz * 2.4 - 48;
@@ -964,9 +1023,9 @@ depthSlider.addEventListener('input', () => {
     const scaleY = parseFloat(depthVal.textContent);
     const positionY = parseFloat(depthVal.textContent);
 
-    right.scale.y = 0.6 + scaleY  * 0.2
-    left.scale.y = 0.6 + scaleY  * 0.2
-    mid.scale.y = 0.6 + scaleY  * 0.2
+    right.scale.y = 0.6 + scaleY * 0.2
+    left.scale.y = 0.6 + scaleY * 0.2
+    mid.scale.y = 0.6 + scaleY * 0.2
 
     widthVal.textContent = scaleY
 
@@ -978,13 +1037,13 @@ depthSlider.addEventListener('input', () => {
     left.position.y = postop;
     mid.position.y = postop;
 
-    water.position.y = positionY*5.8 + 2.9;
-    grassright.position.y = positionY*5 + 4;
-    grassleft.position.y = positionY*5 + 4;
+    water.position.y = positionY * 5.8 + 2.9;
+    grassright.position.y = positionY * 5 + 4;
+    grassleft.position.y = positionY * 5 + 4;
 
-    dirtTop.position.y = positionY*5 +4;
-    grassbot.position.y = positionY*5 +4;
-  
+    dirtTop.position.y = positionY * 5 + 4;
+    grassbot.position.y = positionY * 5 + 4;
+
 })
 
 
