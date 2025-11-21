@@ -184,7 +184,7 @@ water.scale.set(waterScaleX, waterScaleY)
 
 scene.add(water);
 
-//Pool Model
+//Pool Model Parts
 let right
 
 loader.load('model/PoolRight.glb', (gltf) => {
