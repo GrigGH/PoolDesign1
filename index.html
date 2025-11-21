@@ -11,15 +11,15 @@
 <body>
     <div id="ui" class="layout">
         <div class="measurement" id="measurement-for-xyz">
-            <div id="values">
-                <div id="width-value">
+            <div id="values" class="values">
+                <div id="width-value" class = "width-length-depth-value">
                     Width
                     <div class="aligner">
                         <div id="widthVal">1</div>
                         <span>m</span>
                     </div>
                 </div>
-                <div id="length-value">
+                <div id="length-value" class = "width-length-depth-value">
                     Length
                     <div class="aligner">
                         <div id="lengthVal">1</div>
@@ -27,7 +27,7 @@
                     </div>
                 </div>
 
-                <div id="depth-value">
+                <div id="depth-value" class = "width-length-depth-value">
                     Depth
                     <div class="aligner">
                         <div id="depthVal">1</div>
@@ -39,19 +39,19 @@
             <div class="measurements">
                 <div style="color: black;">
                     <label>Width: </label>
-                    <input id="widthSlider" type="range" min="1" max="20" step="0.1" value="1">
+                    <input id="widthSlider"  class="widthSlider" type="range" min="1" max="20" step="0.1" value="1">
                 </div>
                 <div style="color: black;">
                     <label>Length: </label>
-                    <input id="lengthSlider" type="range" min="1" max="20" step="0.1" value="1">
+                    <input id="lengthSlider" class="lengthSlider" type="range" min="1" max="20" step="0.1" value="1">
                 </div>
                 <div style="color: black;">
                     <label>Depth: </label>
-                    <input id="depthSlider" type="range" min="1" max="2" step="0.1" value="1">
+                    <input id="depthSlider" class="depthSlider" type="range" min="1" max="2" step="0.1" value="1">
                 </div>
             </div>
         </div>
-        <div id="steps">
+        <div id="steps" class="steps">
             <div class="step-positioning">
                 <div class="steps-label" style="color: black;">Positioning</div>
                 <div class="steps-buttons">
@@ -85,7 +85,7 @@
 
 
         </div>
-        <div id="swimming-pool">
+        <div id="swimming-pool" class="swimming-pool">
 
             <img class="poolImg" id ="ClosingImg1" src="Images/Closing1.jpg" alt="Pool image">
             <div class="pool-style-txt">1/2 Closing</div>
@@ -95,73 +95,55 @@
             <div class="pool-style-txt">Fully Closed</div>
         </div>
 
-        <div id="pool-color">
+        <div id="pool-color" class="pool-color">
             <div class="pool-color-txt">COLOR POOL</div>
             <br>
             <div class="color-options" style="display: flex; gap: 20px;">
-                <input type="checkbox" id="colorPickerToggle1" checked>
+                <input type="radio" name="color" id="colorPickerToggle1" class="colorPickerToggle" checked>
                 <span class="color-txt">White</span>
             </div>
             <div class="color-options" style="display: flex; gap: 20px;">
-                <input type="checkbox" id="colorPickerToggle2">
+                <input type="radio" name="color" id="colorPickerToggle2" class="colorPickerToggle">
                 <span class="color-txt">Light grey</span>
             </div>
             <div class="color-options" style="display: flex; gap: 20px;">
-                <input type="checkbox" id="colorPickerToggle3">
+                <input type="radio" name="color" id="colorPickerToggle3" class="colorPickerToggle">
                 <span class="color-txt">Dark grey</span>
             </div>
             <div class="color-options" style="display: flex; gap: 20px;">
-                <input type="checkbox" id="colorPickerToggle4">
+                <input type="radio" name="color" id="colorPickerToggle4" class="colorPickerToggle">
                 <span class="color-txt">Black</span>
             </div>
         </div>
-        <div id="pool-shutter">
+        <div id="pool-shutter" class="pool-shutter">
             <div class="pool-shutter-txt">ROLLER SHUTTER BUILT-IN</div>
             <br>
             <div class="shutter-options" style="display: flex; gap: 20px;">
-                <input type="checkbox" id="colorPickerToggle">
+                <input type="checkbox" id="colorPickerToggle" class="colorPickerToggle">
                 <span class="shutter-txt">No shutter</span>
             </div>
             <div class="shutter-options" style="display: flex; gap: 20px;">
-                <input type="checkbox" id="colorPickerToggle">
+                <input type="checkbox" id="colorPickerToggle" class="colorPickerToggle">
                 <span class="shutter-txt">Internal shutter under plage</span>
             </div>
             <div class="shutter-options" style="display: flex; gap: 20px;">
-                <input type="checkbox" id="colorPickerToggle">
+                <input type="checkbox" id="colorPickerToggle" class="colorPickerToggle">
                 <span class="shutter-txt">Internal shutter under the steps</span>
             </div>
             <div class="shutter-options" style="display: flex; gap: 20px;">
-                <input type="checkbox" id="colorPickerToggle">
+                <input type="checkbox" id="colorPickerToggle" class="colorPickerToggle">
                 <span class="shutter-txt">External shutter in niche</span>
             </div>
         </div>
 
-        <div id="pool-lighting">
+        <div id="pool-lighting" class="pool-lighting">
             <div class="pool-lighting-txt">POSITIONING</div>
             <br>
-            <!-- <div class="lighting-options" style="display: flex; gap: 20px;">
-                <input type="checkbox" id="lightUnToggle" checked>
-                <span class="lighting-txt">Lights Off</span>
-            </div> -->
             <div class="lighting-options" style="display: flex; gap: 20px;">
-                <input type="checkbox" id="lightToggle">
+                <input type="checkbox" id="lightToggle" class="lightToggle">
                 <span class="lighting-txt">Light On/Off</span>
             </div>
-            <!-- <div class="lighting-options" style="display: flex; gap: 20px;">
-                <input type="checkbox" id="lightAltToggle">
-                <span class="lighting-txt">All spots</span>
-            </div> -->
-            <!-- 
-            <div id="lighting-slider-count">
-                <div class="lighting-txt"> NUMBER OF SPOTS </div>
-                <input type="range" name="countlight" id="light-count" min="1" max="8" step="1" value="3">
-                <div class="range-nums">
-                    <div class="minimal-num">1</div>
-                    <div class="maximal-num">8</div>
-                </div>
-
-            </div> -->
-            <div class="pool-lighting-color">
+            <div class="pool-lighting-color" id = "pool-lighting-color">
 
                 <div class="light-color-picker">
                     CHOOSE LIGHTING AND POOL COLOR
@@ -182,7 +164,7 @@
 
         </div>
 
-        <div id="display">
+        <div id="display" class="display">
             <div class="display-txt">
                 DISPLAY
             </div>
@@ -190,7 +172,7 @@
                 Would you like to see your swimming pool of your dreams in a lifelike environment? Then load the virtual
                 environment and the water now.
             </div>
-            <div id="display-button-id">
+            <div id="display-button-id" id="display-button-class">
                 <button class="display-button" type="button"><svg width="30px" height="30px" viewBox="0 0 24 24"
                         fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path
@@ -204,7 +186,7 @@
             </div>
         </div>
 
-        <div id="save-pool">
+        <div id="save-pool" class="save-pool">
             <div id="save-button-id">
                 <button class="save-button" type="button">
                     <div class="environment-txt">SEND POOL DESIGN VIA EMAIL</div>
@@ -213,7 +195,7 @@
         </div>
 
     </div>
-    <div id="other-sections">
+    <div id="other-sections" class="other-sections">
         <div>
 
             <label class="option" id="swimming-pool-section" role="button" tabindex="0">
