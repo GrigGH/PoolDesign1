@@ -57,7 +57,8 @@ const woodenplankPosZ = 0;
 const woodenplankGeoScaleX = 120;
 const woodenplankGeoScaleY = 184;
 
-const ashphaltTexGeoScaling = 1000;
+const ashphaltTexGeoScalingY = 2000;
+const ashphaltTexGeoScalingX = 2500;
 const ashphaltTexGeoPosY = 9.4;
 
 const grasslandscapeGeoSmallScaling = 1000;
@@ -251,10 +252,10 @@ woodenPlank.material.transparent = true;
 woodenPlank.position.set(woodenplankPosX, woodenplankPosY, woodenplankPosZ)
 scene.add(woodenPlank);
 
-//ground landscape
+//Ground landscape
 
 const groundTex = texLoader.load('images/template-retro-edge-dirty-ancient.jpg');
-const groundTexGeo = new THREE.PlaneGeometry(ashphaltTexGeoScaling, ashphaltTexGeoScaling);
+const groundTexGeo = new THREE.PlaneGeometry(ashphaltTexGeoScalingX, ashphaltTexGeoScalingY);
 const groundTexMat = new THREE.MeshStandardMaterial({
     map: groundTex,
     side: THREE.DoubleSide,
