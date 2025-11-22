@@ -57,8 +57,8 @@ const woodenplankPosZ = 0;
 const woodenplankGeoScaleX = 120;
 const woodenplankGeoScaleY = 184;
 
-const grasslandscapeGeoScaling = 3000;
-const grasslandscapeGeoPosY = 9.2;
+const ashphaltTexGeoScaling = 1000;
+const ashphaltTexGeoPosY = 9.4;
 
 const grasslandscapeGeoSmallScaling = 1000;
 const grasslandscapeSmallPosY = 9.4;
@@ -147,7 +147,7 @@ const texLoader = new THREE.TextureLoader();
 
 const exrLoader = new EXRLoader();
 exrLoader.load(
-    'images/sunny_rose_garden_2k.exr',
+    'images/derelict_airfield_02_4k.exr',
     (texture) => {
         texture.mapping = THREE.EquirectangularReflectionMapping; 
         scene.background = texture;
@@ -251,20 +251,20 @@ woodenPlank.material.transparent = true;
 woodenPlank.position.set(woodenplankPosX, woodenplankPosY, woodenplankPosZ)
 scene.add(woodenPlank);
 
-//Ground green landscape
+//ground landscape
 
-const greenlandscapeTexSmall = texLoader.load('images/oeecL2_8K_Albedo.jpg');
-const grasslandscapeGeoSmall = new THREE.PlaneGeometry(grasslandscapeGeoSmallScaling, grasslandscapeGeoSmallScaling);
-const grasslandscapeMatSmall = new THREE.MeshStandardMaterial({
-    map: greenlandscapeTexSmall,
+const groundTex = texLoader.load('images/template-retro-edge-dirty-ancient.jpg');
+const groundTexGeo = new THREE.PlaneGeometry(ashphaltTexGeoScaling, ashphaltTexGeoScaling);
+const groundTexMat = new THREE.MeshStandardMaterial({
+    map: groundTex,
     side: THREE.DoubleSide,
     transparent: true
 });
-const grasslandscapeSmall = new THREE.Mesh(grasslandscapeGeoSmall, grasslandscapeMatSmall);
+const groundTexLandscape = new THREE.Mesh(groundTexGeo, groundTexMat);
 
-grasslandscapeSmall.rotation.x = Math.PI / 2;
-grasslandscapeSmall.position.y = grasslandscapeSmallPosY;
-scene.add(grasslandscapeSmall);
+groundTexLandscape.rotation.x = Math.PI / 2;
+groundTexLandscape.position.y = ashphaltTexGeoPosY;
+scene.add(groundTexLandscape);
 
 //Lights colors
 let bulbLights = [];
