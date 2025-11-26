@@ -513,35 +513,35 @@ colordarkgrey.addEventListener('change', updateColor);
 
 
 //Loungers
-const loungerModelBot = [];
-for (let i = 0; i < 8; i++) {
-    let loungerModel;
-    loader.load('model/sun_lounger_3d.glb', (gltf) => {
-        loungerModel = gltf.scene;
-        loungerModel.scale.set(loungerModelScaling, loungerModelScaling, loungerModelScaling);
+// const loungerModelBot = [];
+// for (let i = 0; i < 8; i++) {
+//     let loungerModel;
+//     loader.load('model/sun_lounger_3d.glb', (gltf) => {
+//         loungerModel = gltf.scene;
+//         loungerModel.scale.set(loungerModelScaling, loungerModelScaling, loungerModelScaling);
 
-        loungerModel.position.set(8 * (-7 + 2 * i), 11.7, -45)
+//         loungerModel.position.set(8 * (-7 + 2 * i), 11.7, -45)
 
-        loungerModel.traverse((child) => {
-            if (child.isMesh && child.material.isMeshStandardMaterial) {
-                child.material.metalness = 0;
-                child.material.roughness = 1;
-                child.material.color = new THREE.Color('grey');
-            }
-        });
-        scene.add(loungerModel);
-        loungerModelBot.push(loungerModel);
+//         loungerModel.traverse((child) => {
+//             if (child.isMesh && child.material.isMeshStandardMaterial) {
+//                 child.material.metalness = 0;
+//                 child.material.roughness = 1;
+//                 child.material.color = new THREE.Color('grey');
+//             }
+//         });
+//         scene.add(loungerModel);
+//         loungerModelBot.push(loungerModel);
 
-        lengthSlider.addEventListener('input', () => {
-            const posz = parseFloat(lengthSlider.value);
-            lengthVal.textContent = posz;
+//         lengthSlider.addEventListener('input', () => {
+//             const posz = parseFloat(lengthSlider.value);
+//             lengthVal.textContent = posz;
 
-            loungerModelBot.forEach((block) => {
-                block.position.z = - posz * 2.3 - 45;
-            });
-        });
-    });
-}
+//             loungerModelBot.forEach((block) => {
+//                 block.position.z = - posz * 2.3 - 45;
+//             });
+//         });
+//     });
+// }
 
 function animate(time) {
     requestAnimationFrame(animate);
