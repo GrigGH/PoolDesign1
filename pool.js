@@ -3,7 +3,7 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { EXRLoader } from 'three/examples/jsm/loaders/EXRLoader.js';
 import { DRACOLoader } from 'three/addons/loaders/DRACOLoader.js';
-
+import { Sky } from 'three/addons/objects/Sky.js';
 
 
 window.onerror = function (message, file, line) {
@@ -83,7 +83,9 @@ const lighting = document.getElementById('lighting-section');
 const color_section = document.getElementById('pool-color');
 const color = document.getElementById('color-picker');
 
-
+const uiCloser = document.getElementById('close-UI');
+const otherSections = document.getElementById('other-sections');
+const addUI = document.getElementById('add-UI');
 
 //Scene & Camera
 const scene = new THREE.Scene();
@@ -106,6 +108,10 @@ const renderer = new THREE.WebGLRenderer({
 renderer.shadowMap.enabled = true;
 renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.outputEncoding = THREE.sRGBEncoding;
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 1;
+
 document.body.appendChild(renderer.domElement);
 
 const light = new THREE.DirectionalLight(dirAmbLightColor, 1);
@@ -140,6 +146,37 @@ const texLoader = new THREE.TextureLoader();
 //         scene.environment = texture;
 //     },
 // );
+
+
+
+let sky;
+
+sky = new Sky();
+sky.scale.setScalar(450000);
+scene.add(sky);
+
+const sun = new THREE.Vector3();
+
+const parameters = {
+    elevation: 10,
+    azimuth: 180
+};
+
+function updateSun() {
+    const uniforms = sky.material.uniforms;
+
+    uniforms['turbidity'].value = 1;
+    uniforms['rayleigh'].value = 0.5;
+    uniforms['mieCoefficient'].value = 0.01;
+    uniforms['mieDirectionalG'].value = 0.8;
+
+    const phi = THREE.MathUtils.degToRad(90 - parameters.elevation);
+    const theta = THREE.MathUtils.degToRad(parameters.azimuth);
+    sun.setFromSphericalCoords(1, phi / 5, theta);
+    uniforms['sunPosition'].value.copy(sun);
+}
+
+updateSun();
 
 //Water
 const waterNormals = texLoader.load('images/waternormals.jpg',
@@ -181,7 +218,7 @@ const dracoLoader = new DRACOLoader();
 dracoLoader.setDecoderPath('/draco/'); 
 dracoLoader.setDecoderConfig({ type: 'js' });
 
-// --- GLTF LOADER ---
+
 const dracoloader = new GLTFLoader();
 loader.setDRACOLoader(dracoLoader);
 
@@ -191,13 +228,13 @@ dracoloader.load(
     (gltf) => {
         modernvilla = gltf.scene;
 
-        modernvilla.scale.set(8, 8, 8);
-        modernvilla.position.set(-300, -133, 700);
+        modernvilla.scale.set(20, 20, 20);
+        modernvilla.position.set(-1100, -360, 1290);
 
         modernvilla.traverse((child) => {
             if (child.isMesh && child.material && child.material.isMeshStandardMaterial) {
-                child.material.metalness = 0;
-                child.material.roughness = 1;
+                child.material.metalness = 0.2;
+                child.material.roughness = 0.8;
                 child.material.color = new THREE.Color(); 
             }
         });
@@ -288,7 +325,7 @@ scene.add(woodenPlank);
 //Ground landscape
 
 const groundTex = texLoader.load('images/Screenshot 2025-11-24 230001.png');
-const groundTexGeo = new THREE.BoxGeometry(ashphaltTexGeoScalingX, ashphaltTexGeoScalingY * 3, ashphaltTexGeoScalingZ );
+const groundTexGeo = new THREE.BoxGeometry(ashphaltTexGeoScalingX * 2, ashphaltTexGeoScalingY * 3, ashphaltTexGeoScalingZ );
 const groundTexMat = new THREE.MeshStandardMaterial({
     map: groundTex,
     side: THREE.DoubleSide,
@@ -589,6 +626,16 @@ color.addEventListener('click', () => {
     color_section.style.display = 'flex';
 });
 
+uiCloser.addEventListener('click', ()=>{
+    ui.style.display = 'none';
+    otherSections.style.display = 'none';
+    addUI.style.display = 'flex';
+})
+addUI.addEventListener('click', ()=>{
+    ui.style.display = 'flex';
+    otherSections.style.display = 'flex';
+    addUI.style.display = 'none';
+})
 
 
 //Measurement functionality
