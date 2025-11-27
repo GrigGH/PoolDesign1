@@ -92,7 +92,7 @@ const scene = new THREE.Scene();
 scene.rotation.y = - Math.PI / 6.5;
 scene.position.y = -120
 scene.position.x = 170
-scene.position.z = 100 
+scene.position.z = 100
 
 scene.scale.x = 5
 scene.scale.y = 5
@@ -321,7 +321,7 @@ scene.add(woodenPlank);
 //Ground landscape
 
 const groundTex = texLoader.load('images/Screenshot 2025-11-24 230001.png');
-const groundTexGeo = new THREE.BoxGeometry(ashphaltTexGeoScalingX * 2, ashphaltTexGeoScalingY * 3, ashphaltTexGeoScalingZ );
+const groundTexGeo = new THREE.BoxGeometry(ashphaltTexGeoScalingX * 2, ashphaltTexGeoScalingY * 3, ashphaltTexGeoScalingZ);
 const groundTexMat = new THREE.MeshStandardMaterial({
     map: groundTex,
     side: THREE.DoubleSide,
@@ -442,10 +442,11 @@ function addPlate(width, length, height) {
         const garageTex = texLoader.load('images/garagetex.jpg');
 
         const geometry = new THREE.BoxGeometry(waterScaleX, 0.1, waterScaleY);
-        const material = new THREE.MeshBasicMaterial({ 
+        const material = new THREE.MeshBasicMaterial({
             map: garageTex,
             side: THREE.DoubleSide,
-            color: 'grey' });
+            color: 'grey'
+        });
 
         plate = new THREE.Mesh(geometry, material);
         scene.add(plate);
@@ -523,21 +524,36 @@ function updateColor() {
     mid.traverse((child) => {
         if (child.isMesh && child.material) {
             child.material.color.set(color);
+
         }
     });
 
     left.traverse((child) => {
         if (child.isMesh && child.material) {
             child.material.color.set(color);
+            updateLights();
         }
     });
 
     right.traverse((child) => {
         if (child.isMesh && child.material) {
             child.material.color.set(color);
+            updateLights();
         }
     });
-    water.material.color.set(waterTexColor);
+    if (lightcolorblue.checked && lightswitchToggle.checked) {
+        setLightColor(0xadd8ff, 0x3399ff);
+    }
+    if (lightcolorred.checked && lightswitchToggle.checked) {
+        lightcolorblue.checked = false;
+        lightcolorgreen.checked = false;
+        setLightColor(0xC2185B, 0xC2185B);
+    }
+    if (lightcolorgreen.checked && lightswitchToggle.checked) {
+        lightcolorred.checked = false;
+        lightcolorblue.checked = false;
+        setLightColor(0x00ff00, 'lightgreen');
+    }
 }
 
 colorwhite.addEventListener('change', updateColor);
@@ -606,7 +622,11 @@ measurement.addEventListener('click', () => {
 
 swimming_pool.addEventListener('click', () => {
     hideAll();
+    ui.style.display = 'block';
+    swimming_pool_section.style.flexDirection = 'column';
+    swimming_pool_section.style.marginTop = '12px';
     swimming_pool_section.style.display = 'flex';
+
 });
 
 lighting.addEventListener('click', () => {
@@ -622,15 +642,25 @@ color.addEventListener('click', () => {
     color_section.style.display = 'flex';
 });
 
-uiCloser.addEventListener('click', ()=>{
+uiCloser.addEventListener('click', () => {
     ui.style.display = 'none';
     otherSections.style.display = 'none';
     addUI.style.display = 'flex';
 })
-addUI.addEventListener('click', ()=>{
-    ui.style.display = 'flex';
+addUI.addEventListener('click', () => {
+
     otherSections.style.display = 'flex';
     addUI.style.display = 'none';
+
+    ui.style.display = 'flex';
+
+    lighting_section.style.display = 'none';
+    color_section.style.display = 'none';
+    swimming_pool_section.style.display = 'none';
+
+
+    measurement_section.style.display = 'flex';
+    measurement_section.style.flexDirection = 'column';
 })
 
 
