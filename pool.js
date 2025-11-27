@@ -94,11 +94,11 @@ scene.position.y = -120
 scene.position.x = 170
 scene.position.z = 100 
 
-scene.scale.x = 3
-scene.scale.y = 3
-scene.scale.z = 3
+scene.scale.x = 5
+scene.scale.y = 5
+scene.scale.z = 5
 
-const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 2000);
+const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 10000);
 camera.position.set(-500, 100, -250);
 
 //Renderer
@@ -214,34 +214,30 @@ scene.add(water);
 
 let modernvilla;
 
-const dracoLoader = new DRACOLoader();
-dracoLoader.setDecoderPath('/draco/'); 
-dracoLoader.setDecoderConfig({ type: 'js' });
+const gltfloader = new GLTFLoader();
 
-
-const dracoloader = new GLTFLoader();
-loader.setDRACOLoader(dracoLoader);
-
-dracoloader.load(
+gltfloader.load(
     'model/modernvilla.glb',
-
     (gltf) => {
         modernvilla = gltf.scene;
 
-        modernvilla.scale.set(20, 20, 20);
-        modernvilla.position.set(-1100, -360, 1290);
+        modernvilla.scale.set(15, 15, 15);
+        modernvilla.position.set(-930, -270, 600);
+        // modernvilla.rotation.x = Math.PI / 2;
 
         modernvilla.traverse((child) => {
             if (child.isMesh && child.material && child.material.isMeshStandardMaterial) {
                 child.material.metalness = 0.2;
                 child.material.roughness = 0.8;
-                child.material.color = new THREE.Color(); 
+                child.material.color = new THREE.Color();
             }
         });
 
         scene.add(modernvilla);
-    },
+    }
 );
+
+
 
 
 //Pool Model Parts
