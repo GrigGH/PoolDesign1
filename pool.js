@@ -17,7 +17,7 @@ window.onerror = function (message, file, line) {
 //Constants
 const dirAmbLightColor = 0xffffff;
 const dirLightPosX = 10;
-const dirLightPosY = 100;
+const dirLightPosY = 50;
 const dirLightPosZ = 10;
 const cameraMaxDistance = 200;
 const cameraMinDistance = 100;
@@ -55,7 +55,7 @@ const ashphaltTexGeoScalingX = 500;
 const ashphaltTexGeoScalingZ = 50;
 const ashphaltTexGeoPosY = -14;
 
-const grasslandscapeGeoSmallScalingXZ = 50;
+const grasslandscapeGeoSmallScalingXZ = 20;
 const grasslandscapeGeoSmallScalingY = 10;
 const grasslandscapeSmallPosY = 10.5;
 
@@ -106,6 +106,7 @@ scene.rotation.y = - Math.PI / 6.5;
 scene.position.y = -120
 scene.position.x = 170
 scene.position.z = 100
+scene.fog = new THREE.FogExp2(0xffffff, 0.0001);
 
 scene.scale.x = 5
 scene.scale.y = 5
@@ -150,46 +151,23 @@ const texLoader = new THREE.TextureLoader();
 
 //Background EXR/HDRI Image
 
-// const exrLoader = new EXRLoader();
-// exrLoader.load(
-//     'images/shutterstock_2308869415(2).exr',
-//     (texture) => {
-//         texture.mapping = THREE.EquirectangularReflectionMapping;
-//         scene.background = texture;
-//         scene.environment = texture;
-//     },
-// );
+const exrLoader = new EXRLoader();
 
+exrLoader.load('images/pretoria_gardens_2k.exr', (texture) => {
+    texture.mapping = THREE.EquirectangularReflectionMapping;
 
+    const sphereGeo = new THREE.SphereGeometry(500, 64, 64);
 
-let sky;
+    const sphereMat = new THREE.MeshBasicMaterial({
+        map: texture,
+        side: THREE.BackSide
+    });
 
-sky = new Sky();
-sky.scale.setScalar(450000);
-scene.add(sky);
+    const skySphere = new THREE.Mesh(sphereGeo, sphereMat);
+    skySphere.position.y = 150
+    scene.add(skySphere);
+});
 
-const sun = new THREE.Vector3();
-
-const parameters = {
-    elevation: 10,
-    azimuth: 180
-};
-
-function updateSun() {
-    const uniforms = sky.material.uniforms;
-
-    uniforms['turbidity'].value = 1;
-    uniforms['rayleigh'].value = 0.5;
-    uniforms['mieCoefficient'].value = 0.01;
-    uniforms['mieDirectionalG'].value = 0.8;
-
-    const phi = THREE.MathUtils.degToRad(90 - parameters.elevation);
-    const theta = THREE.MathUtils.degToRad(parameters.azimuth);
-    sun.setFromSphericalCoords(1, phi / 5, theta);
-    uniforms['sunPosition'].value.copy(sun);
-}
-
-updateSun();
 
 //Water
 const waterNormals = texLoader.load('images/waternormals.jpg',
@@ -444,15 +422,19 @@ let greenGround;
 
 loader.load('model/greenGround.glb', (gltf) => {
     greenGround = gltf.scene;
-    greenGround.scale.set(grasslandscapeGeoSmallScalingXZ, grasslandscapeGeoSmallScalingY, grasslandscapeGeoSmallScalingXZ)
+    greenGround.scale.set(120, grasslandscapeGeoSmallScalingY, 120)
     greenGround.position.set(0, grasslandscapeSmallPosY, 0)
     greenGround.traverse((child) => {
         if (child.isMesh && child.material) {
             child.material.transparent = true;
             child.material.opacity = 1;
-            child.material.color.multiplyScalar(4);
+            child.material.color.multiplyScalar(3);
             child.material.depthWrite = false;
             child.material.needsUpdate = true;
+            child.material.fog = true;
+            child.material.needsUpdate = true;
+
+
         }
     });
 
@@ -460,9 +442,11 @@ loader.load('model/greenGround.glb', (gltf) => {
     scene.add(greenGround);
 })
 
+
 let ScX1 = 0;
 let ScY1 = 0;
 let ScZ1 = 0;
+
 
 
 //Ground Textures
