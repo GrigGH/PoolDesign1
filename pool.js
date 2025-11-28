@@ -4,6 +4,8 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { EXRLoader } from 'three/examples/jsm/loaders/EXRLoader.js';
 import { DRACOLoader } from 'three/addons/loaders/DRACOLoader.js';
 import { Sky } from 'three/addons/objects/Sky.js';
+import { Reflector } from 'three/examples/jsm/objects/Reflector.js';
+
 
 
 window.onerror = function (message, file, line) {
@@ -233,7 +235,7 @@ gltfloader.load(
         modernvilla = gltf.scene;
 
         modernvilla.scale.set(15, 15, 15);
-        modernvilla.position.set(-930, -270, 600);
+        modernvilla.position.set(-930, -280, 600);
         // modernvilla.rotation.x = Math.PI / 2;
 
         modernvilla.traverse((child) => {
@@ -250,6 +252,77 @@ gltfloader.load(
 
 
 
+const geometry = new THREE.PlaneGeometry(142, 15);
+const geometry2 = new THREE.PlaneGeometry(40, 65);
+const geometry3 = new THREE.PlaneGeometry(78, 20);
+const geometry4 = new THREE.PlaneGeometry(40, 30);
+const geometry5 = new THREE.PlaneGeometry(51, 30);
+
+const mirror = new Reflector(geometry, {
+    clipBias: 0.003,
+    textureWidth: window.innerWidth * window.devicePixelRatio,
+    textureHeight: window.innerHeight * window.devicePixelRatio,
+    color: 'gray',
+    transparent: true
+});
+
+mirror.position.set(-50.75, 75, -73.5);
+mirror.rotation.y = 0;
+
+scene.add(mirror);
+
+const mirror2 = new Reflector(geometry2, {
+    clipBias: 0.003,
+    textureWidth: window.innerWidth * window.devicePixelRatio,
+    textureHeight: window.innerHeight * window.devicePixelRatio,
+    color: 'gray',
+    transparent: true
+});
+
+mirror2.position.set(-150, 50, -55);
+mirror2.rotation.y = 0;
+mirror2.rotation.z = 0.35;
+scene.add(mirror2);
+
+
+const mirror3 = new Reflector(geometry3, {
+    clipBias: 0.003,
+    textureWidth: window.innerWidth * window.devicePixelRatio,
+    textureHeight: window.innerHeight * window.devicePixelRatio,
+    color: 'gray',
+    transparent: true
+});
+
+mirror3.position.set(-160, 20, -55);
+mirror3.rotation.y = 0;
+scene.add(mirror3);
+
+const mirror4 = new Reflector(geometry4, {
+    clipBias: 0.003,
+    textureWidth: window.innerWidth * window.devicePixelRatio,
+    textureHeight: window.innerHeight * window.devicePixelRatio,
+    color: 'gray',
+    transparent: true
+});
+
+mirror4.position.set(-170, 55, -55);
+mirror4.rotation.y = 0;
+mirror4.rotation.z = 0.6
+scene.add(mirror4);
+
+
+const mirror5 = new Reflector(geometry5, {
+    clipBias: 0.003,
+    textureWidth: window.innerWidth * window.devicePixelRatio,
+    textureHeight: window.innerHeight * window.devicePixelRatio,
+    color: 'gray',
+    transparent: true
+});
+
+mirror5.position.set(-170, 40, -55);
+mirror5.rotation.y = 0;
+// mirror5.rotation.z = 0.6
+scene.add(mirror5);
 
 //Pool Model Parts
 let right
@@ -377,8 +450,8 @@ loader.load('model/greenGround.glb', (gltf) => {
         if (child.isMesh && child.material) {
             child.material.transparent = true;
             child.material.opacity = 1;
-            child.material.color.multiplyScalar(4); 
-            child.material.depthWrite = false;      
+            child.material.color.multiplyScalar(4);
+            child.material.depthWrite = false;
             child.material.needsUpdate = true;
         }
     });
