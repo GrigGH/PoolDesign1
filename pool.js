@@ -103,9 +103,9 @@ const addUI = document.getElementById('add-UI');
 //Scene & Camera
 const scene = new THREE.Scene();
 scene.rotation.y = - Math.PI / 6.5;
-scene.position.y = -200
-scene.position.x = 170
-scene.position.z = -200
+scene.position.y = -120
+scene.position.x = 30;
+scene.position.z = 100
 scene.fog = new THREE.FogExp2(0xffffff, 0.0001);
 
 scene.scale.x = 5
@@ -113,7 +113,7 @@ scene.scale.y = 5
 scene.scale.z = 5
 
 const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 10000);
-camera.position.set(-100, -100, 250);
+camera.position.set(-500, 100, -250);
 
 //Renderer
 const renderer = new THREE.WebGLRenderer({
