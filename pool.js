@@ -729,8 +729,8 @@ function animate(time) {
     renderer.setClearColor('white');
     controls.update();
 
-    waterNormals.offset.x = time * 0.0001;
-    waterNormals.offset.y = time * 0.00015;
+    waterNormals.offset.x = time * 0.00005;
+    waterNormals.offset.y = time * 0.00005;
 
     renderer.render(scene, camera);
 }
