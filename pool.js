@@ -412,8 +412,6 @@ loader.load('model/greenGround.glb', (gltf) => {
             child.material.needsUpdate = true;
             child.material.fog = true;
             child.material.needsUpdate = true;
-
-
         }
     });
 
