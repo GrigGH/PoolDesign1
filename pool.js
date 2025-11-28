@@ -166,6 +166,55 @@ exrLoader.load('images/pretoria_gardens_2k.exr', (texture) => {
     const skySphere = new THREE.Mesh(sphereGeo, sphereMat);
     skySphere.position.y = 150
     scene.add(skySphere);
+
+    const createFakeMirror = (geometry, position, rotation = { x: 0, y: 0, z: 0 }) => {
+        const mat = new THREE.MeshPhysicalMaterial({
+            metalness: 1,
+            roughness: 0,
+            clearcoat: 1,
+            clearcoatRoughness: 0,
+            envMap: texture,
+            envMapIntensity: 1.1, 
+            color: 'gray'
+        });
+
+        const mesh = new THREE.Mesh(geometry, mat);
+        mesh.position.set(position.x, position.y, position.z);
+        mesh.rotation.set(rotation.x, rotation.y, rotation.z);
+        scene.add(mesh);
+
+        return mesh;
+    };
+
+    createFakeMirror(
+        new THREE.PlaneGeometry(144, 15),
+        { x: -50.75, y: 75, z: -73.5 },
+        { x: 0, y: 0, z: 0 }
+    );
+
+    createFakeMirror(
+        new THREE.PlaneGeometry(40, 70),
+        { x: -150, y: 50, z: -55 },
+        { x: 0, y: 0, z: 0.35 }
+    );
+
+    createFakeMirror(
+        new THREE.PlaneGeometry(80, 20),
+        { x: -167, y: 20, z: -55 },
+        { x: 0, y: 0, z: 0 }
+    );
+
+    createFakeMirror(
+        new THREE.PlaneGeometry(40, 40),
+        { x: -170, y: 55, z: -55 },
+        { x: 0, y: 0, z: 0.6 }
+    );
+
+    createFakeMirror(
+        new THREE.PlaneGeometry(61, 30),
+        { x: -170, y: 40, z: -55 },
+        { x: 0, y: 0, z: 0 }
+    );
 });
 
 
@@ -230,77 +279,7 @@ gltfloader.load(
 
 
 
-const geometry = new THREE.PlaneGeometry(142, 15);
-const geometry2 = new THREE.PlaneGeometry(40, 65);
-const geometry3 = new THREE.PlaneGeometry(78, 20);
-const geometry4 = new THREE.PlaneGeometry(40, 30);
-const geometry5 = new THREE.PlaneGeometry(51, 30);
 
-const mirror = new Reflector(geometry, {
-    clipBias: 0.003,
-    textureWidth: window.innerWidth * window.devicePixelRatio,
-    textureHeight: window.innerHeight * window.devicePixelRatio,
-    color: 'gray',
-    transparent: true
-});
-
-mirror.position.set(-50.75, 75, -73.5);
-mirror.rotation.y = 0;
-
-scene.add(mirror);
-
-const mirror2 = new Reflector(geometry2, {
-    clipBias: 0.003,
-    textureWidth: window.innerWidth * window.devicePixelRatio,
-    textureHeight: window.innerHeight * window.devicePixelRatio,
-    color: 'gray',
-    transparent: true
-});
-
-mirror2.position.set(-150, 50, -55);
-mirror2.rotation.y = 0;
-mirror2.rotation.z = 0.35;
-scene.add(mirror2);
-
-
-const mirror3 = new Reflector(geometry3, {
-    clipBias: 0.003,
-    textureWidth: window.innerWidth * window.devicePixelRatio,
-    textureHeight: window.innerHeight * window.devicePixelRatio,
-    color: 'gray',
-    transparent: true
-});
-
-mirror3.position.set(-160, 20, -55);
-mirror3.rotation.y = 0;
-scene.add(mirror3);
-
-const mirror4 = new Reflector(geometry4, {
-    clipBias: 0.003,
-    textureWidth: window.innerWidth * window.devicePixelRatio,
-    textureHeight: window.innerHeight * window.devicePixelRatio,
-    color: 'gray',
-    transparent: true
-});
-
-mirror4.position.set(-170, 55, -55);
-mirror4.rotation.y = 0;
-mirror4.rotation.z = 0.6
-scene.add(mirror4);
-
-
-const mirror5 = new Reflector(geometry5, {
-    clipBias: 0.003,
-    textureWidth: window.innerWidth * window.devicePixelRatio,
-    textureHeight: window.innerHeight * window.devicePixelRatio,
-    color: 'gray',
-    transparent: true
-});
-
-mirror5.position.set(-170, 40, -55);
-mirror5.rotation.y = 0;
-// mirror5.rotation.z = 0.6
-scene.add(mirror5);
 
 //Pool Model Parts
 let right
