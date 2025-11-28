@@ -15,13 +15,23 @@ window.onerror = function (message, file, line) {
 //Constants
 const dirAmbLightColor = 0xffffff;
 const dirLightPosX = 10;
-const dirLightPosY = 20;
+const dirLightPosY = 100;
 const dirLightPosZ = 10;
 const cameraMaxDistance = 200;
 const cameraMinDistance = 100;
 
 
 const poolScalingXYZ = 0.8;
+
+const poolHandlerScale = 0.8;
+const poolHanderPosX = -30.3;
+const poolHanderPosY = 0;
+const poolHanderPosZ = 0;
+
+const poolObjectScale = 0.8;
+const poolObjectPosX = -20.5;
+const poolObjectPosY = 0;
+const poolObjectPosZ = 0;
 
 const waterTexColor = 0x3399ff;
 let waterPosX = 0.6;
@@ -43,8 +53,9 @@ const ashphaltTexGeoScalingX = 500;
 const ashphaltTexGeoScalingZ = 50;
 const ashphaltTexGeoPosY = -14;
 
-const grasslandscapeGeoSmallScaling = 1000;
-const grasslandscapeSmallPosY = 9.4;
+const grasslandscapeGeoSmallScalingXZ = 50;
+const grasslandscapeGeoSmallScalingY = 10;
+const grasslandscapeSmallPosY = 10.5;
 
 const loungerModelScaling = 0.08;
 
@@ -227,8 +238,8 @@ gltfloader.load(
 
         modernvilla.traverse((child) => {
             if (child.isMesh && child.material && child.material.isMeshStandardMaterial) {
-                child.material.metalness = 0.2;
-                child.material.roughness = 0.8;
+                child.material.metalness = 0;
+                child.material.roughness = 1;
                 child.material.color = new THREE.Color();
             }
         });
@@ -249,10 +260,14 @@ loader.load('model/PoolRight.glb', (gltf) => {
     right.scale.set(poolScalingXYZ, poolScalingXYZ, poolScalingXYZ)
     right.position.set(0, 0, 0)
     right.traverse((child) => {
-        if (child.isMesh && child.material.isMeshStandardMaterial) {
-            child.material.metalness = 0;
-            child.material.roughness = 1;
-            child.material.color = new THREE.Color();
+        if (child.isMesh) {
+            child.material = new THREE.MeshStandardMaterial({
+                color: 0xffffff,
+                metalness: 0.3,
+                roughness: 0.4,
+                envMap: scene.environment,
+                envMapIntensity: 2
+            })
         }
     });
 
@@ -271,13 +286,20 @@ loader.load('model/PoolLeft.glb', (gltf) => {
     left.scale.set(poolScalingXYZ, poolScalingXYZ, poolScalingXYZ)
     left.position.set(0, 0, 0)
     left.traverse((child) => {
-        if (child.isMesh && child.material.isMeshStandardMaterial) {
-            child.material.metalness = 0;
-            child.material.roughness = 1;
-            child.material.color = new THREE.Color();
+        if (child.isMesh) {
+            child.material = new THREE.MeshStandardMaterial({
+                color: 0xffffff,
+                metalness: 0.3,
+                roughness: 0.4,
+                envMap: scene.environment,
+                envMapIntensity: 2
+            })
         }
     });
     scene.add(left)
+
+
+
 });
 
 let mid
@@ -287,16 +309,83 @@ loader.load('model/PoolMid.glb', (gltf) => {
     mid.scale.set(poolScalingXYZ, poolScalingXYZ, poolScalingXYZ)
     mid.position.set(0, 0, 0)
     mid.traverse((child) => {
-        if (child.isMesh && child.material.isMeshStandardMaterial) {
-            child.material.metalness = 0;
-            child.material.roughness = 1;
-            child.material.color = new THREE.Color();
+        if (child.isMesh) {
+            child.material = new THREE.MeshStandardMaterial({
+                color: 0xffffff,
+                metalness: 0.3,
+                roughness: 0.4,
+                envMap: scene.environment,
+                envMapIntensity: 2
+            })
         }
     });
     scene.add(mid)
 });
 
+let poolHandler;
 
+loader.load('model/poolHandle.glb', (gltf) => {
+    poolHandler = gltf.scene;
+    poolHandler.scale.set(poolHandlerScale, poolHandlerScale, poolHandlerScale);
+    poolHandler.position.set(poolHanderPosX, poolHanderPosY, poolHanderPosZ);
+
+    poolHandler.traverse((child) => {
+        if (child.isMesh) {
+            child.material = new THREE.MeshStandardMaterial({
+                color: 0xffffff,
+                metalness: 0.5,
+                roughness: 0.4,
+                envMap: scene.environment,
+                envMapIntensity: 2
+            });
+            child.material.needsUpdate = true;
+        }
+    });
+
+    scene.add(poolHandler);
+});
+
+let poolObject;
+
+loader.load('model/poolObject.glb', (gltf) => {
+    poolObject = gltf.scene;
+    poolObject.scale.set(poolObjectScale, poolObjectScale, poolObjectScale);
+    poolObject.position.set(poolObjectPosX, poolObjectPosY, poolObjectPosZ);
+
+    poolObject.traverse((child) => {
+        if (child.isMesh) {
+            child.material = new THREE.MeshStandardMaterial({
+                color: 0xffffff,
+                metalness: 0.5,
+                roughness: 0.4,
+                envMap: scene.environment,
+                envMapIntensity: 2
+            })
+        }
+    });
+
+    scene.add(poolObject);
+})
+
+let greenGround;
+
+loader.load('model/greenGround.glb', (gltf) => {
+    greenGround = gltf.scene;
+    greenGround.scale.set(grasslandscapeGeoSmallScalingXZ, grasslandscapeGeoSmallScalingY, grasslandscapeGeoSmallScalingXZ)
+    greenGround.position.set(0, grasslandscapeSmallPosY, 0)
+    greenGround.traverse((child) => {
+        if (child.isMesh && child.material) {
+            child.material.transparent = true;
+            child.material.opacity = 1;
+            child.material.color.multiplyScalar(4); 
+            child.material.depthWrite = false;      
+            child.material.needsUpdate = true;
+        }
+    });
+
+
+    scene.add(greenGround);
+})
 
 let ScX1 = 0;
 let ScY1 = 0;
@@ -304,7 +393,7 @@ let ScZ1 = 0;
 
 
 //Ground Textures
-const woodenplankTex = texLoader.load('images/woodenplank.avif');
+const woodenplankTex = texLoader.load('images/Wooden_Texture.jpg');
 woodenplankTex.wrapS = woodenplankTex.wrapT = THREE.RepeatWrapping;
 woodenplankTex.repeat.set(10, 10);
 
@@ -315,7 +404,7 @@ const woodenPlank = new THREE.Mesh(woodenplankGeo, woodenplankMat);
 woodenPlank.rotation.x = Math.PI / 2;
 woodenPlank.rotation.z = Math.PI / 2;
 woodenPlank.material.transparent = true;
-woodenPlank.position.set(woodenplankPosX, water.position.y - 0.08, woodenplankPosZ)
+woodenPlank.position.set(woodenplankPosX, water.position.y - 0.1, woodenplankPosZ)
 scene.add(woodenPlank);
 
 //Ground landscape
@@ -331,7 +420,7 @@ const groundTexLandscape = new THREE.Mesh(groundTexGeo, groundTexMat);
 
 groundTexLandscape.rotation.x = Math.PI / 2;
 groundTexLandscape.position.y = ashphaltTexGeoPosY;
-scene.add(groundTexLandscape);
+// scene.add(groundTexLandscape);
 
 //Lights colors
 let bulbLights = [];
@@ -531,16 +620,25 @@ function updateColor() {
     left.traverse((child) => {
         if (child.isMesh && child.material) {
             child.material.color.set(color);
-            updateLights();
         }
     });
 
     right.traverse((child) => {
         if (child.isMesh && child.material) {
             child.material.color.set(color);
-            updateLights();
         }
     });
+    poolHandler.traverse((child) => {
+        if (child.isMesh && child.material) {
+            child.material.color.set(color);
+        }
+    });
+    poolObject.traverse((child) => {
+        if (child.isMesh && child.material) {
+            child.material.color.set(color);
+        }
+    });
+
     if (lightcolorblue.checked && lightswitchToggle.checked) {
         setLightColor(0xadd8ff, 0x3399ff);
     }
@@ -673,6 +771,8 @@ widthSlider.addEventListener('input', () => {
 
     right.position.x = posX;
     left.position.x = - posX;
+    poolHandler.position.x = poolHanderPosX + posX;
+    poolObject.position.x = poolObjectPosX - posX
 
     mid.scale.x = (ScaleX + 8) * 0.1;
     water.scale.x = 1.66 * 8 + (ScaleX + 1) * 0.205;
@@ -690,13 +790,16 @@ lengthSlider.addEventListener('input', () => {
     const scaleZ = parseFloat(lengthVal.textContent);
     const posz = parseFloat(lengthVal.textContent);
 
-    right.scale.z = scaleZ * 0.05 + 0.8
-    left.scale.z = scaleZ * 0.05 + 0.8
+    right.scale.z = scaleZ * 0.05 + 0.8;
+    left.scale.z = scaleZ * 0.05 + 0.8;
+    poolHandler.scale.z = scaleZ * 0.05 + 0.8;
+    poolObject.scale.z = scaleZ * 0.05 + 0.8;
 
     mid.scale.z = scaleZ * 0.05 + 0.8
     water.scale.y = ScaleY * 0.7 + 8;
 
     woodenPlank.scale.x = 1 + scaleZ * 0.04;
+
 
     showorHidePlate();
 
@@ -714,7 +817,7 @@ depthSlider.addEventListener('input', () => {
     mid.scale.y = poolScalingXYZ * scaleY
 
     const newHeight = oldHeight * right.scale.y;
-    let postop = (oldHeight - newHeight) / 2 - oldHeight * 0.1 / scaleY;
+    let postop = (oldHeight - newHeight) / 1.2 - oldHeight * 0.1 / scaleY;
 
 
     right.position.y = postop
