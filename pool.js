@@ -104,7 +104,7 @@ const addUI = document.getElementById('add-UI');
 const scene = new THREE.Scene();
 scene.rotation.y = - Math.PI / 6.5;
 scene.position.y = -120
-scene.position.x = 30;
+scene.position.x = 300;
 scene.position.z = 100
 scene.fog = new THREE.FogExp2(0xffffff, 0.0001);
 
