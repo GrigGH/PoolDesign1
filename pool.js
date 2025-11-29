@@ -153,7 +153,7 @@ const texLoader = new THREE.TextureLoader();
 
 const exrLoader = new EXRLoader();
 
-exrLoader.load('images/pretoria_gardens_2k.exr', (texture) => {
+exrLoader.load('images/pretoria_gardens.exr', (texture) => {
     texture.mapping = THREE.EquirectangularReflectionMapping;
 
     const sphereGeo = new THREE.SphereGeometry(500, 64, 64);
