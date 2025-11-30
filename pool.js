@@ -35,7 +35,7 @@ const poolObjectPosX = -20.5;
 const poolObjectPosY = 0;
 const poolObjectPosZ = 0;
 
-const waterTexColor = 0x3399ff;
+const waterTexColor = 0x55E0FF;
 let waterPosX = 0.6;
 let waterPosY = 11.5;
 let waterPosZ = 0;
@@ -251,10 +251,10 @@ scene.add(water);
 
 
 //Modern Villa
+const gltfloader = new GLTFLoader();
+
 
 let modernvilla;
-
-const gltfloader = new GLTFLoader();
 
 gltfloader.load(
     'model/modernvilla.glb',
@@ -277,10 +277,80 @@ gltfloader.load(
     }
 );
 
+//Fences
+
+let fences = [];
+
+gltfloader.load('model/fence.glb', (gltf) => {
+    const baseFence = gltf.scene;
 
 
+    baseFence.scale.set(15, 30, 15);
+    baseFence.traverse((child) => {
+        if (child.isMesh && child.material && child.material.isMeshStandardMaterial) {
+            child.material.metalness = 0;
+            child.material.roughness = 1;
+            child.material.color = new THREE.Color(0xffffff);
+        }
+    });
+
+    for (let i = 0; i < 12; i++) {
+        const fenceClone = baseFence.clone(true);
+        fenceClone.position.set(-230 + i * 40, 11, 150);
+        scene.add(fenceClone);
+        fences.push(fenceClone);
+    }
+    for (let i = 0; i < 15; i++) {
+        const fenceClone = baseFence.clone(true);
+        fenceClone.position.set(216, 11, 88.5 - i * 40);
+        fenceClone.rotation.y = Math.PI / 2
+        scene.add(fenceClone);
+        fences.push(fenceClone);
+    }
+    for (let i = 0; i < 15; i++) {
+        const fenceClone = baseFence.clone(true);
+        fenceClone.position.set(-291.5, 11, 88.5 - i * 40);
+        fenceClone.rotation.y = Math.PI / 2
+        scene.add(fenceClone);
+        fences.push(fenceClone);
+    }
+});
+
+//Tree
 
 
+gltfloader.load('model/Tree_Pack_01.glb', (gltf) => {
+    const baseTree = gltf.scene;
+
+    baseTree.scale.set(12, 15, 12);
+      baseTree.traverse((child) => {   
+        if (child.isMesh && child.material && child.material.isMeshStandardMaterial) {
+            child.material.metalness = 0;
+            child.material.roughness = 1;
+            child.material.color = new THREE.Color(0xffffff);
+        }
+    });
+    baseTree.rotation.y = Math.PI / 2;
+    baseTree.position.set(150, 10, 100);
+    scene.add(baseTree);
+})
+
+
+gltfloader.load('model/Tree_Pack_01.glb', (gltf) => {
+    const baseTree = gltf.scene;
+
+    baseTree.scale.set(12, 15, 12);
+      baseTree.traverse((child) => {   
+        if (child.isMesh && child.material && child.material.isMeshStandardMaterial) {
+            child.material.metalness = 0;
+            child.material.roughness = 1;
+            child.material.color = new THREE.Color(0xffffff);
+        }
+    });
+    baseTree.rotation.y = - Math.PI / 2;
+    baseTree.position.set(-250, 10, -1270);
+    scene.add(baseTree);
+})
 //Pool Model Parts
 let right
 let oldHeight
@@ -450,7 +520,7 @@ let rearLights = [];
 let currentColor = 0xadd8ff;
 
 function updateLights() {
-    frontLights.forEach(l => scene.remove(l));
+    frontLights.forEach(l => l.parent.remove(l));
     frontLights = [];
 
     if (lightswitchToggle.checked) {
@@ -468,61 +538,35 @@ function updateLights() {
         light2.position.copy(position2);
         right.add(light2);
         frontLights.push(light2);
-
-        lengthSlider.addEventListener('input', () => {
-            lengthVal.textContent = lengthSlider.value - 1;
-            const PosY = parseFloat(lengthVal.textContent);
-            const v = PosY
-
-            light.intensity = 300 + v * 30;
-            light.distance = 300 + v * 30;
-            light2.intensity = 300 + v * 30;
-            light2.distance = 300 + v * 30;
-        })
-        depthSlider.addEventListener('input', () => {
-            lengthVal.textContent = lengthSlider.value - 1;
-            const PosY = parseFloat(lengthVal.textContent);
-            const v = PosY
-
-            light.intensity = 200 + v * 30;
-            light.distance = 200 + v * 20;
-            light2.intensity = 200 + v * 30;
-            light2.distance = 200 + v * 30;
-        })
-
     } else {
         lightingColor.style.display = 'none';
         resetColors();
     }
-
 }
 
 function updateRearLights() {
-    rearLights.forEach(l => scene.remove(l));
+    rearLights.forEach(l => l.parent.remove(l));
     rearLights = [];
 
     if (lightswitchToggle.checked) {
+        const pos1 = new THREE.Vector3(60.5, 8, 21.2);
+        const pos2 = new THREE.Vector3(60.5, 8, 0);
+        const pos3 = new THREE.Vector3(60.5, 8, -21.2);
 
-
-        const position1 = new THREE.Vector3(60.5, 8, 21.2);
-        const position2 = new THREE.Vector3(60.5, 8, 0);
-        const position3 = new THREE.Vector3(60.5, 8, -21.2)
-
-        const light = new THREE.PointLight(currentColor, 300, 300, 1);
-        light.position.copy(position1);
-        right.add(light);
-        frontLights.push(light);
+        const light1 = new THREE.PointLight(currentColor, 300, 300, 1);
+        light1.position.copy(pos1);
+        right.add(light1);
+        rearLights.push(light1);
 
         const light2 = new THREE.PointLight(currentColor, 300, 300, 1);
-        light2.position.copy(position2);
+        light2.position.copy(pos2);
         right.add(light2);
-        frontLights.push(light2);
+        rearLights.push(light2);
 
         const light3 = new THREE.PointLight(currentColor, 300, 300, 1);
-        light3.position.copy(position3);
+        light3.position.copy(pos3);
         right.add(light3);
-        frontLights.push(light3);
-
+        rearLights.push(light3);
     } else {
         resetColors();
     }
@@ -531,7 +575,7 @@ function updateRearLights() {
 
 function resetColors() {
     water.material.color.set(waterTexColor);
-    setLightColor(0xadd8ff, 0x3399ff);
+    setLightColor(0xadd8ff, 0x55E0FF);
     lightcolorblue.checked = true;
     lightcolorred.checked = false;
     lightcolorgreen.checked = false;
@@ -556,7 +600,7 @@ lightcolorblue.addEventListener('change', () => {
     if (lightcolorblue.checked && lightswitchToggle.checked) {
         lightcolorred.checked = false;
         lightcolorgreen.checked = false;
-        setLightColor(0xadd8ff, 0x3399ff);
+        setLightColor(0xadd8ff, 0x55E0FF);
     } else {
         updateLights();
         updateRearLights();
@@ -725,7 +769,7 @@ function updateColor() {
     });
 
     if (lightcolorblue.checked && lightswitchToggle.checked) {
-        setLightColor(0xadd8ff, 0x3399ff);
+        setLightColor(0xadd8ff, 0x55E0FF);
     }
     if (lightcolorred.checked && lightswitchToggle.checked) {
         lightcolorblue.checked = false;
