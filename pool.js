@@ -174,7 +174,7 @@ exrLoader.load('images/pretoria_gardens.exr', (texture) => {
             clearcoat: 1,
             clearcoatRoughness: 0,
             envMap: texture,
-            envMapIntensity: 1.1, 
+            envMapIntensity: 1.1,
             color: 'gray'
         });
 
@@ -432,76 +432,125 @@ woodenplankTex.wrapS = woodenplankTex.wrapT = THREE.RepeatWrapping;
 woodenplankTex.repeat.set(10, 10);
 
 const woodenplankGeo = new THREE.PlaneGeometry(woodenplankGeoScaleX, woodenplankGeoScaleY);
-const woodenplankMat = new THREE.MeshStandardMaterial({ map: woodenplankTex, side: THREE.DoubleSide });
+const woodenplankMat = new THREE.MeshStandardMaterial({
+    map: woodenplankTex,
+    side: THREE.DoubleSide
+});
 
 const woodenPlank = new THREE.Mesh(woodenplankGeo, woodenplankMat);
 woodenPlank.rotation.x = Math.PI / 2;
 woodenPlank.rotation.z = Math.PI / 2;
 woodenPlank.material.transparent = true;
-woodenPlank.position.set(woodenplankPosX, water.position.y - 0.1, woodenplankPosZ)
+woodenPlank.position.set(woodenplankPosX, water.position.y - 0.6, woodenplankPosZ)
 scene.add(woodenPlank);
 
-//Ground landscape
-
-const groundTex = texLoader.load('images/Screenshot 2025-11-24 230001.png');
-const groundTexGeo = new THREE.BoxGeometry(ashphaltTexGeoScalingX * 2, ashphaltTexGeoScalingY * 3, ashphaltTexGeoScalingZ);
-const groundTexMat = new THREE.MeshStandardMaterial({
-    map: groundTex,
-    side: THREE.DoubleSide,
-    transparent: true
-});
-const groundTexLandscape = new THREE.Mesh(groundTexGeo, groundTexMat);
-
-groundTexLandscape.rotation.x = Math.PI / 2;
-groundTexLandscape.position.y = ashphaltTexGeoPosY;
-// scene.add(groundTexLandscape);
-
 //Lights colors
-let bulbLights = [];
+let frontLights = [];
+let rearLights = [];
 let currentColor = 0xadd8ff;
 
 function updateLights() {
-    bulbLights.forEach(light => scene.remove(light));
-    bulbLights = [];
-
+    frontLights.forEach(l => scene.remove(l));
+    frontLights = [];
 
     if (lightswitchToggle.checked) {
         lightingColor.style.display = 'flex';
-        const positions = [
-            new THREE.Vector3(-48, 0, 2.5),
-            new THREE.Vector3(-35, 0, -1.2),
-            new THREE.Vector3(-20, 0, 0.8),
-            new THREE.Vector3(-5, 0, -2.0),
-            new THREE.Vector3(5, 0, 1.5),
-            new THREE.Vector3(15, 0, -0.5),
-            new THREE.Vector3(30, 0, 2.0),
-            new THREE.Vector3(38, 0, -1.8),
-        ];
 
-        positions.forEach(pos => {
-            const light = new THREE.PointLight(currentColor, 200, 200, 1);
-            light.position.copy(pos);
-            scene.add(light);
-            bulbLights.push(light);
-        });
-    }
-    else {
+        const position1 = new THREE.Vector3(-38, 3.2, 32);
+        const position2 = new THREE.Vector3(38, 3.2, 32);
+
+        const light = new THREE.PointLight(currentColor, 300, 300, 1);
+        light.position.copy(position1);
+        left.add(light);
+        frontLights.push(light);
+
+        const light2 = new THREE.PointLight(currentColor, 300, 300, 1);
+        light2.position.copy(position2);
+        right.add(light2);
+        frontLights.push(light2);
+
+        lengthSlider.addEventListener('input', () => {
+            lengthVal.textContent = lengthSlider.value - 1;
+            const PosY = parseFloat(lengthVal.textContent);
+            const v = PosY
+
+            light.intensity = 300 + v * 30;
+            light.distance = 300 + v * 30;
+            light2.intensity = 300 + v * 30;
+            light2.distance = 300 + v * 30;
+        })
+        depthSlider.addEventListener('input', () => {
+            lengthVal.textContent = lengthSlider.value - 1;
+            const PosY = parseFloat(lengthVal.textContent);
+            const v = PosY
+
+            light.intensity = 200 + v * 30;
+            light.distance = 200 + v * 20;
+            light2.intensity = 200 + v * 30;
+            light2.distance = 200 + v * 30;
+        })
+
+    } else {
         lightingColor.style.display = 'none';
-        water.material.color.set(waterTexColor);
-        setLightColor(0xadd8ff, 0x3399ff);
-        lightcolorblue.checked = true;
-        lightcolorred.checked = false;
-        lightcolorgreen.checked = false;
+        resetColors();
     }
+
+}
+
+function updateRearLights() {
+    rearLights.forEach(l => scene.remove(l));
+    rearLights = [];
+
+    if (lightswitchToggle.checked) {
+
+
+        const position1 = new THREE.Vector3(60.5, 8, 21.2);
+        const position2 = new THREE.Vector3(60.5, 8, 0);
+        const position3 = new THREE.Vector3(60.5, 8, -21.2)
+
+        const light = new THREE.PointLight(currentColor, 300, 300, 1);
+        light.position.copy(position1);
+        right.add(light);
+        frontLights.push(light);
+
+        const light2 = new THREE.PointLight(currentColor, 300, 300, 1);
+        light2.position.copy(position2);
+        right.add(light2);
+        frontLights.push(light2);
+
+        const light3 = new THREE.PointLight(currentColor, 300, 300, 1);
+        light3.position.copy(position3);
+        right.add(light3);
+        frontLights.push(light3);
+
+    } else {
+        resetColors();
+    }
+}
+
+
+function resetColors() {
+    water.material.color.set(waterTexColor);
+    setLightColor(0xadd8ff, 0x3399ff);
+    lightcolorblue.checked = true;
+    lightcolorred.checked = false;
+    lightcolorgreen.checked = false;
 }
 
 function setLightColor(lightColor, waterColor) {
     currentColor = lightColor;
-    bulbLights.forEach(light => light.color.set(lightColor));
+
+    [...frontLights, ...rearLights].forEach(light => {
+        light.color.set(lightColor);
+    });
+
     water.material.color.set(waterColor);
 }
 
-lightswitchToggle.addEventListener('change', updateLights);
+lightswitchToggle.addEventListener('change', () => {
+    updateLights();
+    updateRearLights();
+});
 
 lightcolorblue.addEventListener('change', () => {
     if (lightcolorblue.checked && lightswitchToggle.checked) {
@@ -510,6 +559,7 @@ lightcolorblue.addEventListener('change', () => {
         setLightColor(0xadd8ff, 0x3399ff);
     } else {
         updateLights();
+        updateRearLights();
     }
 });
 
@@ -520,6 +570,7 @@ lightcolorred.addEventListener('change', () => {
         setLightColor(0xC2185B, 0xC2185B);
     } else {
         updateLights();
+        updateRearLights();
     }
 });
 
@@ -530,10 +581,13 @@ lightcolorgreen.addEventListener('change', () => {
         setLightColor(0x00ff00, 'lightgreen');
     } else {
         updateLights();
+        updateRearLights();
     }
 });
 
 updateLights();
+updateRearLights();
+
 
 //Pool Closings
 
@@ -557,9 +611,6 @@ function removePlate() {
 
 
 function addPlate(width, length, height) {
-
-
-
     depthVal.textContent = length
     if (!plate) {
         const garageTex = texLoader.load('images/garagetex.jpg');
@@ -692,38 +743,6 @@ colorwhite.addEventListener('change', updateColor);
 colorlightgrey.addEventListener('change', updateColor);
 colordarkgrey.addEventListener('change', updateColor);
 
-
-//Loungers
-// const loungerModelBot = [];
-// for (let i = 0; i < 8; i++) {
-//     let loungerModel;
-//     loader.load('model/sun_lounger_3d.glb', (gltf) => {
-//         loungerModel = gltf.scene;
-//         loungerModel.scale.set(loungerModelScaling, loungerModelScaling, loungerModelScaling);
-
-//         loungerModel.position.set(8 * (-7 + 2 * i), 11.7, -45)
-
-//         loungerModel.traverse((child) => {
-//             if (child.isMesh && child.material.isMeshStandardMaterial) {
-//                 child.material.metalness = 0;
-//                 child.material.roughness = 1;
-//                 child.material.color = new THREE.Color('grey');
-//             }
-//         });
-//         scene.add(loungerModel);
-//         loungerModelBot.push(loungerModel);
-
-//         lengthSlider.addEventListener('input', () => {
-//             const posz = parseFloat(lengthSlider.value);
-//             lengthVal.textContent = posz;
-
-//             loungerModelBot.forEach((block) => {
-//                 block.position.z = - posz * 2.3 - 45;
-//             });
-//         });
-//     });
-// }
-
 function animate(time) {
     requestAnimationFrame(animate);
     renderer.setClearColor('white');
@@ -813,9 +832,6 @@ widthSlider.addEventListener('input', () => {
     woodenPlank.scale.y = 1 + ScaleX * 0.01;
 
     showorHidePlate();
-
-
-
 });
 
 lengthSlider.addEventListener('input', () => {
